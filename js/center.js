@@ -20,6 +20,9 @@ export default class Center extends Component {
                 <View style={styles.iconContainer}>
 
                 </View>
+                <View style={styles.container}>
+                    <Text style={styles.txt}> 待办事项 </Text>
+                </View>
             </View>
         );
     }
@@ -33,5 +36,17 @@ const styles = StyleSheet.create({
     iconContainer: {
        height: 120,
        backgroundColor: '#f3f3f1'
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start'
+    },
+    txt: {
+        flex: 1,
+        margin: 10,
+        fontSize: 18,
+        color: '#333333'
     }
 });
