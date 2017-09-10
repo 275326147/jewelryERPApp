@@ -29,18 +29,22 @@ npm i -g rninit
 2. 用特定的 react-native npm 版本创建工程：
 rninit init [Project Name] --source react-native@0.44.3
 
+
 4.macos运行react-native run-android报错Connection reset
 
 答：执行sudo react-native run-android
+
 
 5.macos运行react-native run-android报错
 SDK location not found. Define location with sdk.dir in the local.properties file or with an ANDROID_HOME environment variable.
 
 答：配置ANDROID_HOME环境变量，并且在工程的android目录下新建local.properties文件，然后文件内配置sdk.dir=/Users/.../Library/Android/sdk
 
+
 6.react-native项目怎么hot reload
 
 答：android工程在emulator上按command + M 即可，windows系统则按ctrl + M。iOS工程在emulator上按command + R即可
+
 
 7.react-native项目run-ios成功后提示No devices are booted.并没有部署成功
 
