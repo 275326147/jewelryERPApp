@@ -17,7 +17,7 @@ export default class jewelryERPApp extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Hello world
+         Hello Android
         </Text>
       </View>
     );

@@ -23,7 +23,11 @@ An application bundle was not found at the provided path.
 Provide a valid path to the desired application bundle.
 Print: Entry, ":CFBundleIdentifier", Does Not Exist
 
-答：init命令默认会创建最新的版本，而目前最新的0.45版本需要下载boost库编译。此库体积庞大，在国内即便翻墙也很难下载成功，导致很多人无法正常运行iOS项目，推荐暂时使用0.44.3的版本。创建项目暂时先使用react-native init MyApp –version 0.44.3，指定某个版本。 你可以使用–version参数（注意是两个杠）创建指定版本的项目。例如react-native init MyApp –version 0.44.3。注意版本号必须精确到两个小数点。
+答：
+1. 安装
+npm i -g rninit
+2. 用特定的 react-native npm 版本创建工程：
+rninit init [Project Name] --source react-native@0.44.3
 
 4.macos运行react-native run-android报错Connection reset
 
@@ -34,6 +38,10 @@ SDK location not found. Define location with sdk.dir in the local.properties fil
 
 答：配置ANDROID_HOME环境变量，并且在工程的android目录下新建local.properties文件，然后文件内配置sdk.dir=/Users/.../Library/Android/sdk
 
-6.react-native android项目怎么hot reload
+6.react-native项目怎么hot reload
 
-答：在emulator上按command + M 即可，windows系统则按ctrl + M
+答：android工程在emulator上按command + M 即可，windows系统则按ctrl + M。iOS工程在emulator上按command + R即可
+
+7.react-native项目run-ios成功后提示No devices are booted.并没有部署成功
+
+答：到emulator的Hardware下reboot设备，然后重新执行react-native run-ios，千万不要加sudo
