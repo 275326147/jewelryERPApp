@@ -17,9 +17,9 @@ export default class Head extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image style={styles.img} source={require('./image/head/user.png')} />
+                <Image style={styles.img} source={require('../assets/image/head/user.png')} />
                 <Text style={styles.txt}>首页</Text>
-                <Image style={styles.img} source={require('./image/head/camera.png')} />
+                <Image style={styles.img} source={require('../assets/image/head/camera.png')} />
             </View>
         );
     }

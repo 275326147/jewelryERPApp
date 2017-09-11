@@ -17,11 +17,11 @@ export default class Foot extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.imgCcontainer}>
-                  <Image style={styles.img} source={require('./image/foot/home.png')} />
+                  <Image style={styles.img} source={require('../assets/image/foot/home.png')} />
                   <Text style={styles.txt}>首页</Text>
                 </View>
                 <View style={styles.imgCcontainer}>
-                  <Image style={styles.img} source={require('./image/foot/msg.png')} />
+                  <Image style={styles.img} source={require('../assets/image/foot/msg.png')} />
                   <Text style={styles.txt}>消息</Text>
                 </View>
             </View>
