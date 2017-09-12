@@ -12,7 +12,7 @@ import Head from './head';
 import Foot from './foot';
 import Center from './center';
 
-export default class Navigation extends Component {
+export default class Home extends Component {
 
     render() {
         return (

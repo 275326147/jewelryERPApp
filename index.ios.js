@@ -5,12 +5,18 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import Navigator from './js/entry';
+import Home from './js/entry';
+
+import { StackNavigator } from 'react-navigation';
+
+const App = StackNavigator({
+  Home: { screen: Home }
+});
 
 export default class jewelryERPApp extends Component {
   render() {
     return (
-      <Navigator />
+      <Home />
     );
   }
 };

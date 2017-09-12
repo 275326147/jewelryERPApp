@@ -1,3 +1,8 @@
+/**
+ * Created by Meiling.Zhou on 2017/9/10
+ */
+'use strict';
+
 import React, { Component } from 'react';
 import {
     Modal,
@@ -51,7 +56,7 @@ export default class Settings extends Component {
         return (
             <Modal
                 visible={this.state.modalVisible}
-                animationType={'fade'}
+                animationType={'slide'}
                 transparent={true}
                 onRequestClose={() => { this._onClose() }}>
                 <View style={styles.container}>
@@ -59,9 +64,17 @@ export default class Settings extends Component {
                         <View style={styles.headContainer}>
                             <Image style={styles.headImg} source={require('../../assets/image/head/head.png')} />
                             <View style={styles.userInfoContainer}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={styles.nameText}>陈大大</Text>
+                                    <View style={styles.subNameContainer}>
+                                        <Text style={styles.subNameText}>营业员</Text>
+                                    </View>
+                                </View>
+                                <Text style={styles.companyText}>星环珠宝公司</Text>
+                                <Text style={styles.companyText}>水贝1店</Text>
                             </View>
                         </View>
-                        <FlatList style={styles.list} data={this.menuData} renderItem={this._renderItem} />
+                        <FlatList style={{flex: 1}} data={this.menuData} renderItem={this._renderItem} />
                         <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>退出登录</Text>
                         </TouchableOpacity>
@@ -87,17 +100,16 @@ const styles = StyleSheet.create({
     headContainer: {
         margin:10,
         marginTop: 60,
-        marginBottom: 40
+        marginBottom: 40,
+        flexDirection: 'row'
     },
     headImg: {
         height: 80,
         width: 80
     },
     userInfoContainer: {
-
-    },
-    list: {
-        flex: 1
+        marginTop: 10,
+        marginLeft: 10
     },
     menuContainer: {
         flexDirection: 'row',
@@ -109,7 +121,7 @@ const styles = StyleSheet.create({
     subText: {
         marginTop: 15,
         marginLeft: 100,
-        color: '#b5b5b5'
+        color: '#999'
     },
     menuImg: {
         height: 12,
@@ -130,6 +142,30 @@ const styles = StyleSheet.create({
         margin: 35
     },
     buttonText: {
+        textAlign: 'center'
+    },
+    nameText:{
+        color: '#7B68EE',
+        fontSize: 13,
+        marginBottom: 5
+    },
+    companyText:{
+        fontSize: 12,
+        color: '#666',
+        marginTop: 5
+    },
+    subNameContainer: {
+        backgroundColor: '#EEEEE0',
+        justifyContent: 'center',
+        width: 36,
+        height: 14,
+        alignItems: 'center',
+        borderRadius: 3,
+        marginLeft: 8
+    },
+    subNameText: {
+        color: 'black',
+        fontSize: 9,
         textAlign: 'center'
     }
 });
