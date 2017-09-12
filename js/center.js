@@ -13,6 +13,7 @@ import {
     Dimensions,
     StyleSheet
 } from 'react-native';
+import Settings from './page/settings';
 
 export default class Center extends Component {
     menuData = [{ key: 1, text: '会员查询', url: '', img: require('../assets/image/home/mark.png') },
@@ -41,13 +42,14 @@ export default class Center extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Image style={styles.img} source={require('../assets/image/start/start.jpg')} />
+                <Settings />
+                <Image style={styles.img} source={require('../assets/image/home/banner.jpg')} />
                 <View style={styles.iconContainer}>
                     <FlatList style={styles.list} data={this.menuData} renderItem={this._renderItem} horizontal={false} numColumns={3} />
                 </View>
                 <View style={styles.container}>
                     <Text style={styles.txt}> 待办事项 </Text>
-                    <View style={{ height: 150 }}>
+                    <View style={{ height: 130 }}>
                         <FlatList style={styles.todoList} data={this.todoData} renderItem={this._renderTodo} horizontal={false} numColumns={2} />
                     </View>
                 </View>
@@ -59,7 +61,9 @@ export default class Center extends Component {
 
 const styles = StyleSheet.create({
     img: {
-        height: 80
+        resizeMode: Image.resizeMode.stretch,
+        width: Dimensions.get('window').width,
+        height: 70
     },
     iconContainer: {
         height: 125,
@@ -91,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     todoContainer: {
-        height: Platform.OS === 'android' ? 45 : 40,
+        height: Platform.OS === 'android' ? 40 : 35,
         marginTop: 20,
         flex: 1,
         flexDirection: 'column',
@@ -127,8 +131,7 @@ const styles = StyleSheet.create({
     },
     todoText: {
         textAlign: 'center',
-        fontSize: 14,
-        marginTop: 5
+        fontSize: 14
     },
     countText: {
         textAlign: 'center',

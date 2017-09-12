@@ -9,15 +9,24 @@ import {
     View,
     Image,
     Text,
-    StyleSheet
+    StyleSheet,
+    Alert,
+    TouchableWithoutFeedback,
+    DeviceEventEmitter
 } from 'react-native';
 
 export default class Head extends Component {
 
+    showSettings() {
+        DeviceEventEmitter.emit('showSettings','显示设置界面');
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Image style={styles.img} source={require('../assets/image/head/user.png')} />
+                <TouchableWithoutFeedback onPress={() => this.showSettings()}>
+                    <Image style={styles.img} source={require('../assets/image/head/user.png')} />
+                </TouchableWithoutFeedback>
                 <Text style={styles.txt}>首页</Text>
                 <Image style={styles.img} source={require('../assets/image/head/camera.png')} />
             </View>
