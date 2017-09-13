@@ -5,20 +5,6 @@
 
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import Home from './js/entry';
+import JewelryERPApp from './js/app';
 
-import { StackNavigator } from 'react-navigation';
-
-const App = StackNavigator({
-  Home: { screen: Home }
-});
-
-export default class jewelryERPApp extends Component {
-  render() {
-    return (
-      <Home />
-    );
-  }
-};
-
-AppRegistry.registerComponent('jewelryERPApp', () => jewelryERPApp);
+AppRegistry.registerComponent('jewelryERPApp', () => JewelryERPApp);
