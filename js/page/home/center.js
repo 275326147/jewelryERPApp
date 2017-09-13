@@ -22,17 +22,17 @@ export default class Center extends Component {
         super(props);
     }
 
-    menuData = [{ key: 1, text: '会员查询', img: require('../../../assets/image/home/mark.png') },
-    { key: 2, text: '盘点', img: require('../../../assets/image/home/check.png') },
-    { key: 3, text: '商品跟踪', img: require('../../../assets/image/home/follow.png') }];
+    menuData = [{ key: 1, text: '会员查询', url: 'Member', img: require('../../../assets/image/home/mark.png') },
+    { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
+    { key: 3, text: '商品跟踪', url: 'Follow', img: require('../../../assets/image/home/follow.png') }];
 
-    todoData = [{ key: 1, text: '待审核', count: 0, split: true },
-    { key: 2, text: '审核驳回', count: 0 },
-    { key: 3, text: '待接收在途', count: 0, split: true },
-    { key: 4, text: '调拨驳回', count: 0 }];
+    todoData = [{ key: 1, text: '待审核', url: 'Todo', count: 0, split: true },
+    { key: 2, text: '审核驳回', url: 'Todo', count: 0 },
+    { key: 3, text: '待接收在途', url: 'Todo', count: 0, split: true },
+    { key: 4, text: '调拨驳回', url: 'Todo', count: 0 }];
 
     _renderItem = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.text) }}>
+        <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
             <View style={styles.menuContainer}>
                 <Image style={styles.menuImg} source={item.img} />
                 <Text style={styles.menuText}>{item.text}</Text>
@@ -41,7 +41,7 @@ export default class Center extends Component {
     );
 
     _renderTodo = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.text) }}>
+        <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
             <View style={item.split ? styles.splitContainer : styles.todoContainer}>
                 <Text style={styles.todoText}>{item.text}</Text>
                 <Text style={styles.countText}>{item.count}</Text>
@@ -50,7 +50,7 @@ export default class Center extends Component {
     );
 
     _gotoPage = (url) => {
-        this.props.navigator.push({ id: url, params: {} });
+        this.props.navigation.navigate(url);
     };
 
     render() {

@@ -6,16 +6,20 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text,
     StyleSheet
 } from 'react-native';
+import Foot from './home/foot';
 
-export default class Message extends Component {
+export default class Home extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
             <View style={styles.container}>
-                <Text>This is message page</Text>
+                <View style={{ flex: 1 }}></View>
+                <Foot navigation={this.props.navigation} />
             </View>
         );
     }

@@ -20,9 +20,9 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Head navigator={this.props.navigator} />
-                <Center navigator={this.props.navigator} />
-                <Foot navigator={this.props.navigator} />
+                <Head navigation={this.props.navigation} />
+                <Center navigation={this.props.navigation} />
+                <Foot navigation={this.props.navigation} />
             </View>
         );
     }
