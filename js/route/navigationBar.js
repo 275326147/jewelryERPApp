@@ -6,41 +6,34 @@ import {
     Text,
     StyleSheet,
     Dimensions,
-    Alert
+    Alert,
+    Image,
+    Platform
 } from 'react-native';
 
 // 返回操作，用于导航栏的返回
 import goBack from './goBack';
 
 // navigationBar 的固定left\title\right 布局好诡异，只能用算的了，flex 各种问题
-const screenWidth = Dimensions.get('window').width,
-    btnWidth = 68;
+const screenWidth = Dimensions.get('window').width, btnWidth = 68;
 
 const styles = StyleSheet.create({
-    btn: {
-        height: 30,
-        // borderWidth: 1,
-        top: 0,
-        marginVertical: 5
-        
-    },
     title: {
         flex: 1,
         width: screenWidth - 4 * 2 - btnWidth * 2,
-        // borderWidth: 1,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: Platform.OS === 'android' ? 20 : 0
     },
     text: {
         textAlign: 'center',
-        fontSize: 16
+        fontSize: 18,
+        color: '#333333'
     },
-    fix: {
-        marginTop: 17
-    },
-    btnText: {
-        fontSize: 16,
-        marginTop: 3
+    img: {
+        height: 20,
+        width: 20,
+        margin: 10
     }
 });
 
@@ -48,28 +41,20 @@ const NavigationBar = {
 
     Title(route, navigator, index, navState) {
         return (
-            <View style={[styles.title, styles.fix]}>
-                <Text style={styles.text}>{route.id} + {index}</Text>
+            <View style={styles.title}>
+                <Text style={styles.text}>{route.id}</Text>
             </View>
-        ); 
+        );
     },
     LeftButton(route, navigator, index, navState) {
         return (
-            <TouchableOpacity style={[styles.btn]} onPress={() => {
-                goBack(navigator);
-            }}>
-                <Text style={[styles.btnText, {textAlign: 'left'}]}>Back</Text>
+            <TouchableOpacity style={[styles.btn]} onPress={() => { goBack(navigator); }}>
+                <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
             </TouchableOpacity>
-        ); 
+        );
     },
-    RightButton(route, navigator, index, navState) { 
-        return (
-            <TouchableOpacity style={[styles.btn]} onPress={() => {
-                Alert.alert('options', 'this is some operation.');
-            }}>
-                <Text style={[styles.btnText, {textAlign: 'right'}]}>选项</Text>
-            </TouchableOpacity>
-        ); 
+    RightButton(route, navigator, index, navState) {
+        return <View />;
     }
 }
 

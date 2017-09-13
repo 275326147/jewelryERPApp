@@ -19,11 +19,11 @@ export default class Foot extends Component {
     }
 
     _backHome() {
-        this.props.navigator.push({ id: 'home', params: {} });
+        this.props.navigator.push({ id: '首页', params: {} });
     }
 
     _gotoMessage() {
-        this.props.navigator.push({ id: 'message', params: {} });
+        this.props.navigator.push({ id: '消息', params: {} });
     }
 
     render() {

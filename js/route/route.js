@@ -20,13 +20,16 @@ import Todo from '../page/todo/todo';
  * component 默认和 key 、component 文件夹名称一致，首字母大写，component 文件夹内强制 index.js 为入口文件
  */
 const RouteMap = {
-    'home': { index: 0, component: Home, params: {} },
-    'member': { index: 1, component: Member, params: {} },
-    'follow': { index: 2, component: Follow, params: {} },
-    'check': { index: 3, component: Check, params: {} },
-    'message': { index: 4, component: Message, params: {} },
-    'userInfo': { index: 5, component: UserInfo, params: {} },
-    'todo': { index: 6, component: Todo, params: {} }
+    '首页': { index: 0, component: Home, params: {} },
+    '会员查询': { index: 1, component: Member, params: {} },
+    '商品跟踪': { index: 2, component: Follow, params: {} },
+    '盘点': { index: 3, component: Check, params: {} },
+    '消息': { index: 4, component: Message, params: {} },
+    '用户信息': { index: 5, component: UserInfo, params: {} },
+    '待审核': { index: 6, component: Todo, params: {} },
+    '审核驳回': { index: 7, component: Todo, params: {} },
+    '待接收在途': { index: 8, component: Todo, params: {} },
+    '调拨驳回': { index: 9, component: Todo, params: {} }
 };
 
 export default class Route {

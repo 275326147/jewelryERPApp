@@ -5,7 +5,7 @@
 'use strict';
 import React from 'react';
 import { Navigator } from 'react-native-deprecated-custom-components';
-import { BackHandler } from 'react-native';
+import { BackHandler, Platform} from 'react-native';
 
 import Route from './route/route';
 import NavigationBarMap from './route/navigationBar';
@@ -42,11 +42,12 @@ export default class JewelryERPApp extends React.Component {
     }
 
     render() {
+        let navHeight = Platform.OS === 'android' ? 40 : 60;
         return (
             //navigator 总控入口
             <Navigator
                 initialRoute={{
-                    id: 'home',
+                    id: '首页',
                     params: {}
                 }}
                 // initialRouteStack={Route}
@@ -54,6 +55,13 @@ export default class JewelryERPApp extends React.Component {
                 configureScene={(route, routeStack) =>
                     SceneConfigs.PushFromRight
                     // Navigator.SceneConfigs.PushFromRight
+                }
+                sceneStyle={{ flex: 1, top: navHeight }}
+                navigationBar={
+                    <Navigator.NavigationBar
+                        routeMapper={NavigationBarMap}
+                        style={{ height: navHeight, borderBottomWidth: 2, borderColor: '#f3f3f1' }}
+                    />
                 }
             />
         );
