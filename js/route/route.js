@@ -34,49 +34,51 @@ const SimpleStack = StackNavigator(
     {
         Home: {
             screen: Home,
-            navigationOptions:({ navigation }) => ({
+            navigationOptions: ({ navigation }) => ({
                 header: null
             })
         },
         Member: {
             screen: Member,
-            navigationOptions:({ navigation }) => ({
+            navigationOptions: ({ navigation }) => ({
                 title: '会员查询'
             })
         },
         Follow: {
             screen: Follow,
-            navigationOptions:({ navigation }) => ({
+            navigationOptions: ({ navigation }) => ({
                 title: '商品跟踪'
             })
         },
         Check: {
             screen: Check,
-            navigationOptions:({ navigation }) => ({
+            navigationOptions: ({ navigation }) => ({
                 title: '盘点'
             })
         },
         Message: {
             screen: Message,
-            navigationOptions:({ navigation }) => ({
-                title: '消息'
+            navigationOptions: ({ navigation }) => ({
+                header: null
             })
         },
         UserInfo: {
-            screen: Member,
-            navigationOptions:({ navigation }) => ({
-                title: '用户信息'
+            screen: UserInfo,
+            navigationOptions: ({ navigation }) => ({
+                title: '账户信息'
             })
         },
         Todo: {
             screen: Todo,
-            navigationOptions:({ navigation }) => ({
+            navigationOptions: ({ navigation }) => ({
                 title: '待办事项'
             })
         }
     },
     {
         initialRouteName: 'Home',
+        mode: 'card',
+        headerMode: 'float',
         navigationOptions: ({ navigation }) => ({
             headerLeft: (
                 <TouchableOpacity onPress={() => { navigation.goBack(null); }}>

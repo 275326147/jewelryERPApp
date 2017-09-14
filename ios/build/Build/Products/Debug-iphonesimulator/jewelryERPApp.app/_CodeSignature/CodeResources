@@ -6,7 +6,7 @@
 	<dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		xuCsBAyiNYtkhw34XK+dRRVNC40=
+		M0c2acPninTt+1QzU/Dbg+SNvOQ=
 		</data>
 		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
 		<data>
@@ -235,7 +235,7 @@
 		</data>
 		<key>PlugIns/jewelryERPAppTests.xctest.dSYM/Contents/Resources/DWARF/jewelryERPAppTests</key>
 		<data>
-		y/jiTV0ER44LZrMG5ehfOJueRQ8=
+		2XioEcNeQ32OkLKoYkB4YBlJtr4=
 		</data>
 		<key>PlugIns/jewelryERPAppTests.xctest/Info.plist</key>
 		<data>
@@ -247,7 +247,7 @@
 		</data>
 		<key>PlugIns/jewelryERPAppTests.xctest/jewelryERPAppTests</key>
 		<data>
-		FPo4SL4OFMWQ0NVWfrlMRr/8vwQ=
+		X/UYotEUB6f0M2ilhPOrsNGfjAE=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -256,11 +256,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			xuCsBAyiNYtkhw34XK+dRRVNC40=
+			M0c2acPninTt+1QzU/Dbg+SNvOQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			d4ArTgDnTaOTOFdgqUoScOyML7bNcwyp14xev+7LmQ8=
+			IhSsCO7j+cfTzW1S5VPopU0a/ANuMtuPxVdTmFVIpWE=
 			</data>
 		</dict>
 		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
@@ -852,11 +852,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			y/jiTV0ER44LZrMG5ehfOJueRQ8=
+			2XioEcNeQ32OkLKoYkB4YBlJtr4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Pj4hGyGBekgIFM7V3StfPNTdJqolqYI1xJZnXQTYMhA=
+			RRIT+3v1UT2xWEZrXTJhjwrNUoy9xCv9KTUP1XaY1yM=
 			</data>
 		</dict>
 		<key>PlugIns/jewelryERPAppTests.xctest/Info.plist</key>
@@ -885,11 +885,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FPo4SL4OFMWQ0NVWfrlMRr/8vwQ=
+			X/UYotEUB6f0M2ilhPOrsNGfjAE=
 			</data>
 			<key>hash2</key>
 			<data>
-			xRps4POTPyIDHK1fym+JTsf/ZDaOTMtWsxe2xRN46Bg=
+			7e0XCfLBqziEAlVHWEWXSdJrQCLQug1eeDG514OJE+w=
 			</data>
 		</dict>
 	</dict>

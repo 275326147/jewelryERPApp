@@ -51,10 +51,11 @@ export default class Foot extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        height: 50,
+        height: 55,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     imgContainer: {
         flex: 1,
@@ -66,12 +67,13 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,
         marginLeft: 100,
-        marginRight: 100
+        marginRight: 100,
+        marginTop: 5,
     },
     txt: {
         textAlign: 'center',
         fontSize: 12,
         marginTop: 1,
-        marginBottom: 15
+        marginBottom: 10
     }
 });

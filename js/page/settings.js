@@ -12,7 +12,8 @@ import {
     StyleSheet,
     DeviceEventEmitter,
     FlatList,
-    Image
+    Image,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 export default class Settings extends Component {
@@ -52,6 +53,11 @@ export default class Settings extends Component {
         this.setState({ modalVisible: false });
     }
 
+    _gotoUserInfo() {
+        this._onClose();
+        this.props.navigation.navigate('UserInfo');
+    }
+
     render() {
         return (
             <Modal
@@ -62,9 +68,11 @@ export default class Settings extends Component {
                 <View style={styles.container}>
                     <View style={styles.innerContainer}>
                         <View style={styles.headContainer}>
-                            <Image style={styles.headImg} source={require('../../assets/image/head/head.png')} />
+                            <TouchableWithoutFeedback onPress={() => { this._gotoUserInfo() }}>
+                                <Image style={styles.headImg} source={require('../../assets/image/head/head.png')} />
+                            </TouchableWithoutFeedback>
                             <View style={styles.userInfoContainer}>
-                                <View style={{flexDirection:'row'}}>
+                                <View style={{ flexDirection: 'row' }}>
                                     <Text style={styles.nameText}>陈大大</Text>
                                     <View style={styles.subNameContainer}>
                                         <Text style={styles.subNameText}>营业员</Text>
@@ -74,7 +82,7 @@ export default class Settings extends Component {
                                 <Text style={styles.companyText}>水贝1店</Text>
                             </View>
                         </View>
-                        <FlatList style={{flex: 1}} data={this.menuData} renderItem={this._renderItem} />
+                        <FlatList style={{ flex: 1 }} data={this.menuData} renderItem={this._renderItem} />
                         <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>退出登录</Text>
                         </TouchableOpacity>
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     headContainer: {
-        margin:10,
+        margin: 10,
         marginTop: 60,
         marginBottom: 40,
         flexDirection: 'row'
@@ -144,12 +152,12 @@ const styles = StyleSheet.create({
     buttonText: {
         textAlign: 'center'
     },
-    nameText:{
+    nameText: {
         color: '#7B68EE',
         fontSize: 13,
         marginBottom: 5
     },
-    companyText:{
+    companyText: {
         fontSize: 12,
         color: '#666',
         marginTop: 5

@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import {
     Platform,
     View,
+    ScrollView,
     Image,
     Text,
     FlatList,
@@ -55,8 +56,8 @@ export default class Center extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <Settings />
+            <ScrollView style={{ flex: 1 }}>
+                <Settings navigation={this.props.navigation} />
                 <Image style={styles.img} source={require('../../../assets/image/home/banner.jpg')} />
                 <View style={styles.iconContainer}>
                     <FlatList style={styles.list} data={this.menuData} renderItem={this._renderItem} horizontal={false} numColumns={3} />
@@ -67,7 +68,7 @@ export default class Center extends Component {
                         <FlatList style={styles.todoList} data={this.todoData} renderItem={this._renderTodo} horizontal={false} numColumns={2} />
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     img: {
         resizeMode: Image.resizeMode.stretch,
         width: Dimensions.get('window').width,
-        height: 70
+        height: 60
     },
     iconContainer: {
         height: 125,

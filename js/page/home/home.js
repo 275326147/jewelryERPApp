@@ -20,7 +20,7 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Head navigation={this.props.navigation} />
+                <Head navigation={this.props.navigation} title="首页" />
                 <Center navigation={this.props.navigation} />
                 <Foot navigation={this.props.navigation} />
             </View>
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        backgroundColor: '#fff'
     }
 });
