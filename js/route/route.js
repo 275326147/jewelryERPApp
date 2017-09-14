@@ -21,6 +21,8 @@ import UserInfo from '../page/userInfo';
 import Follow from '../page/follow';
 import Check from '../page/check/check';
 import Todo from '../page/todo/todo';
+import NewCheck from '../page/check/newCheck';
+import QueryCheck from '../page/check/queryCheck';
 
 const styles = StyleSheet.create({
     img: {
@@ -54,6 +56,18 @@ const SimpleStack = StackNavigator(
             screen: Check,
             navigationOptions: ({ navigation }) => ({
                 title: '盘点'
+            })
+        },
+        NewCheck: {
+            screen: NewCheck,
+            navigationOptions: ({ navigation }) => ({
+                title: '新建盘点'
+            })
+        },
+        QueryCheck: {
+            screen: QueryCheck,
+            navigationOptions: ({ navigation }) => ({
+                title: '盘点单查询'
             })
         },
         Message: {
