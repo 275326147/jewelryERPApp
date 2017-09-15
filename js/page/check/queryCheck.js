@@ -7,7 +7,9 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Dimensions,
+    Image
 } from 'react-native';
 
 export default class QueryCheck extends Component {
@@ -15,7 +17,7 @@ export default class QueryCheck extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>This is query check page</Text>
+                <Image style={styles.img} source={require('../../../assets/image/info/no_result.png')} />
             </View>
         );
     }
@@ -28,5 +30,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
+    },
+    img: {
+        marginTop: 80,
+        marginLeft: (Dimensions.get('window').width / 2 - 100),
+        height: 200,
+        width: 200
     }
 });

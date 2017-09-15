@@ -5,11 +5,13 @@
 
 import React, { Component } from 'react';
 import {
+    ScrollView,
     View,
     StyleSheet,
     TouchableWithoutFeedback,
     Image,
-    Text
+    Text,
+    Dimensions
 } from 'react-native';
 
 export default class Check extends Component {
@@ -23,7 +25,7 @@ export default class Check extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <View style={{ flexDirection: 'row', height: 60 }}>
                     <TouchableWithoutFeedback onPress={() => { this._gotoPage('NewCheck') }}>
                         <View style={[styles.menuContainer, { borderRightWidth: 1, borderColor: '#f3f3f1' }]}>
@@ -38,11 +40,12 @@ export default class Check extends Component {
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
-                <View>
-
+                <View style={styles.textContainer}>
+                    <Text style={{ flex: 1, marginLeft: 10, fontSize: 12, color: '#333' }}>未提交盘点单</Text>
+                    <Text style={{ flex: 1, textAlign: 'right', marginRight: 10, color: '#999', fontSize: 10 }}>暂无</Text>
                 </View>
-                <Image style={{ marginTop: 50, marginLeft: 60, height: 200, width: 200 }} source={require('../../../assets/image/info/no_check.png')} />
-            </View>
+                <Image style={styles.img} source={require('../../../assets/image/info/no_check.png')} />
+            </ScrollView>
         );
     }
 
@@ -50,10 +53,7 @@ export default class Check extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start'
+        flex: 1
     },
     menuContainer: {
         flex: 1,
@@ -70,5 +70,18 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: '#999',
         marginLeft: 10
+    },
+    img: {
+        marginTop: 80,
+        marginLeft: (Dimensions.get('window').width / 2 - 100),
+        height: 200,
+        width: 200
+    },
+    textContainer: {
+        height: 30,
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#fff'
     }
 });

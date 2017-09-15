@@ -9,7 +9,7 @@ import {
     Image,
     Text,
     StyleSheet,
-    TouchableWithoutFeedback
+    TouchableOpacity
 } from 'react-native';
 
 export default class Foot extends Component {
@@ -30,19 +30,19 @@ export default class Foot extends Component {
         return (
             <View style={styles.container}>
 
-                <TouchableWithoutFeedback onPress={this._backHome.bind(this)}>
+                <TouchableOpacity onPress={this._backHome.bind(this)}>
                     <View style={styles.imgCcontainer}>
                         <Image style={styles.img} source={require('../../../assets/image/foot/home.png')} />
                         <Text style={styles.txt}>首页</Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
 
-                <TouchableWithoutFeedback onPress={this._gotoMessage.bind(this)}>
+                <TouchableOpacity onPress={this._gotoMessage.bind(this)}>
                     <View style={styles.imgCcontainer}>
                         <Image style={styles.img} source={require('../../../assets/image/foot/msg.png')} />
                         <Text style={styles.txt}>消息</Text>
                     </View>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
             </View>
         );
     }

@@ -10,7 +10,6 @@ import {
     FlatList,
     Text
 } from 'react-native';
-import Head from './home/head';
 import Foot from './home/foot';
 
 export default class Home extends Component {
@@ -38,7 +37,6 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Head navigation={this.props.navigation} title="通知消息" />
                 <FlatList style={{ marginTop: 10 }} data={this.messageData} renderItem={this._renderItem} />
                 <Foot navigation={this.props.navigation} />
             </View>

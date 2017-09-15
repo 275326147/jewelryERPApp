@@ -3,7 +3,9 @@ import React from 'react';
 import {
     TouchableOpacity,
     Image,
-    StyleSheet
+    StyleSheet,
+    DeviceEventEmitter,
+    Text
 } from 'react-native';
 import {
     StackNavigator,
@@ -26,9 +28,24 @@ import QueryCheck from '../page/check/queryCheck';
 
 const styles = StyleSheet.create({
     img: {
-        height: 20,
-        width: 20,
-        margin: 10
+        height: 18,
+        width: 18,
+        marginLeft: 15,
+        marginRight: 15
+    },
+    button: {
+        height: 22,
+        width: 40,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: '#333',
+        borderRadius: 18,
+        justifyContent: 'center'
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: '#333',
+        fontSize: 12
     }
 });
 
@@ -37,7 +54,17 @@ const SimpleStack = StackNavigator(
         Home: {
             screen: Home,
             navigationOptions: ({ navigation }) => ({
-                header: null
+                title: '首页',
+                headerRight: (
+                    <TouchableOpacity onPress={() => { }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
+                    </TouchableOpacity>
+                ),
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('showSettings', '显示设置界面'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/user.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         Member: {
@@ -61,7 +88,12 @@ const SimpleStack = StackNavigator(
         NewCheck: {
             screen: NewCheck,
             navigationOptions: ({ navigation }) => ({
-                title: '新建盘点'
+                title: '新建盘点',
+                headerRight: (
+                    <TouchableOpacity style={styles.button} onPress={() => { DeviceEventEmitter.emit('refreshCheck', '刷新盘点主单'); }}>
+                        <Text style={styles.buttonText}>刷新</Text>
+                    </TouchableOpacity>
+                ),
             })
         },
         QueryCheck: {
@@ -73,7 +105,17 @@ const SimpleStack = StackNavigator(
         Message: {
             screen: Message,
             navigationOptions: ({ navigation }) => ({
-                header: null
+                title: '通知消息',
+                headerRight: (
+                    <TouchableOpacity onPress={() => { }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
+                    </TouchableOpacity>
+                ),
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('showSettings', '显示设置界面'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/user.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         UserInfo: {
@@ -91,9 +133,13 @@ const SimpleStack = StackNavigator(
     },
     {
         initialRouteName: 'Home',
-        mode: 'card',
-        headerMode: 'float',
         navigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: '#fff'
+            },
+            headerTitleStyle: {
+                alignSelf: 'center'
+            },
             headerLeft: (
                 <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />

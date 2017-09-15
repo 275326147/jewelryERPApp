@@ -8,7 +8,6 @@ import {
     View,
     StyleSheet
 } from 'react-native';
-import Head from './head';
 import Foot from './foot';
 import Center from './center';
 
@@ -20,7 +19,6 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Head navigation={this.props.navigation} title="首页" />
                 <Center navigation={this.props.navigation} />
                 <Foot navigation={this.props.navigation} />
             </View>

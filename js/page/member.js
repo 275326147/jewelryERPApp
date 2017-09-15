@@ -11,7 +11,8 @@ import {
     StyleSheet,
     Image,
     FlatList,
-    Dimensions
+    Dimensions,
+    TextInput
 } from 'react-native';
 
 export default class Member extends Component {
@@ -149,6 +150,8 @@ export default class Member extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.searchContainer}>
+                    <TextInput style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
+                        underlineColorAndroid="transparent" />
                 </View>
                 <FlatList style={{ flex: 1, marginTop: 10 }} data={this.memberData} renderItem={this._renderItem} />
             </View>
@@ -158,9 +161,21 @@ export default class Member extends Component {
 }
 
 const styles = StyleSheet.create({
+    input: {
+        fontSize: 12,
+        height: 25,
+        width: Dimensions.get('window').width - 40,
+        borderRadius: 15, backgroundColor: '#f3f3f1',
+        marginTop: 10,
+        marginBottom: 10,
+        marginRight: 20,
+        marginLeft: 20,
+        padding: 0
+    },
     searchContainer: {
         height: 40,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
+        alignItems: 'center'
     },
     img: {
         resizeMode: Image.resizeMode.stretch,
