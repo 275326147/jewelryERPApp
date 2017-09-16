@@ -11,10 +11,18 @@ import {
     FlatList,
     Dimensions,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 export default class NewCheck extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: 0
+        };
+    }
+
     mainCheckData = [{
         key: 1,
         name: 'A主单',
@@ -37,14 +45,32 @@ export default class NewCheck extends Component {
         status: 3
     }];
 
+    _selectCheck(key) {
+        if (this.state.selected === key) {
+            this.setState({
+                selected: 0
+            });
+        } else {
+            this.setState({
+                selected: key
+            });
+        }
+    }
+
     _renderItem = ({ item }) => {
         if (item.status === 3) {
             return (
-                <View style={[styles.check, { borderWidth: 1 }]}>
-                    <View style={{ width: 40 }}></View>
-                    <Text style={[styles.item, { color: '#333' }]}>{item.name}</Text>
-                    <Text style={{ width: 40 }}></Text>
-                </View>
+                <TouchableWithoutFeedback onPress={() => { this._selectCheck(item.key) }}>
+                    <View style={[styles.check, { backgroundColor: this.state.selected === item.key ? '#7A67EE' : '#fff', borderWidth: this.state.selected === item.key ? 0 : 1 }]}>
+                        <View style={{ width: 40 }}></View>
+                        <Text style={[styles.item, { color: this.state.selected === item.key ? '#fff' : '#333' }]}>{item.name}</Text>
+                        <View style={{ width: 40 }}>
+                            {this.state.selected === item.key ? <Text></Text> :
+                                <Text style={[styles.text, { color: '#fff' }]}>选中</Text>
+                            }
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
             );
         }
         return (
@@ -56,7 +82,7 @@ export default class NewCheck extends Component {
                         <View style={{ width: 40 }}></View>
                 }
                 <Text style={[styles.item, { color: '#bdbdbd', marginLeft: 20 }]}>{item.name}</Text>
-                <Text style={{ width: 40, color: '#32CD32', marginRight: 20, fontSize: 12, textAlign: 'center' }}>已盘</Text>
+                <Text style={styles.text}>已盘</Text>
             </View>
         );
     };
@@ -110,5 +136,12 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginTop: 10
+    },
+    text: {
+        width: 40,
+        color: '#32CD32',
+        marginRight: 20,
+        fontSize: 12,
+        textAlign: 'center'
     }
 });

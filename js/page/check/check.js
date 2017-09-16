@@ -48,11 +48,11 @@ export default class Check extends Component {
                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                     <Text style={{ flex: 1, color: '#666', fontSize: 11, marginLeft: 10 }}>操作员</Text>
                     <Text style={{ flex: 4, color: '#666', fontSize: 11, textAlign: 'left' }}>{item.operator}</Text>
-                    <TouchableOpacity onPress={() => { this._gotoPage('NewCheck') }}>
+                    <TouchableOpacity onPress={() => { }}>
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 15 }}>删除</Text>
                     </TouchableOpacity>
                     <View style={{ borderLeftWidth: 1, borderColor: '#f3f3f1', width: 10, height: 20 }}></View>
-                    <TouchableOpacity onPress={() => { this._gotoPage('NewCheck') }}>
+                    <TouchableOpacity onPress={() => { this._gotoPage('Checking') }}>
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 10, marginLeft: 5 }}>续盘</Text>
                     </TouchableOpacity>
                 </View>
