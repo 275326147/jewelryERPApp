@@ -26,6 +26,7 @@ import Todo from '../page/todo/todo';
 import NewCheck from '../page/check/newCheck';
 import QueryCheck from '../page/check/queryCheck';
 import Checking from '../page/check/checking';
+import Scanner from '../camera/scanner';
 
 const styles = StyleSheet.create({
     img: {
@@ -57,7 +58,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '首页',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),
@@ -141,7 +142,13 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项'
             })
-        }
+        },
+        Scanner: {
+            screen: Scanner,
+            navigationOptions: ({ navigation }) => ({
+                title: '扫描条形码'
+            })
+        },
     },
     {
         initialRouteName: 'Home',

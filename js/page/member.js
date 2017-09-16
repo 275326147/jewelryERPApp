@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import {
+    Platform,
     View,
     ScrollView,
     Text,
@@ -115,16 +116,16 @@ export default class Member extends Component {
                             </View>
                             <View style={styles.item}>
                                 <Text style={styles.labelText}>
-                                    性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
-                            </Text>
+                                    {Platform.OS === 'android' ? '性        别' : '性       别'}
+                                </Text>
                                 <Text style={styles.valueText}>
                                     {item.sex}
                                 </Text>
                             </View>
                             <View style={styles.item}>
                                 <Text style={styles.labelText}>
-                                    卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号
-                            </Text>
+                                    {Platform.OS === 'android' ? '卡        号' : '卡       号'}
+                                </Text>
                                 <Text style={styles.valueText}>
                                     {item.cardNo}
                                 </Text>
