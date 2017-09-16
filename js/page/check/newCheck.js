@@ -64,10 +64,8 @@ export default class NewCheck extends Component {
                     <View style={[styles.check, { backgroundColor: this.state.selected === item.key ? '#7A67EE' : '#fff', borderWidth: this.state.selected === item.key ? 0 : 1 }]}>
                         <View style={{ width: 40 }}></View>
                         <Text style={[styles.item, { color: this.state.selected === item.key ? '#fff' : '#333' }]}>{item.name}</Text>
-                        <View style={{ width: 40 }}>
-                            {this.state.selected === item.key ? <Text></Text> :
-                                <Text style={[styles.text, { color: '#fff' }]}>选中</Text>
-                            }
+                        <View style={{ width: 40, marginRight: 20 }}>
+                            {this.state.selected === item.key ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -81,7 +79,7 @@ export default class NewCheck extends Component {
                         :
                         <View style={{ width: 40 }}></View>
                 }
-                <Text style={[styles.item, { color: '#bdbdbd', marginLeft: 20 }]}>{item.name}</Text>
+                <Text style={[styles.item, { color: '#bdbdbd' }]}>{item.name}</Text>
                 <Text style={styles.text}>已盘</Text>
             </View>
         );

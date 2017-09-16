@@ -68,18 +68,23 @@ export default class Member extends Component {
 
     _renderItem = ({ item }) => {
         let src = '';
+        let typeName = '';
         switch (item.cardType) {
             case 1:
                 src = require('../../assets/image/member/diamond.png');
+                typeName = '钻石卡';
                 break;
             case 2:
                 src = require('../../assets/image/member/gold.png');
+                typeName = '金卡';
                 break;
             case 3:
                 src = require('../../assets/image/member/silver.png');
+                typeName = '银卡';
                 break;
             default:
                 src = require('../../assets/image/member/normal.png');
+                typeName = '普卡';
                 break;
         }
         return (
@@ -94,6 +99,11 @@ export default class Member extends Component {
                                 <Text style={styles.valueText}>
                                     {item.name}
                                 </Text>
+                                <View style={styles.type}>
+                                    <Text style={{ fontSize: 10, color: '#333' }}>
+                                        {typeName}
+                                    </Text>
+                                </View>
                             </View>
                             <View style={styles.item}>
                                 <Text style={styles.labelText}>
@@ -243,6 +253,16 @@ const styles = StyleSheet.create({
     },
     valueText: {
         fontSize: 12,
-        color: '#999'
+        color: '#999',
+        marginRight: 20
+    },
+    type: {
+        marginLeft: 20,
+        borderRadius: 2,
+        height: 15,
+        width: 35,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F0EAD3'
     }
 });
