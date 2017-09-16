@@ -85,61 +85,83 @@ export default class Member extends Component {
         return (
             <View style={styles.itemContainer}>
                 <Image style={styles.img} source={src}>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            会员姓名
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.name}
-                        </Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            会员电话
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.phone}
-                        </Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.sex}
-                        </Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.cardNo}
-                        </Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            会员生日
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.birthday}
-                        </Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            发卡门店
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.cardStore}
-                        </Text>
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.labelText}>
-                            发卡日期
-                    </Text>
-                        <Text style={styles.valueText}>
-                            {item.cardDate}
-                        </Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 2 }}>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    会员姓名
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.name}
+                                </Text>
+                            </View>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    会员电话
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.phone}
+                                </Text>
+                            </View>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.sex}
+                                </Text>
+                            </View>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    卡&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.cardNo}
+                                </Text>
+                            </View>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    会员生日
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.birthday}
+                                </Text>
+                            </View>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    发卡门店
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.cardStore}
+                                </Text>
+                            </View>
+                            <View style={styles.item}>
+                                <Text style={styles.labelText}>
+                                    发卡日期
+                            </Text>
+                                <Text style={styles.valueText}>
+                                    {item.cardDate}
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <View style={[styles.marItem, { borderBottomWidth: 2, borderColor: '#f3f3f1' }]}>
+                                <Text style={styles.markLabel}>
+                                    积分总数
+                            </Text>
+                                <Text style={styles.markValue}>
+                                    {item.mark}
+                                </Text>
+                            </View>
+                            <View style={styles.marItem}>
+                                <Text style={[styles.markLabel, { marginTop: 10 }]}>
+                                    累计消费
+                            </Text>
+                                <Text style={styles.markValue}>
+                                    {item.spend}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
                 </Image>
             </View>
@@ -150,7 +172,7 @@ export default class Member extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.searchContainer}>
-                    <TextInput style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
+                    <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入会员卡号／会员名／手机号'
                         underlineColorAndroid="transparent" />
                 </View>
                 <FlatList style={{ flex: 1, marginTop: 10 }} data={this.memberData} renderItem={this._renderItem} />
@@ -183,8 +205,6 @@ const styles = StyleSheet.create({
         height: 150
     },
     itemContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
         height: 150,
         marginBottom: 10
     },
@@ -194,14 +214,35 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         marginTop: 5
     },
+    markItem: {
+        height: 45,
+        flexDirection: 'column'
+    },
+    markLabel: {
+        marginTop: 20,
+        marginRight: 10,
+        textAlign: 'right',
+        backgroundColor: 'transparent',
+        fontSize: 13,
+        color: '#999'
+    },
+    markValue: {
+        marginTop: 5,
+        marginRight: 10,
+        fontSize: 13,
+        textAlign: 'right',
+        backgroundColor: 'transparent',
+        color: 'orange',
+        marginBottom: 5
+    },
     labelText: {
         fontSize: 12,
-        color: '#333333',
+        color: '#333',
         marginLeft: 10,
         marginRight: 20
     },
     valueText: {
         fontSize: 12,
-        color: '#999999'
+        color: '#999'
     }
 });

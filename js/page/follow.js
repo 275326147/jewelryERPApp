@@ -23,7 +23,7 @@ export default class Follow extends Component {
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.searchContainer}>
-                    <TextInput style={styles.input} placeholder='请输入商品条码'
+                    <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入商品条码'
                         underlineColorAndroid="transparent" />
                     <TouchableOpacity onPress={() => { }}>
                         <Image style={styles.cameraImg} source={require('../../assets/image/head/camera.png')} />
