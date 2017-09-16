@@ -7,15 +7,84 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    FlatList,
+    Dimensions,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 
 export default class NewCheck extends Component {
+    mainCheckData = [{
+        key: 1,
+        name: 'A主单',
+        status: 1
+    }, {
+        key: 2,
+        name: 'B主单',
+        status: 2
+    }, {
+        key: 3,
+        name: 'C主单',
+        status: 3
+    }, {
+        key: 4,
+        name: 'D主单',
+        status: 3
+    }, {
+        key: 5,
+        name: 'E主单',
+        status: 3
+    }];
+
+    _renderItem = ({ item }) => {
+        if (item.status === 3) {
+            return (
+                <View style={[styles.check, { borderWidth: 1 }]}>
+                    <View style={{ width: 40 }}></View>
+                    <Text style={[styles.item, { color: '#333' }]}>{item.name}</Text>
+                    <Text style={{ width: 40 }}></Text>
+                </View>
+            );
+        }
+        return (
+            <View style={[styles.check, { backgroundColor: '#f3f3f1' }]}>
+                {
+                    item.status === 1 ?
+                        <Image style={{ width: 20, height: 20, margin: 10 }} source={require('../../../assets/image/check/newCheck.png')} />
+                        :
+                        <View style={{ width: 40 }}></View>
+                }
+                <Text style={[styles.item, { color: '#bdbdbd', marginLeft: 20 }]}>{item.name}</Text>
+                <Text style={{ width: 40, color: '#32CD32', marginRight: 20, fontSize: 12, textAlign: 'center' }}>已盘</Text>
+            </View>
+        );
+    };
+
+    _gotoPage(url) {
+        this.props.navigation.navigate(url);
+    }
 
     render() {
+        let count = 0;
+        this.mainCheckData.forEach(function (item) {
+            if (item.status === 3) {
+                count++;
+            }
+        });
         return (
             <View style={styles.container}>
-                <Text>This is new check page</Text>
+                <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+                    <Image style={{ width: 20, height: 20, margin: 10 }} source={require('../../../assets/image/check/newCheck.png')} />
+                    <Text style={{ marginTop: 10 }}>当前有（ <Text style={{ color: '#4876FF' }}>{count}</Text> ）个主单待盘点</Text>
+                </View>
+                <FlatList style={{ flex: 1, backgroundColor: '#fff' }} data={this.mainCheckData} renderItem={this._renderItem} />
+                <View style={{ backgroundColor: '#fff', height: 30 }}>
+                    <TouchableOpacity style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => { this._gotoPage('Checking') }}>
+                        <Text style={{ color: '#7A67EE', marginBottom: 8, fontSize: 13 }}>下一步</Text>
+                        <Image style={{ width: 15, height: 15, marginLeft: 5, marginBottom: 10, marginRight: 20 }} source={require('../../../assets/image/foot/next.png')} />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -25,8 +94,21 @@ export default class NewCheck extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start'
+        flexDirection: 'column'
+    },
+    item: {
+        flex: 1,
+        fontSize: 12,
+        textAlign: 'center'
+    },
+    check: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 40,
+        width: (Dimensions.get('window').width - 40),
+        marginLeft: 20,
+        marginRight: 20,
+        marginTop: 10
     }
 });

@@ -25,6 +25,7 @@ import Check from '../page/check/check';
 import Todo from '../page/todo/todo';
 import NewCheck from '../page/check/newCheck';
 import QueryCheck from '../page/check/queryCheck';
+import Checking from '../page/check/checking';
 
 const styles = StyleSheet.create({
     img: {
@@ -92,6 +93,17 @@ const SimpleStack = StackNavigator(
                 headerRight: (
                     <TouchableOpacity style={styles.button} onPress={() => { DeviceEventEmitter.emit('refreshCheck', '刷新盘点主单'); }}>
                         <Text style={styles.buttonText}>刷新</Text>
+                    </TouchableOpacity>
+                ),
+            })
+        },
+        Checking: {
+            screen: Checking,
+            navigationOptions: ({ navigation }) => ({
+                title: '盘点中',
+                headerRight: (
+                    <TouchableOpacity style={styles.button} onPress={() => { DeviceEventEmitter.emit('commitCheck', '提交盘点'); }}>
+                        <Text style={styles.buttonText}>提交</Text>
                     </TouchableOpacity>
                 ),
             })
