@@ -9,6 +9,7 @@ import {
     View,
     StyleSheet,
     TouchableWithoutFeedback,
+    TouchableOpacity,
     Image,
     Text,
     Dimensions,
@@ -21,10 +22,12 @@ export default class Check extends Component {
     }
 
     checkData = [{
+        key: 1,
         checkNo: 'jw123456789',
         operator: '张尼玛',
         lastUpdateDate: '2017-09-07 18:30:01'
     }, {
+        key: 2,
         checkNo: 'jw222288888',
         operator: '周尼玛',
         lastUpdateDate: '2017-09-15 08:30:01'
@@ -36,9 +39,24 @@ export default class Check extends Component {
 
     _renderItem = ({ item }) => {
         return (
-            <View>
-                
-            </View>
+            <View style={{ height: 75, flexDirection: 'column', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={{ flex: 1, color: '#333', fontSize: 13, marginLeft: 10 }}>单号</Text>
+                    <Text style={{ flex: 3, color: '#666', fontSize: 13 }}>{item.checkNo}</Text>
+                    <Text style={{ flex: 4, color: '#666', fontSize: 13, textAlign: 'right', marginRight: 10 }}>{item.lastUpdateDate}</Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={{ flex: 1, color: '#666', fontSize: 11, marginLeft: 10 }}>操作员</Text>
+                    <Text style={{ flex: 4, color: '#666', fontSize: 11, textAlign: 'left' }}>{item.operator}</Text>
+                    <TouchableOpacity onPress={() => { this._gotoPage('NewCheck') }}>
+                        <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 15 }}>删除</Text>
+                    </TouchableOpacity>
+                    <View style={{ borderLeftWidth: 1, borderColor: '#f3f3f1', width: 10, height: 20 }}></View>
+                    <TouchableOpacity onPress={() => { this._gotoPage('NewCheck') }}>
+                        <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 10, marginLeft: 5 }}>续盘</Text>
+                    </TouchableOpacity>
+                </View>
+            </View >
         );
     }
 
@@ -59,7 +77,6 @@ export default class Check extends Component {
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
-
                 {
                     this.checkData.length === 0 ?
                         <View>
@@ -73,7 +90,9 @@ export default class Check extends Component {
                         <View>
                             <View style={styles.textContainer}>
                                 <Text style={{ flex: 1, marginLeft: 10, fontSize: 12, color: '#333' }}>未提交盘点单</Text>
-                                <Text style={{ flex: 1, textAlign: 'right', marginRight: 10, color: '#999', fontSize: 10 }}>{this.checkData.length}</Text>
+                                <View style={{ backgroundColor: '#f7656f', borderRadius: 50, width: 15, height: 15, marginRight: 10 }}>
+                                    <Text style={{ backgroundColor: 'transparent', textAlign: 'center', color: '#fff', fontSize: 10 }}>{this.checkData.length}</Text>
+                                </View>
                             </View>
                             <FlatList style={{ flex: 1 }} data={this.checkData} renderItem={this._renderItem} />
                         </View>
