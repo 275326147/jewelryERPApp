@@ -151,7 +151,7 @@
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
-        sha1="cdc6aff7136e8d205e0672451fd456ef67dbeeee">
+        sha1="a9161da891dd3c9ae10d21b1a1f9f1b0ff683cfe">
         <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jewelryERPApp-react-native-camera-unspecified_785bbfda17d99dfe92d44b383e63abe4a60b7cec.jar" />
     </item>
     <item

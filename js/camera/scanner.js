@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Text,
+    View,
     Toast
 } from 'react-native';
 import { QRScannerView } from 'ac-qrcode';
@@ -21,17 +21,13 @@ export default class Scanner extends Component {
 
     _renderTitleBar() {
         return (
-            <Text
-                style={{ color: 'white', textAlignVertical: 'center', textAlign: 'center', font: 20, padding: 12 }}
-            >Here is title bar</Text>
+            <View></View>
         );
     }
 
     _renderMenu() {
         return (
-            <Text
-                style={{ color: 'white', textAlignVertical: 'center', textAlign: 'center', font: 20, padding: 12 }}
-            >Here is bottom menu</Text>
+            <View></View>
         )
     }
 

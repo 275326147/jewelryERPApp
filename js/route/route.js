@@ -146,7 +146,7 @@ const SimpleStack = StackNavigator(
         Scanner: {
             screen: Scanner,
             navigationOptions: ({ navigation }) => ({
-                title: '扫描条形码'
+                title: '扫描'
             })
         },
     },
