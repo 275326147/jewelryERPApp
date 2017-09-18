@@ -1,0 +1,54 @@
+[
+    {
+        "key": 1,
+        "name": "王尼玛",
+        "phone": "13838380438",
+        "sex": "男",
+        "birthday": "1988-09-01",
+        "cardNo": "1234567",
+        "cardType": 1,
+        "cardStore": "水贝1店",
+        "cardDate": "2017-09-08",
+        "mark": 13988,
+        "spend": "￥198, 900"
+    },
+    {
+        "key": 2,
+        "name": "张尼玛",
+        "phone": "13666666666",
+        "sex": "男",
+        "birthday": "1988-09-01",
+        "cardNo": "11111111",
+        "cardType": 2,
+        "cardStore": "水贝2店",
+        "cardDate": "2017-01-82",
+        "mark": 8900,
+        "spend": "￥78, 900"
+    },
+    {
+        "key": 3,
+        "name": "周尼玛",
+        "phone": "13888888888",
+        "sex": "女",
+        "birthday": "1991-08-01",
+        "cardNo": "3345678",
+        "cardType": 3,
+        "cardStore": "水贝2店",
+        "cardDate": "2017-09-08",
+        "mark": 12009,
+        "spend": "￥168, 200"
+    },
+    {
+        "key": 4,
+        "name": "高尼玛",
+        "phone": "13999999999",
+        "sex": "女",
+        "birthday": "1978-02-01",
+        "cardNo": "2345678",
+        "cardType": 4,
+        "cardStore": "水贝1店",
+        "cardDate": "2017-09-08",
+        "mark": 3988,
+        "spend": "￥8, 900"
+    }
+]

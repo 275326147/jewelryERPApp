@@ -12,9 +12,9 @@ export default class Scanner extends Component {
             < QRScannerView
                 onScanResultReceived={this.barcodeReceived.bind(this)}
 
-                renderTopBarView={() => this._renderTitleBar()}
+                renderTopBarView={() => { return (<View></View>) }}
 
-                renderBottomMenuView={() => this._renderMenu()}
+                renderBottomMenuView={() => { return (<View></View>) }}
             />
         )
     }
@@ -32,6 +32,7 @@ export default class Scanner extends Component {
     }
 
     barcodeReceived(e) {
+        let type = this.props.navigation.state.params.type;
         Toast.show('Type: ' + e.type + '\nData: ' + e.data);
         //console.log(e)
     }

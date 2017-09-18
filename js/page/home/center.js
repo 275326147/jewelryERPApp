@@ -15,7 +15,7 @@ import {
     StyleSheet,
     TouchableWithoutFeedback
 } from 'react-native';
-import Settings from '../settings';
+import Settings from '../user/settings';
 
 export default class Center extends Component {
 
@@ -25,7 +25,7 @@ export default class Center extends Component {
 
     menuData = [{ key: 1, text: '会员查询', url: 'Member', img: require('../../../assets/image/home/mark.png') },
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
-    { key: 3, text: '商品跟踪', url: 'Follow', img: require('../../../assets/image/home/follow.png') }];
+    { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') }];
 
     todoData = [{ key: 1, text: '待审核', url: 'Todo', count: 0, split: true },
     { key: 2, text: '审核驳回', url: 'Todo', count: 0 },

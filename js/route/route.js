@@ -17,10 +17,10 @@ import {
  * 将全部 component 的引用从老式的层级式改为统一入口的扁平式
  */
 import Home from '../page/home/home';
-import Member from '../page/member';
-import Message from '../page/message';
-import UserInfo from '../page/userInfo';
-import Follow from '../page/follow';
+import Member from '../page/member/member';
+import Message from '../page/message/message';
+import UserInfo from '../page/user/userInfo';
+import Track from '../page/track/track';
 import Check from '../page/check/check';
 import Todo from '../page/todo/todo';
 import NewCheck from '../page/check/newCheck';
@@ -58,7 +58,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '首页',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner'); }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner', { type: 'home' }); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),
@@ -75,8 +75,8 @@ const SimpleStack = StackNavigator(
                 title: '会员查询'
             })
         },
-        Follow: {
-            screen: Follow,
+        Track: {
+            screen: Track,
             navigationOptions: ({ navigation }) => ({
                 title: '商品跟踪'
             })
@@ -120,7 +120,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '通知消息',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner', { type: 'home' }); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),

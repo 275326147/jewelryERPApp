@@ -1,0 +1,58 @@
+[
+    {
+        "key": 1,
+        "name": "A主单",
+        "status": 1, //已盘点，主单已提交
+        "checkNo": "jw123456781",
+        "operator": "王尼玛",
+        "lastUpdateDate": "2017-08-27 11:30:01"
+    },
+    {
+        "key": 2,
+        "name": "B主单",
+        "status": 2, //已盘点，主单还未提交
+        "checkNo": "jw123456782",
+        "operator": "陈尼玛",
+        "lastUpdateDate": "2017-09-01 14:30:01"
+    },
+    {
+        "key": 3,
+        "name": "C主单",
+        "status": 3, //未盘点
+        "checkNo": "jw123456783",
+        "operator": "邓尼玛",
+        "lastUpdateDate": "2017-09-05 16:30:01"
+    },
+    {
+        "key": 4,
+        "name": "D主单",
+        "status": 3,
+        "checkNo": "jw123456784",
+        "operator": "张尼玛",
+        "lastUpdateDate": "2017-09-07 17:30:01"
+    },
+    {
+        "key": 5,
+        "name": "E主单",
+        "status": 3,
+        "checkNo": "jw123456785",
+        "operator": "周尼玛",
+        "lastUpdateDate": "2017-09-17 19:30:01"
+    },
+    {
+        "key": 6,
+        "name": "F主单",
+        "status": 4, //盘点中
+        "checkNo": "jw123456789",
+        "operator": "张尼玛",
+        "lastUpdateDate": "2017-09-07 18:30:01"
+    },
+    {
+        "key": 7,
+        "name": "G主单",
+        "status": 4, //盘点中
+        "checkNo": "jw222288888",
+        "operator": "周尼玛",
+        "lastUpdateDate": "2017-09-15 08:30:01"
+    }
+]

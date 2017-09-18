@@ -15,23 +15,22 @@ import {
     Dimensions,
     FlatList
 } from 'react-native';
+import data from './data';
 
 export default class Check extends Component {
     constructor(props) {
         super(props);
     }
 
-    checkData = [{
-        key: 1,
-        checkNo: 'jw123456789',
-        operator: '张尼玛',
-        lastUpdateDate: '2017-09-07 18:30:01'
-    }, {
-        key: 2,
-        checkNo: 'jw222288888',
-        operator: '周尼玛',
-        lastUpdateDate: '2017-09-15 08:30:01'
-    }];
+    _getData = () => {
+        let filterData = [];
+        data.forEach(function (item) {
+            if (item.status === 4) {
+                filterData.push(item);
+            }
+        });
+        return filterData;
+    };
 
     _gotoPage(url) {
         this.props.navigation.navigate(url);
@@ -61,6 +60,7 @@ export default class Check extends Component {
     }
 
     render() {
+        let checkData = this._getData();
         return (
             <ScrollView style={styles.container}>
                 <View style={{ flexDirection: 'row', height: 60 }}>
@@ -78,7 +78,7 @@ export default class Check extends Component {
                     </TouchableWithoutFeedback>
                 </View>
                 {
-                    this.checkData.length === 0 ?
+                    checkData.length === 0 ?
                         <View>
                             <View style={styles.textContainer}>
                                 <Text style={{ flex: 1, marginLeft: 10, fontSize: 12, color: '#333' }}>未提交盘点单</Text>
@@ -91,10 +91,10 @@ export default class Check extends Component {
                             <View style={styles.textContainer}>
                                 <Text style={{ flex: 1, marginLeft: 10, fontSize: 12, color: '#333' }}>未提交盘点单</Text>
                                 <View style={{ backgroundColor: '#f7656f', borderRadius: 50, width: 15, height: 15, marginRight: 10 }}>
-                                    <Text style={{ backgroundColor: 'transparent', textAlign: 'center', color: '#fff', fontSize: 10 }}>{this.checkData.length}</Text>
+                                    <Text style={{ backgroundColor: 'transparent', textAlign: 'center', color: '#fff', fontSize: 10 }}>{checkData.length}</Text>
                                 </View>
                             </View>
-                            <FlatList style={{ flex: 1 }} data={this.checkData} renderItem={this._renderItem} />
+                            <FlatList style={{ flex: 1 }} data={checkData} renderItem={this._renderItem} />
                         </View>
                 }
             </ScrollView>

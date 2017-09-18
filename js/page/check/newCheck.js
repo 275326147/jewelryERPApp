@@ -14,6 +14,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback
 } from 'react-native';
+import data from './data';
 
 export default class NewCheck extends Component {
     constructor(props) {
@@ -23,49 +24,38 @@ export default class NewCheck extends Component {
         };
     }
 
-    mainCheckData = [{
-        key: 1,
-        name: 'A主单',
-        status: 1
-    }, {
-        key: 2,
-        name: 'B主单',
-        status: 2
-    }, {
-        key: 3,
-        name: 'C主单',
-        status: 3
-    }, {
-        key: 4,
-        name: 'D主单',
-        status: 3
-    }, {
-        key: 5,
-        name: 'E主单',
-        status: 3
-    }];
+    _getData = () => {
+        let filterData = [];
+        data.forEach(function (item) {
+            if (item.status !== 4) {
+                filterData.push(item);
+            }
+        });
+        return filterData;
+    };
 
-    _selectCheck(key) {
-        if (this.state.selected === key) {
+    _selectCheck(item) {
+        if (this.state.selected.key === item.key) {
             this.setState({
-                selected: 0
+                selected: {}
             });
         } else {
             this.setState({
-                selected: key
+                selected: item
             });
         }
     }
 
     _renderItem = ({ item }) => {
         if (item.status === 3) {
+            let selectedKey = this.state.selected.key;
             return (
-                <TouchableWithoutFeedback onPress={() => { this._selectCheck(item.key) }}>
-                    <View style={[styles.check, { backgroundColor: this.state.selected === item.key ? '#7A67EE' : '#fff', borderWidth: this.state.selected === item.key ? 0 : 1 }]}>
+                <TouchableWithoutFeedback onPress={() => { this._selectCheck(item) }}>
+                    <View style={[styles.check, { backgroundColor: selectedKey === item.key ? '#7A67EE' : '#fff', borderWidth: selectedKey === item.key ? 0 : 1 }]}>
                         <View style={{ width: 40 }}></View>
-                        <Text style={[styles.item, { color: this.state.selected === item.key ? '#fff' : '#333' }]}>{item.name}</Text>
+                        <Text style={[styles.item, { color: selectedKey === item.key ? '#fff' : '#333' }]}>{item.name}</Text>
                         <View style={{ width: 40, marginRight: 20 }}>
-                            {this.state.selected === item.key ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
+                            {selectedKey === item.key ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -75,7 +65,7 @@ export default class NewCheck extends Component {
             <View style={[styles.check, { backgroundColor: '#f3f3f1' }]}>
                 {
                     item.status === 1 ?
-                        <Image style={{ width: 20, height: 20, margin: 10 }} source={require('../../../assets/image/check/newCheck.png')} />
+                        <Image style={{ width: 16, height: 20, margin: 10 }} source={require('../../../assets/image/check/lock.png')} />
                         :
                         <View style={{ width: 40 }}></View>
                 }
@@ -86,12 +76,14 @@ export default class NewCheck extends Component {
     };
 
     _gotoPage(url) {
-        this.props.navigation.navigate(url);
+        this.props.navigation.navigate(url, { item: this.state.selected });
     }
 
     render() {
+        let mainCheckData = this._getData();
+
         let count = 0;
-        this.mainCheckData.forEach(function (item) {
+        mainCheckData.forEach(function (item) {
             if (item.status === 3) {
                 count++;
             }
@@ -102,7 +94,7 @@ export default class NewCheck extends Component {
                     <Image style={{ width: 20, height: 20, margin: 10 }} source={require('../../../assets/image/check/newCheck.png')} />
                     <Text style={{ marginTop: 10 }}>当前有（ <Text style={{ color: '#4876FF' }}>{count}</Text> ）个主单待盘点</Text>
                 </View>
-                <FlatList style={{ flex: 1, backgroundColor: '#fff' }} data={this.mainCheckData} renderItem={this._renderItem} />
+                <FlatList style={{ flex: 1, backgroundColor: '#fff' }} data={mainCheckData} renderItem={this._renderItem} />
                 <View style={{ backgroundColor: '#fff', height: 30 }}>
                     <TouchableOpacity style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => { this._gotoPage('Checking') }}>
                         <Text style={{ color: '#7A67EE', marginBottom: 8, fontSize: 13 }}>下一步</Text>
