@@ -5,6 +5,8 @@
         "status": 1, //已盘点，主单已提交
         "checkNo": "jw123456781",
         "operator": "王尼玛",
+        "totalWeight": 200,
+        "totalCount": 51,
         "lastUpdateDate": "2017-08-27 11:30:01"
     },
     {
@@ -13,6 +15,8 @@
         "status": 2, //已盘点，主单还未提交
         "checkNo": "jw123456782",
         "operator": "陈尼玛",
+        "totalWeight": 60,
+        "totalCount": 12,
         "lastUpdateDate": "2017-09-01 14:30:01"
     },
     {
@@ -45,6 +49,8 @@
         "status": 4, //盘点中
         "checkNo": "jw123456789",
         "operator": "张尼玛",
+        "totalWeight": 30,
+        "totalCount": 5,
         "lastUpdateDate": "2017-09-07 18:30:01"
     },
     {
@@ -53,6 +59,8 @@
         "status": 4, //盘点中
         "checkNo": "jw222288888",
         "operator": "周尼玛",
+        "totalWeight": 42,
+        "totalCount": 7,
         "lastUpdateDate": "2017-09-15 08:30:01"
     }
 ]

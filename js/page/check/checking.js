@@ -15,10 +15,6 @@ import {
 import { QRScannerView } from 'ac-qrcode';
 
 export default class Checking extends Component {
-    constructor(props) {
-        super(props);
-        this.state = this._getTotal();
-    }
 
     goodsData = [{
         key: 1,
@@ -56,23 +52,6 @@ export default class Checking extends Component {
         );
     }
 
-    _getTotal() {
-        let totalWeight = 0;
-        let totalCount = 0;
-        this.goodsData.forEach(function (item) {
-            totalCount = totalCount + item.count;
-            totalWeight = totalWeight + item.weight * item.count;
-        });
-        return {
-            totalCount: totalCount,
-            totalWeight: totalWeight
-        };
-    }
-
-    _refreshTotal() {
-        this.setState(this._getTotal());
-    }
-
     barcodeReceived(e) {
 
     }
@@ -96,9 +75,9 @@ export default class Checking extends Component {
                 <FlatList style={{ flex: 1 }} data={this.goodsData} renderItem={this._renderItem} />
                 <View style={{ height: 35, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ marginLeft: 20, fontSize: 12, color: '#333' }}>总金重：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.totalWeight}克</Text>
+                    <Text style={{ fontSize: 12, color: 'orange' }}>{item.totalWeight || 0}克</Text>
                     <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总数量：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.totalCount}件</Text>
+                    <Text style={{ fontSize: 12, color: 'orange' }}>{item.totalCount || 0}件</Text>
                 </View>
             </View>
         );

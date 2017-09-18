@@ -75,8 +75,8 @@ export default class NewCheck extends Component {
         );
     };
 
-    _gotoPage(url) {
-        this.props.navigation.navigate(url, { item: this.state.selected });
+    _gotoPage(url, param) {
+        this.props.navigation.navigate(url, param);
     }
 
     render() {
@@ -96,7 +96,7 @@ export default class NewCheck extends Component {
                 </View>
                 <FlatList style={{ flex: 1, backgroundColor: '#fff' }} data={mainCheckData} renderItem={this._renderItem} />
                 <View style={{ backgroundColor: '#fff', height: 30 }}>
-                    <TouchableOpacity style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => { this._gotoPage('Checking') }}>
+                    <TouchableOpacity style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => { this._gotoPage('Checking', { item: this.state.selected }) }}>
                         <Text style={{ color: '#7A67EE', marginBottom: 8, fontSize: 13 }}>下一步</Text>
                         <Image style={{ width: 15, height: 15, marginLeft: 5, marginBottom: 10, marginRight: 20 }} source={require('../../../assets/image/foot/next.png')} />
                     </TouchableOpacity>

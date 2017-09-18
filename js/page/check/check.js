@@ -32,8 +32,8 @@ export default class Check extends Component {
         return filterData;
     };
 
-    _gotoPage(url) {
-        this.props.navigation.navigate(url);
+    _gotoPage(url, param) {
+        this.props.navigation.navigate(url, param);
     }
 
     _renderItem = ({ item }) => {
@@ -51,7 +51,7 @@ export default class Check extends Component {
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 15 }}>删除</Text>
                     </TouchableOpacity>
                     <View style={{ borderLeftWidth: 1, borderColor: '#f3f3f1', width: 10, height: 20 }}></View>
-                    <TouchableOpacity onPress={() => { this._gotoPage('Checking') }}>
+                    <TouchableOpacity onPress={() => { this._gotoPage('Checking', { item: item }) }}>
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 10, marginLeft: 5 }}>续盘</Text>
                     </TouchableOpacity>
                 </View>
