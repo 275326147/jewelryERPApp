@@ -30,7 +30,7 @@
     {
         "key": 4,
         "name": "D主单",
-        "status": 3,
+        "status": 3, //未盘点
         "checkNo": "jw123456784",
         "operator": "张尼玛",
         "lastUpdateDate": "2017-09-07 17:30:01"
@@ -38,7 +38,7 @@
     {
         "key": 5,
         "name": "E主单",
-        "status": 3,
+        "status": 3, //未盘点
         "checkNo": "jw123456785",
         "operator": "周尼玛",
         "lastUpdateDate": "2017-09-17 19:30:01"

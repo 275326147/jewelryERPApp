@@ -19,31 +19,27 @@ import data from './data';
 export default class NewCheck extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selected: 0
-        };
+        this.state = {};
     }
 
     _getData = () => {
         let filterData = [];
+        let self = this;
         data.forEach(function (item) {
             if (item.status !== 4) {
                 filterData.push(item);
+            }
+            if (!self.state.selected && item.status === 3) {
+                self.state.selected = item;
             }
         });
         return filterData;
     };
 
     _selectCheck(item) {
-        if (this.state.selected.key === item.key) {
-            this.setState({
-                selected: {}
-            });
-        } else {
-            this.setState({
-                selected: item
-            });
-        }
+        this.setState({
+            selected: item
+        });
     }
 
     _renderItem = ({ item }) => {

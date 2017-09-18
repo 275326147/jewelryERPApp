@@ -44,7 +44,7 @@ export default class QueryCheck extends Component {
                     </View>
                 </View>
                 <View style={{ flex: 1, marginTop: 20 }}>
-                    <Text style={{ color: '#333', marginLeft: 10, fontSize: 12 }}>操作员:  <Text style={{ color: '#999', fontSize: 12 }}>{item.checkNo}</Text></Text>
+                    <Text style={{ color: '#333', marginLeft: 10, fontSize: 12 }}>操作员:  <Text style={{ color: '#999', fontSize: 12 }}>{item.operator}</Text></Text>
                 </View>
             </View >
         );
