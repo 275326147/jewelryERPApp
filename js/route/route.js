@@ -16,6 +16,8 @@ import {
  * navigator 统一进行路由显示
  * 将全部 component 的引用从老式的层级式改为统一入口的扁平式
  */
+import Start from '../page/start/start';
+import Guide from '../page/start/guide';
 import Home from '../page/home/home';
 import Member from '../page/member/member';
 import Message from '../page/message/message';
@@ -149,9 +151,21 @@ const SimpleStack = StackNavigator(
                 title: '扫描'
             })
         },
+        Guide: {
+            screen: Guide,
+            navigationOptions: ({ navigation }) => ({
+                header: null
+            })
+        },
+        Start: {
+            screen: Start,
+            navigationOptions: ({ navigation }) => ({
+                header: null
+            })
+        }
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'Start',
         navigationOptions: ({ navigation }) => ({
             headerStyle: {
                 backgroundColor: '#fff'
