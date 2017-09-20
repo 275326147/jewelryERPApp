@@ -16,6 +16,29 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Settings from '../user/settings';
+import transferData from '../todo/transferData';
+import approveData from '../todo/approveData';
+
+let waitApprove = 0;
+let rejectApprove = 0;
+let waitReceive = 0;
+let rejectTransfer = 0;
+
+transferData.forEach(function (item) {
+    if (item.status === 1) {
+        waitReceive++;
+    } else if (item.status === 2) {
+        rejectTransfer++;
+    }
+});
+
+approveData.forEach(function (item) {
+    if (item.status === 1) {
+        waitApprove++;
+    } else if (item.status === 2) {
+        rejectApprove++;
+    }
+});
 
 export default class Center extends Component {
 
@@ -27,10 +50,10 @@ export default class Center extends Component {
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
     { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') }];
 
-    todoData = [{ key: 1, text: '待审核', url: 'WaitApprove', count: 0, split: true },
-    { key: 2, text: '审核驳回', url: 'RejectApprove', count: 0 },
-    { key: 3, text: '待接收在途', url: 'WaitReceive', count: 0, split: true },
-    { key: 4, text: '调拨驳回', url: 'RejectTransfer', count: 0 }];
+    todoData = [{ key: 1, text: '待审核', url: 'WaitApprove', count: waitApprove, split: true },
+    { key: 2, text: '审核驳回', url: 'RejectApprove', count: rejectApprove },
+    { key: 3, text: '待接收在途', url: 'WaitReceive', count: waitReceive, split: true },
+    { key: 4, text: '调拨驳回', url: 'RejectTransfer', count: rejectTransfer }];
 
     _renderItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
