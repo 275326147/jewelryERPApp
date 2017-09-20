@@ -1,0 +1,75 @@
+[
+    {
+        "key": 1,
+        "status": 1, //1 --待审核   2 --驳回    3  --已审核
+        "no": "Y1199883213",
+        "fromStore": "四川老凤祥珠宝",
+        "fromCounter": "镶嵌柜台",
+        "fromDate": "2017-09-12 18:09:30",
+        "toStore": "上海老凤祥珠宝",
+        "toCounter": "镶嵌柜台",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 2,
+        "status": 1, //1 --待审核   2 --驳回    3  --已审核
+        "no": "Y1199883203",
+        "fromStore": "四川老凤祥珠宝",
+        "fromCounter": "镶嵌柜台",
+        "fromDate": "2017-09-12 18:09:30",
+        "toStore": "上海老凤祥珠宝",
+        "toCounter": "镶嵌柜台",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 3,
+        "status": 2, //1 --待审核   2 --驳回    3  --已审核
+        "remark": "驳回",
+        "no": "Y1199881213",
+        "fromStore": "四川老凤祥珠宝",
+        "fromCounter": "镶嵌柜台",
+        "fromDate": "2017-09-12 18:09:30",
+        "toStore": "上海老凤祥珠宝",
+        "toCounter": "镶嵌柜台",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 4,
+        "status": 2, //1 --待审核   2 --驳回    3  --已审核
+        "remark": "驳回",
+        "no": "Y1199843213",
+        "fromStore": "四川老凤祥珠宝",
+        "fromCounter": "镶嵌柜台",
+        "fromDate": "2017-09-12 18:09:30",
+        "toStore": "上海老凤祥珠宝",
+        "toCounter": "镶嵌柜台",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 5,
+        "status": 2, //1 --待审核   2 --驳回    3  --已审核
+        "remark": "驳回",
+        "no": "Y1195583213",
+        "fromStore": "四川老凤祥珠宝",
+        "fromCounter": "镶嵌柜台",
+        "fromDate": "2017-09-12 18:09:30",
+        "toStore": "上海老凤祥珠宝",
+        "toCounter": "镶嵌柜台",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    }
+]

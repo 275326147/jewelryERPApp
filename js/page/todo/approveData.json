@@ -1,0 +1,77 @@
+[
+    {
+        "key": 1,
+        "status": 1, //1 --待审核   2 --驳回    3  --已审核
+        "type": 1, //1 --进货   2 --调拨   3 --调价
+        "no": "Y111876990908",
+        "creator": "张尼玛",
+        "createDate": "2017-07-11 18:20:20",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 2,
+        "status": 1, //1 --待审核   2 --驳回    3  --已审核
+        "type": 12, //1 --进货   2 --调拨   3 --调价
+        "no": "Y111876990908",
+        "creator": "张尼玛",
+        "createDate": "2017-07-11 18:20:20",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 3,
+        "status": 1, //1 --待审核   2 --驳回    3  --已审核
+        "type": 3, //1 --进货   2 --调拨   3 --调价
+        "no": "Y111876990908",
+        "creator": "张尼玛",
+        "createDate": "2017-07-11 18:20:20",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 4,
+        "status": 2, //1 --待审核   2 --驳回    3  --已审核
+        "remark": "驳回",
+        "type": 1, //1 --进货   2 --调拨   3 --调价
+        "no": "Y111876990908",
+        "creator": "张尼玛",
+        "createDate": "2017-07-11 18:20:20",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 5,
+        "status": 2, //1 --待审核   2 --驳回    3  --已审核
+        "remark": "驳回",
+        "type": 2, //1 --进货   2 --调拨   3 --调价
+        "no": "Y111876990908",
+        "creator": "张尼玛",
+        "createDate": "2017-07-11 18:20:20",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    },
+    {
+        "key": 6,
+        "status": 2, //1 --待审核   2 --驳回    3  --已审核
+        "remark": "驳回",
+        "type": 3, //1 --进货   2 --调拨   3 --调价
+        "no": "Y111876990908",
+        "creator": "张尼玛",
+        "createDate": "2017-07-11 18:20:20",
+        "count": 100,
+        "price": 124000.0,
+        "goldWeight": 58,
+        "stoneWeight": 24
+    }
+]

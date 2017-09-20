@@ -27,10 +27,10 @@ export default class Center extends Component {
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
     { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') }];
 
-    todoData = [{ key: 1, text: '待审核', url: 'Todo', count: 0, split: true },
-    { key: 2, text: '审核驳回', url: 'Todo', count: 0 },
-    { key: 3, text: '待接收在途', url: 'Todo', count: 0, split: true },
-    { key: 4, text: '调拨驳回', url: 'Todo', count: 0 }];
+    todoData = [{ key: 1, text: '待审核', url: 'WaitApprove', count: 0, split: true },
+    { key: 2, text: '审核驳回', url: 'RejectApprove', count: 0 },
+    { key: 3, text: '待接收在途', url: 'WaitReceive', count: 0, split: true },
+    { key: 4, text: '调拨驳回', url: 'RejectTransfer', count: 0 }];
 
     _renderItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>

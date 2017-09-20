@@ -24,11 +24,14 @@ import Message from '../page/message/message';
 import UserInfo from '../page/user/userInfo';
 import Track from '../page/track/track';
 import Check from '../page/check/check';
-import Todo from '../page/todo/todo';
 import NewCheck from '../page/check/newCheck';
 import QueryCheck from '../page/check/queryCheck';
 import Checking from '../page/check/checking';
 import Scanner from '../camera/scanner';
+import RejectApprove from '../page/todo/rejectApprove';
+import RejectTransfer from '../page/todo/rejectTransfer';
+import WaitApprove from '../page/todo/waitApprove';
+import WaitReceive from '../page/todo/waitReceive';
 
 const styles = StyleSheet.create({
     img: {
@@ -139,8 +142,26 @@ const SimpleStack = StackNavigator(
                 title: '账户信息'
             })
         },
-        Todo: {
-            screen: Todo,
+        RejectApprove: {
+            screen: RejectApprove,
+            navigationOptions: ({ navigation }) => ({
+                title: '待办事项'
+            })
+        },
+        RejectTransfer: {
+            screen: RejectTransfer,
+            navigationOptions: ({ navigation }) => ({
+                title: '待办事项'
+            })
+        },
+        WaitApprove: {
+            screen: WaitApprove,
+            navigationOptions: ({ navigation }) => ({
+                title: '待办事项'
+            })
+        },
+        WaitReceive: {
+            screen: WaitReceive,
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项'
             })
