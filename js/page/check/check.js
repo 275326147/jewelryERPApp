@@ -45,7 +45,7 @@ export default class Check extends Component {
                     <Text style={{ flex: 4, color: '#666', fontSize: 13, textAlign: 'right', marginRight: 10 }}>{item.lastUpdateDate}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                    <Text style={{ flex: 1, color: '#333', fontSize: 11, marginLeft: 10 }}>操作员：</Text>
+                    <Text style={{ flex: 1.5, color: '#333', fontSize: 11, marginLeft: 10 }}>操作员：</Text>
                     <Text style={{ flex: 4, color: '#666', fontSize: 11, textAlign: 'left' }}>{item.operator}</Text>
                     <TouchableOpacity onPress={() => { }}>
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 15 }}>删除</Text>

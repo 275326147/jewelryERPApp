@@ -30,7 +30,7 @@ export default class WaitReceive extends Component {
                     <Text style={{ fontSize: 14, color: '#333' }}>{item.no}</Text>
                 </View>
                 <View style={styles.split}></View>
-                <View style={{ height: 100, marginLeft: 20, marginTop: 5 }}>
+                <View style={{ height: 110, marginLeft: 20, marginTop: 5 }}>
                     <Text style={styles.label}>发出门店  <Text style={styles.value}>{item.fromStore}</Text></Text>
                     <Text style={styles.label}>发出柜台  <Text style={styles.value}>{item.fromCounter}</Text></Text>
                     <Text style={styles.label}>发出时间  <Text style={styles.value}>{item.fromDate}</Text></Text>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         width: (Dimensions.get('window').width - 30),
         marginLeft: 15,
         marginRight: 15,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#E9E9E9',
         height: 50,
         marginTop: 15,
         flexDirection: 'row',
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     itemContainer: {
-        height: 280,
+        height: 290,
         backgroundColor: '#fff',
         marginBottom: 10
     }

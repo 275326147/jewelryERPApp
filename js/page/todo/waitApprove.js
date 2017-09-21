@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         width: (Dimensions.get('window').width - 30),
         marginLeft: 15,
         marginRight: 15,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#E9E9E9',
         height: 50,
         marginTop: 15,
         flexDirection: 'row',

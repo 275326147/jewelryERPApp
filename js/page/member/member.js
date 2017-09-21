@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     img: {
         resizeMode: Image.resizeMode.stretch,
         width: Dimensions.get('window').width,
-        height: 150
+        height: 160
     },
     resultImg: {
         marginTop: 80,
@@ -179,11 +179,11 @@ const styles = StyleSheet.create({
         width: 200
     },
     itemContainer: {
-        height: 150,
+        height: 160,
         marginBottom: 10
     },
     item: {
-        height: 15,
+        height: 16,
         flexDirection: 'row',
         backgroundColor: 'transparent',
         marginTop: 5
