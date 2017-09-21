@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     cameraImg: {
         height: 18,
         width: 18,
-        marginLeft: 20,
+        marginLeft: 30,
         marginRight: 10,
         marginTop: 5
     },

@@ -87,9 +87,14 @@ export default class WaitReceive extends Component {
                     animationType={'slide'}
                     transparent={true}
                     onRequestClose={() => this._onClose()}>
-                    <TouchableOpacity style={styles.modalBackground} onPress={() => this._onClose()}>
+                    <View style={styles.modalBackground}>
                         <View style={styles.modalContainer}>
-                            <Text style={{ height: 20, marginTop: 20, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ flex: 3, height: 20, marginTop: 20, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
+                                <TouchableOpacity onPress={() => this._onClose()}>
+                                    <Text style={{ flex: 1, textAlign: 'right', margin: 10, color: '#333', fontSize: 14 }}>X</Text>
+                                </TouchableOpacity>
+                            </View>
                             <TextInput style={styles.input} multiline={true}
                                 placeholder='&nbsp;&nbsp;请输入驳回意见'
                                 placeholderTextColor={'#999'}
@@ -100,7 +105,7 @@ export default class WaitReceive extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableOpacity>
+                    </View>
                 </Modal>
                 <View style={styles.title}>
                     <Image style={styles.titleImg} source={require('../../../assets/image/todo/waitReceive.png')} />
