@@ -3,7 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, Dimensions, TouchableOpacity } fro
 
 let image1 = require('../../../assets/image/start/guide1.jpg');
 let image2 = require('../../../assets/image/start/guide2.jpg');
-let image3 = require('../../../assets/image/start/guide3.jpg');
+let image3 = require('../../../assets/image/start/guide3.png');
 
 const { width, height } = Dimensions.get('window');
 export default class Guide extends Component {
@@ -53,8 +53,7 @@ var styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 550,
-
+        marginTop: (height - 80)
     },
     btnText: {
         fontSize: 18,

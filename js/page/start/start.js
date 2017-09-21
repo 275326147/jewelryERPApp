@@ -16,7 +16,7 @@ export default class Start extends Component {
 
     componentDidMount() {
         Animated.timing(
-            this.state.bounceValue, { toValue: 1.2, duration: 1000 }
+            this.state.bounceValue, { toValue: 1.2, duration: 1500 }
         ).start();
         this.timer = setTimeout(() => {
             Storage.getStorageAsync('isFrist').then((result) => {
@@ -25,7 +25,7 @@ export default class Start extends Component {
                     this.props.navigation.navigate('Guide');
                     Storage.setStorageAsync('isFrist', 'true');
                 } else {
-                    //第二次启动s
+                    //第二次启动
                     this.props.navigation.navigate('Home');
                 }
             }).catch((error) => {

@@ -48,11 +48,11 @@ export default class WaitReceive extends Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>金重</Text>
-                        <Text style={styles.value}>{item.goldWeight}</Text>
+                        <Text style={styles.value}>{item.goldWeight}g</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>石重</Text>
-                        <Text style={styles.value}>{item.stoneWeight}</Text>
+                        <Text style={styles.value}>{item.stoneWeight}g</Text>
                     </View>
                 </View>
                 <View style={styles.bottomContainer}>
@@ -72,7 +72,7 @@ export default class WaitReceive extends Component {
         return (
             <View style={{ flex: 1 }} >
                 <View style={styles.title}>
-                    <Image style={styles.titleImg} source={require('../../../assets/image/home/check.png')} />
+                    <Image style={styles.titleImg} source={require('../../../assets/image/todo/waitReceive.png')} />
                     <Text style={{ fontSize: 13, color: '#333' }}>待接收在途</Text>
                 </View >
                 <FlatList style={{ flex: 1 }} data={receiveData} renderItem={this._renderItem} />
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     title: {
         height: 30,
         marginTop: 10,
+        marginBottom: 10,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center'
@@ -152,6 +153,6 @@ const styles = StyleSheet.create({
     itemContainer: {
         height: 280,
         backgroundColor: '#fff',
-        marginTop: 10
+        marginBottom: 10
     }
 });
