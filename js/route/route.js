@@ -35,8 +35,8 @@ import WaitReceive from '../page/todo/waitReceive';
 
 const styles = StyleSheet.create({
     img: {
-        height: 18,
-        width: 18,
+        height: 20,
+        width: 20,
         marginLeft: 15,
         marginRight: 15
     },

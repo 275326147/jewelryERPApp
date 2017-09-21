@@ -13,7 +13,8 @@ import {
     Image,
     FlatList,
     Dimensions,
-    TextInput
+    TextInput,
+    TouchableWithoutFeedback
 } from 'react-native';
 import memberData from './data';
 
@@ -136,7 +137,11 @@ export default class Member extends Component {
             <View style={{ flex: 1 }}>
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入会员卡号／会员名／手机号'
-                        underlineColorAndroid="transparent" />
+                        underlineColorAndroid="transparent">
+                    </TextInput>
+                    <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
+                        <Image style={{ height: 17, width: 14, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
+                    </TouchableWithoutFeedback>
                 </View>
                 {
                     memberData.length === 0 ?
@@ -154,18 +159,17 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 12,
         height: 25,
-        width: Dimensions.get('window').width - 40,
-        borderRadius: 15, backgroundColor: '#f3f3f1',
-        marginTop: 10,
-        marginBottom: 10,
-        marginRight: 20,
-        marginLeft: 20,
+        width: Dimensions.get('window').width - 20,
+        borderRadius: 15,
+        backgroundColor: '#f3f3f1',
+        margin: 10,
         padding: 0
     },
     searchContainer: {
         height: 40,
         backgroundColor: '#fff',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row'
     },
     img: {
         resizeMode: Image.resizeMode.stretch,

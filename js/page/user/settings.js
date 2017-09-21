@@ -142,10 +142,11 @@ const styles = StyleSheet.create({
     },
     button: {
         height: 36,
-        width: 180,
+        width: 150,
         borderWidth: 1,
         borderColor: '#b5b5b5',
         borderRadius: 18,
+        alignItems:'center',
         justifyContent: 'center',
         margin: 35
     },

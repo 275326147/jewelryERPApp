@@ -6,11 +6,18 @@ import {
     Image,
     Dimensions,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Modal,
+    TextInput
 } from 'react-native';
 import data from './transferData';
 
 export default class WaitReceive extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { modalVisible: false };
+    }
 
     _getData() {
         let filterData = [];
@@ -56,7 +63,7 @@ export default class WaitReceive extends Component {
                     </View>
                 </View>
                 <View style={styles.bottomContainer}>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={() => { this.setState({ modalVisible: true }) }}>
                         <Text style={styles.buttonText}>驳回</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button}>
@@ -67,10 +74,34 @@ export default class WaitReceive extends Component {
         );
     }
 
+    _onClose() {
+        this.setState({ modalVisible: false });
+    }
+
     render() {
         let receiveData = this._getData();
         return (
             <View style={{ flex: 1 }} >
+                <Modal
+                    visible={this.state.modalVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onClose()}>
+                    <TouchableOpacity style={styles.modalBackground} onPress={() => this._onClose()}>
+                        <View style={styles.modalContainer}>
+                            <Text style={{ height: 20, marginTop: 20, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
+                            <TextInput style={styles.input} multiline={true}
+                                placeholder='&nbsp;&nbsp;请输入驳回意见'
+                                placeholderTextColor={'#999'}
+                                underlineColorAndroid="transparent" />
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <TouchableOpacity style={[styles.button, { borderWidth: 0, width: 150, backgroundColor: '#6334E6' }]} onPress={() => this._onClose()}>
+                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 13 }}>确定</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
                 <View style={styles.title}>
                     <Image style={styles.titleImg} source={require('../../../assets/image/todo/waitReceive.png')} />
                     <Text style={{ fontSize: 13, color: '#333' }}>待接收在途</Text>
@@ -82,6 +113,29 @@ export default class WaitReceive extends Component {
 }
 
 const styles = StyleSheet.create({
+    input: {
+        fontSize: 14,
+        height: 130,
+        width: Dimensions.get('window').width - 100,
+        backgroundColor: '#F9F9F9',
+        marginTop: 5,
+        marginBottom: 10,
+        marginRight: 20,
+        marginLeft: 20,
+        padding: 0
+    },
+    modalContainer: {
+        backgroundColor: '#fff',
+        height: 240,
+        width: (Dimensions.get('window').width - 60),
+        borderRadius: 4
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     detailContainer: {
         flex: 1,
         flexDirection: 'column',
@@ -93,7 +147,8 @@ const styles = StyleSheet.create({
         width: 65,
         borderWidth: 1,
         borderColor: '#b5b5b5',
-        borderRadius: 16,
+        borderRadius: 18,
+        alignItems: 'center',
         justifyContent: 'center',
         margin: 10
     },

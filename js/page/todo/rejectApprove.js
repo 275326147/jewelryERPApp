@@ -50,7 +50,8 @@ export default class RejectApprove extends Component {
                     <Text style={{ fontSize: 14, color: '#333' }}>单号：</Text>
                     <Text style={{ fontSize: 14, color: '#333' }}>{item.no}</Text>
                 </View>
-                <View style={[styles.split, { alignItems: 'flex-end' }]}>
+                <View style={styles.split}></View>
+                <View style={{ alignItems: 'flex-end', marginRight:10 }}>
                     <View style={styles.reject}>
                         <Text style={{ fontSize: 19, color: '#F27979' }}>驳回</Text>
                     </View>
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: -12,
-        marginRight: 10,
+        marginRight:10,
         backgroundColor: 'transparent',
         height: 25,
         width: 48,

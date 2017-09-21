@@ -13,6 +13,7 @@ import {
     Dimensions,
     TextInput,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     FlatList,
     Modal
 } from 'react-native';
@@ -76,6 +77,9 @@ export default class Follow extends Component {
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入商品条码'
                         underlineColorAndroid="transparent" />
+                    <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
+                        <Image style={{ height: 17, width: 14, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
+                    </TouchableWithoutFeedback>
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
@@ -203,7 +207,7 @@ const styles = StyleSheet.create({
     cameraImg: {
         height: 18,
         width: 18,
-        marginLeft: 10,
+        marginLeft: 20,
         marginRight: 10,
         marginTop: 5
     },
