@@ -15,6 +15,7 @@ import {
     Image,
     TouchableWithoutFeedback
 } from 'react-native';
+import data from './data';
 
 export default class Settings extends Component {
 
@@ -73,13 +74,13 @@ export default class Settings extends Component {
                             </TouchableWithoutFeedback>
                             <View style={styles.userInfoContainer}>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.nameText}>陈大大</Text>
+                                    <Text style={styles.nameText}>{data.name}</Text>
                                     <View style={styles.subNameContainer}>
-                                        <Text style={styles.subNameText}>营业员</Text>
+                                        <Text style={styles.subNameText}>{data.level}</Text>
                                     </View>
                                 </View>
-                                <Text style={styles.companyText}>星环珠宝公司</Text>
-                                <Text style={styles.companyText}>水贝1店</Text>
+                                <Text style={styles.companyText}>{data.company}</Text>
+                                <Text style={styles.companyText}>{data.store}</Text>
                             </View>
                         </View>
                         <FlatList style={{ flex: 1 }} data={this.menuData} renderItem={this._renderItem} />
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#b5b5b5',
         borderRadius: 18,
-        alignItems:'center',
+        alignItems: 'center',
         justifyContent: 'center',
         margin: 35
     },

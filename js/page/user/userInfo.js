@@ -9,32 +9,11 @@ import {
     ScrollView,
     Text,
     StyleSheet,
-    Image,
-    FlatList
+    Image
 } from 'react-native';
+import data from './data';
 
 export default class Member extends Component {
-    baseInfo = [{
-        key: '姓名',
-        value: '陈大大'
-    }, {
-        key: '性别',
-        value: '女'
-    }]
-
-    userInfo = [{
-        key: '所属公司',
-        value: '星环珠宝公司'
-    }, {
-        key: '所属门店',
-        value: '水贝1店'
-    }, {
-        key: '所属职能',
-        value: '营业员'
-    }, {
-        key: '绑定手机',
-        value: '18888888888'
-    }]
 
     _renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
@@ -50,10 +29,32 @@ export default class Member extends Component {
                     <View style={styles.imgContainer}>
                         <Image style={styles.headImg} source={require('../../../assets/image/head/head.png')} />
                     </View>
-                    <FlatList style={{ flex: 1 }} data={this.baseInfo} renderItem={this._renderItem} />
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.labelText}>姓名</Text>
+                        <Text style={styles.valueText}>{data.name}</Text>
+                    </View>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.labelText}>性别</Text>
+                        <Text style={styles.valueText}>{data.sex}</Text>
+                    </View>
                 </View>
                 <View style={styles.infoContainer}>
-                    <FlatList style={{ flex: 1, marginTop: 12 }} data={this.userInfo} renderItem={this._renderItem} />
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.labelText}>所属公司</Text>
+                        <Text style={styles.valueText}>{data.company}</Text>
+                    </View>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.labelText}>所属门店</Text>
+                        <Text style={styles.valueText}>{data.store}</Text>
+                    </View>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.labelText}>所属职能</Text>
+                        <Text style={styles.valueText}>{data.level}</Text>
+                    </View>
+                    <View style={styles.itemContainer}>
+                        <Text style={styles.labelText}>绑定手机</Text>
+                        <Text style={styles.valueText}>{data.phone}</Text>
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -77,7 +78,8 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         flex: 1,
-        backgroundColor: '#f3f3f1'
+        backgroundColor: '#f3f3f1',
+        marginTop: 10
     },
     itemContainer: {
         flexDirection: 'row',
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     valueText: {
-        flex:1,
+        flex: 1,
         fontSize: 13,
         color: '#999999',
         textAlign: 'right',

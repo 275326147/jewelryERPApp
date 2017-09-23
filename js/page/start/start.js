@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions, Alert } from 'react-native';
 import Storage from '../../utils/storage';
 
 const splashImg = require('../../../assets/image/start/start.jpg');//加载图片
@@ -15,6 +15,18 @@ export default class Start extends Component {
     }
 
     componentDidMount() {
+        // fetch('http://192.168.0.124:8088/JNERP/zklApi/cIn.do', {
+        //     method: 'GET'
+        // }).then((response) => {
+        //         Alert.alert(
+        //             '提示',
+        //             '结果：' + JSON.stringify(response),
+        //             [
+        //                 { text: 'OK', onPress: () => { } },
+        //             ],
+        //             { cancelable: false }
+        //         );
+        //     });
         Animated.timing(
             this.state.bounceValue, { toValue: 1.2, duration: 1500 }
         ).start();

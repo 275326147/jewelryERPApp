@@ -10,11 +10,18 @@ import {
     FlatList,
     StyleSheet,
     Dimensions,
-    Image
+    Image,
+    Alert
 } from 'react-native';
 import { QRScannerView } from 'ac-qrcode';
 
 export default class Checking extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            lockCamera: false
+        };
+    }
 
     goodsData = [{
         key: 1,
@@ -53,7 +60,17 @@ export default class Checking extends Component {
     }
 
     barcodeReceived(e) {
-
+        if (!this.state.lockCamera) {
+            this.setState({ lockCamera: true })
+            Alert.alert(
+                '提示',
+                '条码号：' + e.data + ', 条码类型：' + e.type,
+                [
+                    { text: 'OK', onPress: () => this.setState({ lockCamera: false }) },
+                ],
+                { cancelable: false }
+            )
+        }
     }
 
     render() {
