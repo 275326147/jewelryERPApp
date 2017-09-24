@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions, Alert } from 'react-native';
 import Storage from '../../utils/storage';
@@ -38,7 +39,7 @@ export default class Start extends Component {
                     Storage.setStorageAsync('isFrist', 'true');
                 } else {
                     //第二次启动
-                    this.props.navigation.navigate('Home');
+                    this.props.navigation.navigate('Login');
                 }
             }).catch((error) => {
                 console.log('系统异常' + error);

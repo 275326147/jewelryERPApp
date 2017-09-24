@@ -1,3 +1,4 @@
+'use strict';
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
 
@@ -7,11 +8,6 @@ let image3 = require('../../../assets/image/start/guide3.png');
 
 const { width, height } = Dimensions.get('window');
 export default class Guide extends Component {
-
-    constructor() {
-        super();
-    };
-
     render() {
         return (
             <ScrollView
@@ -26,7 +22,7 @@ export default class Guide extends Component {
                     <TouchableOpacity
                         style={styles.btn}
                         onPress={() => {
-                            this.props.navigation.navigate('Home');
+                            this.props.navigation.navigate('Login');
                         }}>
                         <Text style={styles.btnText}>立即使用</Text>
                     </TouchableOpacity>
@@ -34,7 +30,8 @@ export default class Guide extends Component {
             </ScrollView>);
     }
 };
-var styles = StyleSheet.create({
+
+const styles = StyleSheet.create({
     contentContainer: {
         width: width * 3,
         height: height,

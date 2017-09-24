@@ -18,6 +18,7 @@ import {
  */
 import Start from '../page/start/start';
 import Guide from '../page/start/guide';
+import Login from '../page/login/login';
 import Home from '../page/home/home';
 import Member from '../page/member/member';
 import Message from '../page/message/message';
@@ -180,6 +181,12 @@ const SimpleStack = StackNavigator(
         },
         Start: {
             screen: Start,
+            navigationOptions: ({ navigation }) => ({
+                header: null
+            })
+        },
+        Login: {
+            screen: Login,
             navigationOptions: ({ navigation }) => ({
                 header: null
             })
