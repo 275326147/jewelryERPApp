@@ -18,13 +18,13 @@ export default class Login extends Component {
                         </TextInput>
                         <TouchableOpacity
                             style={styles.codeBtn}
-                            onPress={() => { this.props.navigation.navigate('Home'); }}>
+                            onPress={() => { }}>
                             <Text style={styles.codeText}>发送验证码</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
                         style={styles.btn}
-                        onPress={() => { this.props.navigation.navigate('Home'); }}>
+                        onPress={() => { this.props.navigation.navigate('Password'); }}>
                         <Text style={styles.btnText}>登    录</Text>
                     </TouchableOpacity>
                 </View>
