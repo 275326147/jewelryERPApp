@@ -19,7 +19,9 @@ import {
 import Start from '../page/start/start';
 import Guide from '../page/start/guide';
 import Login from '../page/login/login';
-import Password from '../page/login/password';
+import CheckPwd from '../page/login/checkPwd';
+import SetPwd from '../page/login/setPwd';
+import ResetPwd from '../page/login/resetPwd';
 import Home from '../page/home/home';
 import Member from '../page/member/member';
 import Message from '../page/message/message';
@@ -192,10 +194,22 @@ const SimpleStack = StackNavigator(
                 header: null
             })
         },
-        Password: {
-            screen: Password,
+        CheckPwd: {
+            screen: CheckPwd,
             navigationOptions: ({ navigation }) => ({
                 header: null
+            })
+        },
+        SetPwd: {
+            screen: SetPwd,
+            navigationOptions: ({ navigation }) => ({
+                header: null
+            })
+        },
+        ResetPwd: {
+            screen: ResetPwd,
+            navigationOptions: ({ navigation }) => ({
+                title: '重置手势密码'
             })
         }
     },

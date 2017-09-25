@@ -39,7 +39,23 @@ export default class Start extends Component {
                     Storage.setStorageAsync('isFrist', 'true');
                 } else {
                     //第二次启动
-                    this.props.navigation.navigate('Login');
+                    Storage.getStorageAsync('currentAccount').then((account) => {
+                        if (account == null || account == '') {
+                            this.props.navigation.navigate('Login');
+                        } else {
+                            Storage.getStorageAsync(account).then((result) => {
+                                if (result == null || result == '') {
+                                    this.props.navigation.navigate('Login');
+                                } else {
+                                    this.props.navigation.navigate('CheckPwd');
+                                }
+                            }).catch((error) => {
+                                console.log('系统异常' + error);
+                            });
+                        }
+                    }).catch((error) => {
+                        console.log('系统异常' + error);
+                    });
                 }
             }).catch((error) => {
                 console.log('系统异常' + error);

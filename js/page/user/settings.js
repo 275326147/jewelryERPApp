@@ -15,6 +15,7 @@ import {
     Image,
     TouchableWithoutFeedback
 } from 'react-native';
+import Storage from '../../utils/storage';
 import data from './data';
 
 export default class Settings extends Component {
@@ -38,16 +39,18 @@ export default class Settings extends Component {
         this.msgListener && this.msgListener.remove();
     }
 
-    menuData = [{ key: 1, text: '关于软件', subText: 'v1.0', img: require('../../../assets/image/head/new.png') },
-    { key: 2, text: '清除缓存', url: '', img: '' },
-    { key: 3, text: '管理手势密码', url: '', img: '' }];
+    menuData = [{ key: 1, text: '关于软件', handler: () => { }, subText: 'v1.0', img: require('../../../assets/image/head/new.png') },
+    { key: 2, text: '清除缓存', handler: () => { }, img: '' },
+    { key: 3, text: '修改手势密码', handler: () => { this._onClose(); this.props.navigation.navigate('ResetPwd'); }, img: '' }];
 
     _renderItem = ({ item }) => (
-        <View style={styles.menuContainer}>
-            <Text style={styles.menuText}>{item.text}</Text>
-            {item.img ? <Image style={styles.menuImg} source={item.img} /> : <View />}
-            <Text style={styles.subText}>{item.subText}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={item.handler.bind(this)}>
+            <View style={styles.menuContainer}>
+                <Text style={styles.menuText}>{item.text}</Text>
+                {item.img ? <Image style={styles.menuImg} source={item.img} /> : <View />}
+                <Text style={styles.subText}>{item.subText}</Text>
+            </View>
+        </TouchableWithoutFeedback>
     );
 
     _onClose() {
@@ -57,6 +60,12 @@ export default class Settings extends Component {
     _gotoUserInfo() {
         this._onClose();
         this.props.navigation.navigate('UserInfo');
+    }
+
+    _logout() {
+        Storage.setStorageAsync('currentAccount', '');
+        this._onClose();
+        this.props.navigation.navigate('Login');
     }
 
     render() {
@@ -84,7 +93,7 @@ export default class Settings extends Component {
                             </View>
                         </View>
                         <FlatList style={{ flex: 1 }} data={this.menuData} renderItem={this._renderItem} />
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={() => { this._logout() }}>
                             <Text style={styles.buttonText}>退出登录</Text>
                         </TouchableOpacity>
                     </View>
