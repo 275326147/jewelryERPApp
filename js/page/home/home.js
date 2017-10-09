@@ -6,10 +6,12 @@
 import React, { Component } from 'react';
 import {
     View,
-    StyleSheet
+    StyleSheet,
+    Platform
 } from 'react-native';
 import Foot from './foot';
 import Center from './center';
+import UpgradeDialog from '../upgrade/upgradeDialog';
 
 export default class Home extends Component {
     constructor(props) {
@@ -19,6 +21,7 @@ export default class Home extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <UpgradeDialog navigation={this.props.navigation} />
                 <Center navigation={this.props.navigation} />
                 <Foot navigation={this.props.navigation} />
             </View>

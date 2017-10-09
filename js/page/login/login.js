@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import Storage from '../../utils/storage';
+import { callService } from '../../utils/service';
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,14 +13,18 @@ export default class Login extends Component {
             account: '',
             code: '',
             second: 60,
-            disabled: true
+            enable: true
         };
     }
 
     sendCode() {
-        if (this.state.disabled) {
+        if (this.state.enable) {
+            let params = new FormData();
+            params.append("mobileNum", this.state.account);
+            params.append("type", 1);
+            callService(this, 'getSmsValidateCode.do', params);
             this.setState({
-                disabled: false
+                enable: false
             });
             this.timer = setInterval(() => {
                 if (this.state.second > 0) {
@@ -29,7 +34,7 @@ export default class Login extends Component {
                 } else {
                     this.setState({
                         second: 60,
-                        disabled: true
+                        enable: true
                     });
                     clearInterval(this.timer);
                 }
@@ -38,15 +43,21 @@ export default class Login extends Component {
     }
 
     redirect() {
-        Storage.setStorageAsync('currentAccount', this.state.account);
-        Storage.getStorageAsync(this.state.account).then((result) => {
-            if (result == null || result == '') {
-                this.props.navigation.navigate('SetPwd');
-            } else {
-                this.props.navigation.navigate('CheckPwd');
-            }
-        }).catch((error) => {
-            console.log('系统异常' + error);
+        let params = new FormData();
+        params.append("mobileNo", this.state.account);
+        params.append("smsValiCode", this.state.code);
+        callService(this, 'checkLogin.do', params, function (response) {
+            Storage.setStorageAsync('currentAccount', this.state.account);
+            Storage.setStorageAsync('userInfo', JSON.stringify(response));
+            Storage.getStorageAsync(this.state.account).then((result) => {
+                if (result === null || result === '') {
+                    this.props.navigation.navigate('SetPwd');
+                } else {
+                    this.props.navigation.navigate('CheckPwd');
+                }
+            }).catch((error) => {
+                console.log('系统异常' + error);
+            });
         });
     }
 
@@ -64,7 +75,7 @@ export default class Login extends Component {
                             underlineColorAndroid="transparent">
                         </TextInput>
                         {
-                            this.state.disabled ?
+                            this.state.enable ?
                                 <TouchableOpacity
                                     style={styles.codeBtn}
                                     onPress={() => { this.sendCode() }}>

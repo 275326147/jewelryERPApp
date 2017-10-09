@@ -9,9 +9,18 @@ import {
     FlatList,
     TouchableOpacity
 } from 'react-native';
-import data from './approveData';
+import { callService } from '../../utils/service';
 
 export default class RejectApprove extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            todoList: []
+        };
+    }
+
+
     typeMap = {
         1: {
             color: '#ACC2FA',
@@ -27,14 +36,18 @@ export default class RejectApprove extends Component {
         }
     }
 
-    _getData() {
-        let filterData = [];
-        data.forEach(function (item) {
-            if (item.status === 2) {
-                filterData.push(item);
-            }
+    queryTodoList() {
+        let params = new FormData();
+        params.append("todoType", 2);
+        callService(this, 'getMyTodoList.do', params, function (response) {
+            this.setState({
+                todoList: response.todoList
+            });
         });
-        return filterData;
+    }
+
+    componentWillMount() {
+        queryTodoList();
     }
 
     _renderItem = ({ item }) => {
@@ -49,25 +62,25 @@ export default class RejectApprove extends Component {
                 </View>
                 <View style={{ marginLeft: 20, flexDirection: 'row', marginTop: 5 }}>
                     <Text style={{ fontSize: 14, color: '#333' }}>单号：</Text>
-                    <Text style={{ fontSize: 14, color: '#333' }}>{item.no}</Text>
+                    <Text style={{ fontSize: 14, color: '#333' }}>{item.sheetNo}</Text>
                 </View>
                 <View style={styles.split}></View>
-                <View style={{ alignItems: 'flex-end', marginRight:10 }}>
+                <View style={{ alignItems: 'flex-end', marginRight: 10 }}>
                     <View style={styles.reject}>
                         <Text style={{ fontSize: 19, color: '#F27979' }}>驳回</Text>
                     </View>
                 </View>
                 <View style={{ height: 100, marginLeft: 20, marginTop: 5 }}>
-                    <Text style={styles.label}>提交人  <Text style={styles.value}>{item.creator}</Text></Text>
-                    <Text style={styles.label}>提交时间  <Text style={styles.value}>{item.createDate}</Text></Text>
-                    <Text style={styles.label}>审核人  <Text style={styles.value}>{item.approver}</Text></Text>
-                    <Text style={styles.label}>审核时间  <Text style={styles.value}>{item.approveDate}</Text></Text>
+                    <Text style={styles.label}>提交人  <Text style={styles.value}>{item.submitter}</Text></Text>
+                    <Text style={styles.label}>提交时间  <Text style={styles.value}>{item.submitTime}</Text></Text>
+                    <Text style={styles.label}>审核人  <Text style={styles.value}>{item.auditUser}</Text></Text>
+                    <Text style={styles.label}>审核时间  <Text style={styles.value}>{item.auditTime}</Text></Text>
                 </View>
                 <View style={styles.outContainer}>
                     <View style={styles.contentContainer}>
                         <View style={styles.detailContainer}>
                             <Text style={styles.label}>数量</Text>
-                            <Text style={styles.value}>{item.count}</Text>
+                            <Text style={styles.value}>{item.num}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>标价金额</Text>
@@ -84,7 +97,7 @@ export default class RejectApprove extends Component {
                     </View>
                     <View style={{ flexDirection: 'row', height: 30, marginLeft: 10, marginTop: 5 }}>
                         <Text style={styles.label}>审批意见：</Text>
-                        <Text style={styles.value}>{item.remark}</Text>
+                        <Text style={styles.value}>{item.remarks}</Text>
                     </View>
                 </View>
             </View >
@@ -92,14 +105,13 @@ export default class RejectApprove extends Component {
     }
 
     render() {
-        let receiveData = this._getData();
         return (
             <View style={{ flex: 1 }} >
                 <View style={styles.title}>
                     <Image style={styles.titleImg} source={require('../../../assets/image/todo/rejectApprove.png')} />
                     <Text style={{ fontSize: 13, color: '#333' }}>审核驳回</Text>
                 </View >
-                <FlatList style={{ flex: 1 }} data={receiveData} renderItem={this._renderItem} />
+                <FlatList style={{ flex: 1 }} data={this.state.todoList} renderItem={this._renderItem} />
             </View>
         );
     }
@@ -136,7 +148,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: -12,
-        marginRight:10,
+        marginRight: 10,
         backgroundColor: 'transparent',
         height: 25,
         width: 48,

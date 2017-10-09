@@ -16,13 +16,16 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Storage from '../../utils/storage';
-import data from './data';
+import { callService } from '../../utils/service';
 
 export default class Settings extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { modalVisible: false };
+        this.state = {
+            modalVisible: false,
+            userInfo: {}
+        };
     }
 
     componentDidMount() {
@@ -31,6 +34,16 @@ export default class Settings extends Component {
             this.setState({
                 modalVisible: true
             })
+        });
+
+        Storage.getStorageAsync('userInfo').then((userInfo) => {
+            if (userInfo === null || userInfo === '') {
+                this.props.navigation.navigate('Login');
+                return;
+            }
+            this.setState({
+                userInfo: JSON.parse(userInfo).users[0]
+            });
         });
     }
 
@@ -63,9 +76,12 @@ export default class Settings extends Component {
     }
 
     _logout() {
-        Storage.setStorageAsync('currentAccount', '');
         this._onClose();
         this.props.navigation.navigate('Login');
+        callService(this, 'logout.do', new FormData(), function () {
+            Storage.setStorageAsync('currentAccount', '');
+            Storage.setStorageAsync('userInfo', '');
+        });
     }
 
     render() {
@@ -83,13 +99,13 @@ export default class Settings extends Component {
                             </TouchableWithoutFeedback>
                             <View style={styles.userInfoContainer}>
                                 <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.nameText}>{data.name}</Text>
+                                    <Text style={styles.nameText}>{this.state.userInfo.realName}</Text>
                                     <View style={styles.subNameContainer}>
-                                        <Text style={styles.subNameText}>{data.level}</Text>
+                                        <Text style={styles.subNameText}>{this.state.userInfo.userRoleName}</Text>
                                     </View>
                                 </View>
-                                <Text style={styles.companyText}>{data.company}</Text>
-                                <Text style={styles.companyText}>{data.store}</Text>
+                                <Text style={styles.companyText}>{this.state.userInfo.companyName}</Text>
+                                <Text style={styles.companyText}>{this.state.userInfo.shopName}</Text>
                             </View>
                         </View>
                         <FlatList style={{ flex: 1 }} data={this.menuData} renderItem={this._renderItem} />

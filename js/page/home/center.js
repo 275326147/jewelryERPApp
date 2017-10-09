@@ -16,44 +16,34 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Settings from '../user/settings';
-import transferData from '../todo/transferData';
-import approveData from '../todo/approveData';
-
-let waitApprove = 0;
-let rejectApprove = 0;
-let waitReceive = 0;
-let rejectTransfer = 0;
-
-transferData.forEach(function (item) {
-    if (item.status === 1) {
-        waitReceive++;
-    } else if (item.status === 2) {
-        rejectTransfer++;
-    }
-});
-
-approveData.forEach(function (item) {
-    if (item.status === 1) {
-        waitApprove++;
-    } else if (item.status === 2) {
-        rejectApprove++;
-    }
-});
+import { callService } from '../../utils/service';
 
 export default class Center extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            todoData: [{ key: 1, text: '待审核', url: 'WaitApprove', num: 0, split: true },
+            { key: 2, text: '审核驳回', url: 'RejectApprove', num: 0 },
+            { key: 3, text: '待接收在途', url: 'WaitReceive', num: 0, split: true },
+            { key: 4, text: '调拨驳回', url: 'RejectTransfer', num: 0 }]
+        }
     }
 
     menuData = [{ key: 1, text: '会员查询', url: 'Member', img: require('../../../assets/image/home/mark.png') },
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
     { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') }];
 
-    todoData = [{ key: 1, text: '待审核', url: 'WaitApprove', count: waitApprove, split: true },
-    { key: 2, text: '审核驳回', url: 'RejectApprove', count: rejectApprove },
-    { key: 3, text: '待接收在途', url: 'WaitReceive', count: waitReceive, split: true },
-    { key: 4, text: '调拨驳回', url: 'RejectTransfer', count: rejectTransfer }];
+    componentWillMount() {
+        callService(this, 'getMyTodoNum.do', new FormData(), function (response) {
+            this.setState({
+                todoData: [{ key: 1, text: '待审核', url: 'WaitApprove', num: response.myTodoNum.needAuditSheetNum, split: true },
+                { key: 2, text: '审核驳回', url: 'RejectApprove', num: response.myTodoNum.auditRejectSheetNum },
+                { key: 3, text: '待接收在途', url: 'WaitReceive', num: response.myTodoNum.onWayNeedReceiveSheetNum, split: true },
+                { key: 4, text: '调拨驳回', url: 'RejectTransfer', num: response.myTodoNum.rejectMoveSheetNum }]
+            });
+        });
+    }
 
     _renderItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
@@ -68,7 +58,7 @@ export default class Center extends Component {
         <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
             <View style={item.split ? styles.splitContainer : styles.todoContainer}>
                 <Text style={styles.todoText}>{item.text}</Text>
-                <Text style={styles.countText}>{item.count}</Text>
+                <Text style={styles.countText}>{item.num}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -88,7 +78,7 @@ export default class Center extends Component {
                 <View style={styles.container}>
                     <Text style={styles.txt}> 待办事项 </Text>
                     <View style={{ height: 130 }}>
-                        <FlatList style={styles.todoList} data={this.todoData} renderItem={this._renderTodo} horizontal={false} numColumns={2} />
+                        <FlatList style={styles.todoList} data={this.state.todoData} renderItem={this._renderTodo} horizontal={false} numColumns={2} />
                     </View>
                 </View>
             </ScrollView>

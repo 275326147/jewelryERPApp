@@ -13,24 +13,58 @@ import {
     Image,
     Text,
     Dimensions,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
-import data from './data';
+import { callService } from '../../utils/service';
 
 export default class Check extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            checkDate: []
+        };
     }
 
-    _getData = () => {
-        let filterData = [];
-        data.forEach(function (item) {
-            if (item.status === 4) {
-                filterData.push(item);
-            }
+    querySubSheet() {
+        callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
+            this.setState({
+                checkDate: response.subSheetList
+            });
         });
-        return filterData;
-    };
+    }
+
+    componentWillMount() {
+        querySubSheet();
+    }
+
+    _delSubSheet(subSheetId) {
+        Alert.alert(
+            '提示',
+            '删除后将无法回退，是否确定删除盘点单？',
+            [
+                {
+                    text: 'OK', onPress: () => {
+                        let params = new FormData();
+                        params.append("subSheetId", subSheetId);
+                        callService(this, 'delSubSheet.do', params, function (response) {
+                            querySubSheet();
+                            Alert.alert(
+                                '提示',
+                                '删除成功',
+                                [
+                                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                ],
+                                { cancelable: false }
+                            );
+                        });
+                    }
+                },
+                { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+            ],
+            { cancelable: false }
+        );
+    }
 
     _gotoPage(url, param) {
         this.props.navigation.navigate(url, param);
@@ -41,13 +75,13 @@ export default class Check extends Component {
             <View style={{ height: 75, flexDirection: 'column', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                     <Text style={{ flex: 1, color: '#333', fontSize: 13, marginLeft: 10 }}>单号</Text>
-                    <Text style={{ flex: 3, color: '#666', fontSize: 13 }}>{item.checkNo}</Text>
+                    <Text style={{ flex: 3, color: '#666', fontSize: 13 }}>{item.sheetNo}</Text>
                     <Text style={{ flex: 4, color: '#666', fontSize: 13, textAlign: 'right', marginRight: 10 }}>{item.lastUpdateDate}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
                     <Text style={{ flex: 1.5, color: '#333', fontSize: 11, marginLeft: 10 }}>操作员：</Text>
-                    <Text style={{ flex: 4, color: '#666', fontSize: 11, textAlign: 'left' }}>{item.operator}</Text>
-                    <TouchableOpacity onPress={() => { }}>
+                    <Text style={{ flex: 4, color: '#666', fontSize: 11, textAlign: 'left' }}>{item.createUserName}</Text>
+                    <TouchableOpacity onPress={() => { this._delSubSheet(item.id) }}>
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 15 }}>删除</Text>
                     </TouchableOpacity>
                     <View style={{ borderLeftWidth: 1, borderColor: '#f3f3f1', width: 10, height: 20 }}></View>
@@ -60,7 +94,6 @@ export default class Check extends Component {
     }
 
     render() {
-        let checkData = this._getData();
         return (
             <ScrollView style={styles.container}>
                 <View style={{ flexDirection: 'row', height: 60 }}>
@@ -78,7 +111,7 @@ export default class Check extends Component {
                     </TouchableWithoutFeedback>
                 </View>
                 {
-                    checkData.length === 0 ?
+                    this.state.checkData.length === 0 ?
                         <View>
                             <View style={styles.textContainer}>
                                 <Text style={{ flex: 1, marginLeft: 10, fontSize: 12, color: '#333' }}>未提交盘点单</Text>
@@ -91,10 +124,10 @@ export default class Check extends Component {
                             <View style={styles.textContainer}>
                                 <Text style={{ flex: 1, marginLeft: 10, fontSize: 12, color: '#333' }}>未提交盘点单</Text>
                                 <View style={{ backgroundColor: '#f7656f', borderRadius: 50, width: 15, height: 15, marginRight: 10 }}>
-                                    <Text style={{ backgroundColor: 'transparent', textAlign: 'center', color: '#fff', fontSize: 10 }}>{checkData.length}</Text>
+                                    <Text style={{ backgroundColor: 'transparent', textAlign: 'center', color: '#fff', fontSize: 10 }}>{this.state.checkData.length}</Text>
                                 </View>
                             </View>
-                            <FlatList style={{ flex: 1 }} data={checkData} renderItem={this._renderItem} />
+                            <FlatList style={{ flex: 1 }} data={this.state.checkData} renderItem={this._renderItem} />
                         </View>
                 }
             </ScrollView>

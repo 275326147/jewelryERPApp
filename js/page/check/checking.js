@@ -14,13 +14,39 @@ import {
     Alert
 } from 'react-native';
 import { QRScannerView } from 'ac-qrcode';
+import { callService } from '../../utils/service';
 
 export default class Checking extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lockCamera: false
+            lockCamera: false,
+            item: {}
         };
+    }
+
+    componentWillMount() {
+        this.setState({
+            item: this.props.navigation.state.params.item
+        });
+        this.msgListener = DeviceEventEmitter.addListener('commitCheck', (listenerMsg) => {
+            let params = new FormData();
+            params.append("subSheetId", this.state.item.id);
+            callService(this, 'submitSubSheet.do', params, function (response) {
+                Alert.alert(
+                    '提示',
+                    '提交成功',
+                    [
+                        { text: 'OK', onPress: () => this.props.navigation.navigate('Home') },
+                    ],
+                    { cancelable: false }
+                );
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        this.msgListener && this.msgListener.remove();
     }
 
     goodsData = [{
@@ -74,7 +100,6 @@ export default class Checking extends Component {
     }
 
     render() {
-        let item = this.props.navigation.state.params.item;
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
                 <View style={{ height: 120 }}>
@@ -85,16 +110,16 @@ export default class Checking extends Component {
                 </View>
                 <View style={{ height: 35, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ flex: 1.1, fontSize: 12, color: '#333', textAlign: 'right' }}>盘点单号：</Text>
-                    <Text style={{ flex: 2, fontSize: 12, color: '#999', textAlign: 'left' }}>{item.checkNo}</Text>
+                    <Text style={{ flex: 2, fontSize: 12, color: '#999', textAlign: 'left' }}>{this.state.item.sheetNo}</Text>
                     <Text style={{ flex: 1, fontSize: 10, color: '#333', textAlign: 'right' }}>操作员：</Text>
-                    <Text style={{ flex: 1.5, fontSize: 10, color: '#999', textAlign: 'left' }}>{item.operator}</Text>
+                    <Text style={{ flex: 1.5, fontSize: 10, color: '#999', textAlign: 'left' }}>{this.state.item.createUserName}</Text>
                 </View>
                 <FlatList style={{ flex: 1 }} data={this.goodsData} renderItem={this._renderItem} />
                 <View style={{ height: 35, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={{ marginLeft: 20, fontSize: 12, color: '#333' }}>总金重：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{item.totalWeight || 0}克</Text>
+                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.item.checkGoldWeight}克</Text>
                     <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总数量：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{item.totalCount || 0}件</Text>
+                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.item.checkStoneWeight}件</Text>
                 </View>
             </View>
         );

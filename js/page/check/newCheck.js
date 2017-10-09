@@ -14,27 +14,35 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback
 } from 'react-native';
-import data from './data';
+import { callService } from '../../utils/service';
 
 export default class NewCheck extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            mainCheckData: []
+        };
     }
 
-    _getData = () => {
-        let filterData = [];
-        let self = this;
-        data.forEach(function (item) {
-            if (item.status !== 4) {
-                filterData.push(item);
-            }
-            if (!self.state.selected && item.status === 3) {
-                self.state.selected = item;
-            }
+    queryMainSheet() {
+        callService(this, 'queryCanCheckMainSheetList.do', new FormData(), function (response) {
+            this.setState({
+                mainCheckData: response.mainSheetList
+            });
         });
-        return filterData;
-    };
+    }
+
+    componentWillMount() {
+        this.msgListener = DeviceEventEmitter.addListener('refreshCheck', (listenerMsg) => {
+            this.queryMainSheet();
+        });
+        this.queryMainSheet();
+    }
+
+
+    componentWillUnmount() {
+        this.msgListener && this.msgListener.remove();
+    }
 
     _selectCheck(item) {
         this.setState({
@@ -43,56 +51,38 @@ export default class NewCheck extends Component {
     }
 
     _renderItem = ({ item }) => {
-        if (item.status === 3) {
-            let selectedKey = this.state.selected.key;
-            return (
-                <TouchableWithoutFeedback onPress={() => { this._selectCheck(item) }}>
-                    <View style={[styles.check, { backgroundColor: selectedKey === item.key ? '#7A67EE' : '#fff', borderWidth: selectedKey === item.key ? 0 : 1 }]}>
-                        <View style={{ width: 40 }}></View>
-                        <Text style={[styles.item, { color: selectedKey === item.key ? '#fff' : '#333' }]}>{item.name}</Text>
-                        <View style={{ width: 40, marginRight: 20 }}>
-                            {selectedKey === item.key ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
-            );
-        }
+        let selectedKey = this.state.selected.key;
         return (
-            <View style={[styles.check, { backgroundColor: '#f3f3f1' }]}>
-                {
-                    item.status === 1 ?
-                        <Image style={{ width: 16, height: 20, margin: 10 }} source={require('../../../assets/image/check/lock.png')} />
-                        :
-                        <View style={{ width: 40 }}></View>
-                }
-                <Text style={[styles.item, { color: '#bdbdbd' }]}>{item.name}</Text>
-                <Text style={styles.text}>已盘</Text>
-            </View>
+            <TouchableWithoutFeedback onPress={() => { this._selectCheck(item) }}>
+                <View style={[styles.check, { backgroundColor: selectedKey === item.key ? '#7A67EE' : '#fff', borderWidth: selectedKey === item.key ? 0 : 1 }]}>
+                    <View style={{ width: 40 }}></View>
+                    <Text style={[styles.item, { color: selectedKey === item.key ? '#fff' : '#333' }]}>{item.sheetNo}</Text>
+                    <View style={{ width: 40, marginRight: 20 }}>
+                        {selectedKey === item.key ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
         );
     };
 
-    _gotoPage(url, param) {
-        this.props.navigation.navigate(url, param);
+    createSubSheet() {        
+        let params = new FormData();
+        params.append("mainSheetId", this.state.selected.id);
+        callService(this, 'createSubSheetByMain.do', params, function (response) {
+            this.props.navigation.navigate('Checking', { item: this.state.selected });
+        });
     }
 
     render() {
-        let mainCheckData = this._getData();
-
-        let count = 0;
-        mainCheckData.forEach(function (item) {
-            if (item.status === 3) {
-                count++;
-            }
-        });
         return (
             <View style={styles.container}>
                 <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
                     <Image style={{ width: 20, height: 20, margin: 10 }} source={require('../../../assets/image/check/newCheck.png')} />
-                    <Text style={{ marginTop: 10 }}>当前有（ <Text style={{ color: '#4876FF' }}>{count}</Text> ）个主单待盘点</Text>
+                    <Text style={{ marginTop: 10 }}>当前有（ <Text style={{ color: '#4876FF' }}>{this.state.mainCheckData.length}</Text> ）个主单待盘点</Text>
                 </View>
-                <FlatList style={{ flex: 1, backgroundColor: '#fff' }} data={mainCheckData} renderItem={this._renderItem} />
+                <FlatList style={{ flex: 1, backgroundColor: '#fff' }} data={this.state.mainCheckData} renderItem={this._renderItem} />
                 <View style={{ backgroundColor: '#fff', height: 30 }}>
-                    <TouchableOpacity style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => { this._gotoPage('Checking', { item: this.state.selected }) }}>
+                    <TouchableOpacity style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }} onPress={() => { this.createSubSheet() }}>
                         <Text style={{ color: '#7A67EE', marginBottom: 8, fontSize: 13 }}>下一步</Text>
                         <Image style={{ width: 15, height: 15, marginLeft: 5, marginBottom: 10, marginRight: 20 }} source={require('../../../assets/image/foot/next.png')} />
                     </TouchableOpacity>

@@ -9,18 +9,29 @@ import {
     FlatList,
     TouchableOpacity
 } from 'react-native';
-import data from './transferData';
+import { callService } from '../../utils/service';
 
 export default class RejectReceive extends Component {
 
-    _getData() {
-        let filterData = [];
-        data.forEach(function (item) {
-            if (item.status === 2) {
-                filterData.push(item);
-            }
+    constructor(props) {
+        super(props);
+        this.state = {
+            todoList: []
+        };
+    }
+
+    queryTodoList() {
+        let params = new FormData();
+        params.append("todoType", 2);
+        callService(this, 'getMyTodoList.do', params, function (response) {
+            this.setState({
+                todoList: response.todoList
+            });
         });
-        return filterData;
+    }
+
+    componentWillMount() {
+        queryTodoList();
     }
 
     _renderItem = ({ item }) => {
@@ -28,26 +39,26 @@ export default class RejectReceive extends Component {
             <View style={styles.itemContainer}>
                 <View style={{ marginLeft: 20, flexDirection: 'row', marginTop: 10 }}>
                     <Text style={{ fontSize: 14, color: '#333' }}>单号：</Text>
-                    <Text style={{ fontSize: 14, color: '#333' }}>{item.no}</Text>
+                    <Text style={{ fontSize: 14, color: '#333' }}>{item.sheetNo}</Text>
                 </View>
                 <View style={styles.split}></View>
-                <View style={{ alignItems: 'flex-end', marginRight:10 }}>
+                <View style={{ alignItems: 'flex-end', marginRight: 10 }}>
                     <View style={styles.reject}>
                         <Text style={{ fontSize: 19, color: '#F27979' }}>驳回</Text>
                     </View>
                 </View>
                 <View style={{ height: 120, marginLeft: 20, marginTop: 5 }}>
-                    <Text style={styles.label}>发出门店  <Text style={styles.value}>{item.fromStore}</Text></Text>
-                    <Text style={styles.label}>发出柜台  <Text style={styles.value}>{item.fromCounter}</Text></Text>
-                    <Text style={styles.label}>发出时间  <Text style={styles.value}>{item.fromDate}</Text></Text>
-                    <Text style={styles.label}>接收门店  <Text style={styles.value}>{item.toStore}</Text></Text>
-                    <Text style={styles.label}>接收柜台  <Text style={styles.value}>{item.toCounter}</Text></Text>
+                    <Text style={styles.label}>发出门店  <Text style={styles.value}>{item.deptAreaName}</Text></Text>
+                    <Text style={styles.label}>发出柜台  <Text style={styles.value}>{item.storeName}</Text></Text>
+                    <Text style={styles.label}>发出时间  <Text style={styles.value}>{item.outTime}</Text></Text>
+                    <Text style={styles.label}>接收门店  <Text style={styles.value}>{item.deptAreaName2}</Text></Text>
+                    <Text style={styles.label}>接收柜台  <Text style={styles.value}>{item.storeName2}</Text></Text>
                 </View>
                 <View style={styles.outContainer}>
                     <View style={styles.contentContainer}>
                         <View style={styles.detailContainer}>
                             <Text style={styles.label}>数量</Text>
-                            <Text style={styles.value}>{item.count}</Text>
+                            <Text style={styles.value}>{item.num}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>标价金额</Text>
@@ -64,7 +75,7 @@ export default class RejectReceive extends Component {
                     </View>
                     <View style={{ flexDirection: 'row', height: 30, marginLeft: 10, marginTop: 5 }}>
                         <Text style={styles.label}>审批意见：</Text>
-                        <Text style={styles.value}>{item.remark}</Text>
+                        <Text style={styles.value}>{item.remarks}</Text>
                     </View>
                 </View>
             </View >
@@ -72,14 +83,13 @@ export default class RejectReceive extends Component {
     }
 
     render() {
-        let receiveData = this._getData();
         return (
             <View style={{ flex: 1 }} >
                 <View style={styles.title}>
                     <Image style={styles.titleImg} source={require('../../../assets/image/todo/rejectTransfer.png')} />
                     <Text style={{ fontSize: 13, color: '#333' }}>调拨驳回</Text>
                 </View >
-                <FlatList style={{ flex: 1 }} data={receiveData} renderItem={this._renderItem} />
+                <FlatList style={{ flex: 1 }} data={this.state.todoList} renderItem={this._renderItem} />
             </View>
         );
     }

@@ -16,14 +16,36 @@ import {
     TextInput,
     TouchableWithoutFeedback
 } from 'react-native';
-import memberData from './data';
+import { callService } from '../../utils/service';
 
 export default class Member extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            keyword: '',
+            memberList: []
+        };
+    }
+
+
+    queryMemberList() {
+        let params = new FormData();
+        params.append("keyword", this.state.keyword);
+        callService(this, 'queryCustomer.do', params, function (response) {
+            this.setState({
+                memberList: response.customerList
+            });
+        });
+    }
+
+    componentWillMount() {
+        queryMemberList();
+    }
 
     _renderItem = ({ item }) => {
         let src = '';
         let typeName = '';
-        switch (item.cardType) {
+        switch (item.vipCardLevelId) {
             case 1:
                 src = require('../../../assets/image/member/diamond.png');
                 typeName = '钻石卡';
@@ -51,7 +73,7 @@ export default class Member extends Component {
                                     会员姓名
                             </Text>
                                 <Text style={styles.valueText}>
-                                    {item.name}
+                                    {item.cusName}
                                 </Text>
                                 <View style={styles.type}>
                                     <Text style={{ fontSize: 10, color: '#333' }}>
@@ -64,7 +86,7 @@ export default class Member extends Component {
                                     会员电话
                             </Text>
                                 <Text style={styles.valueText}>
-                                    {item.phone}
+                                    {item.mobile}
                                 </Text>
                             </View>
                             <View style={styles.item}>
@@ -72,7 +94,7 @@ export default class Member extends Component {
                                     {Platform.OS === 'android' ? '性        别' : '性       别'}
                                 </Text>
                                 <Text style={styles.valueText}>
-                                    {item.sex}
+                                    {item.sex === 1 ? "男" : "女"}
                                 </Text>
                             </View>
                             <View style={styles.item}>
@@ -80,7 +102,7 @@ export default class Member extends Component {
                                     {Platform.OS === 'android' ? '卡        号' : '卡       号'}
                                 </Text>
                                 <Text style={styles.valueText}>
-                                    {item.cardNo}
+                                    {item.vipCardNo}
                                 </Text>
                             </View>
                             <View style={styles.item}>
@@ -88,7 +110,7 @@ export default class Member extends Component {
                                     会员生日
                             </Text>
                                 <Text style={styles.valueText}>
-                                    {item.birthday}
+                                    {item.birthdayStr}
                                 </Text>
                             </View>
                             <View style={styles.item}>
@@ -96,7 +118,7 @@ export default class Member extends Component {
                                     发卡门店
                             </Text>
                                 <Text style={styles.valueText}>
-                                    {item.cardStore}
+                                    {item.shopName}
                                 </Text>
                             </View>
                             <View style={styles.item}>
@@ -104,7 +126,7 @@ export default class Member extends Component {
                                     发卡日期
                             </Text>
                                 <Text style={styles.valueText}>
-                                    {item.cardDate}
+                                    {item.sendDate}
                                 </Text>
                             </View>
                         </View>
@@ -114,7 +136,7 @@ export default class Member extends Component {
                                     积分总数
                             </Text>
                                 <Text style={styles.markValue}>
-                                    {item.mark}
+                                    {item.pointTotal}
                                 </Text>
                             </View>
                             <View style={styles.marItem}>
@@ -122,7 +144,7 @@ export default class Member extends Component {
                                     累计消费
                             </Text>
                                 <Text style={styles.markValue}>
-                                    {item.spend}
+                                    {item.consumpAmountTotal}
                                 </Text>
                             </View>
                         </View>
@@ -137,17 +159,18 @@ export default class Member extends Component {
             <View style={{ flex: 1 }}>
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入会员卡号／会员名／手机号'
+                        onChangeText={(text) => this.state.keyword = text}
                         underlineColorAndroid="transparent">
                     </TextInput>
-                    <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
+                    <TouchableWithoutFeedback onPress={() => { this.queryMemberList() }}>
                         <Image style={{ height: 17, width: 14, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
                 </View>
                 {
-                    memberData.length === 0 ?
+                    this.state.memberList.length === 0 ?
                         <Image style={styles.resultImg} source={require('../../../assets/image/info/no_result.png')} />
                         :
-                        <FlatList style={{ flex: 1, marginTop: 10 }} data={memberData} renderItem={this._renderItem} />
+                        <FlatList style={{ flex: 1, marginTop: 10 }} data={this.state.memberList} renderItem={this._renderItem} />
                 }
             </View>
         );

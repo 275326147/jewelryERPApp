@@ -11,13 +11,17 @@ import {
     Modal,
     TextInput
 } from 'react-native';
-import data from './approveData';
+import { callService } from '../../utils/service';
 
 export default class WaitApprove extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { modalVisible: false };
+        this.state = {
+            modalVisible: false,
+            todoList: [],
+            current: {}
+        };
     }
 
     typeMap = {
@@ -35,14 +39,18 @@ export default class WaitApprove extends Component {
         }
     }
 
-    _getData() {
-        let filterData = [];
-        data.forEach(function (item) {
-            if (item.status === 1) {
-                filterData.push(item);
-            }
+    queryTodoList() {
+        let params = new FormData();
+        params.append("todoType", 1);
+        callService(this, 'getMyTodoList.do', params, function (response) {
+            this.setState({
+                todoList: response.todoList
+            });
         });
-        return filterData;
+    }
+
+    componentWillMount() {
+        queryTodoList();
     }
 
     _renderItem = ({ item }) => {
@@ -57,17 +65,28 @@ export default class WaitApprove extends Component {
                 </View>
                 <View style={{ marginLeft: 20, flexDirection: 'row', marginTop: 5 }}>
                     <Text style={{ fontSize: 14, color: '#333' }}>单号：</Text>
-                    <Text style={{ fontSize: 14, color: '#333' }}>{item.no}</Text>
+                    <Text style={{ fontSize: 14, color: '#333' }}>{item.sheetNo}</Text>
                 </View>
                 <View style={styles.split}></View>
-                <View style={{ height: 40, marginLeft: 20, marginTop: 5 }}>
-                    <Text style={styles.label}>提交人  <Text style={styles.value}>{item.creator}</Text></Text>
-                    <Text style={styles.label}>提交时间  <Text style={styles.value}>{item.createDate}</Text></Text>
+                <View style={{ height: item.sheetType === 2 ? 120 : 80, marginLeft: 20, marginTop: 5 }}>
+                    <Text style={styles.label}>提交人  <Text style={styles.value}>{item.submitter}</Text></Text>
+                    <Text style={styles.label}>提交时间  <Text style={styles.value}>{item.submitTime}</Text></Text>
+                    <Text style={styles.label}>门店  <Text style={styles.value}>{item.deptAreaName}</Text></Text>
+                    <Text style={styles.label}>柜台  <Text style={styles.value}>{item.storeName}</Text></Text>
+                    {
+                        item.sheetType === 2 ?
+                            <View style={{ height: 40 }}>
+                                <Text style={styles.label}>接收门店  <Text style={styles.value}>{item.deptAreaName2}</Text></Text>
+                                <Text style={styles.label}>接收柜台  <Text style={styles.value}>{item.storeName2}</Text></Text>
+                            </View>
+                            :
+                            <View />
+                    }
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={styles.detailContainer}>
                         <Text style={styles.label}>数量</Text>
-                        <Text style={styles.value}>{item.count}</Text>
+                        <Text style={styles.value}>{item.num}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>标价金额</Text>
@@ -83,10 +102,10 @@ export default class WaitApprove extends Component {
                     </View>
                 </View>
                 <View style={styles.bottomContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => { this.setState({ modalVisible: true }) }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { this.setState({ current: item, modalVisible: true }) }}>
                         <Text style={styles.buttonText}>驳回</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button}>
+                    <TouchableOpacity style={styles.button} onPress={() => { this.receive(item) }}>
                         <Text style={styles.buttonText}>接收</Text>
                     </TouchableOpacity>
                 </View>
@@ -98,8 +117,44 @@ export default class WaitApprove extends Component {
         this.setState({ modalVisible: false });
     }
 
+    receive(item) {
+        let params = new FormData();
+        params.append("sheetId", item.id);
+        params.append("sheetType", item.sheetType);
+        params.append("auditFlag", 1);
+        callService(this, 'sheetAudit.do', params, function (response) {
+            Alert.alert(
+                '提示',
+                '审批成功',
+                [
+                    { text: 'OK', onPress: () => { this.queryTodoList() } },
+                ],
+                { cancelable: false }
+            );
+        });
+    }
+
+    reject() {
+        this._onClose();
+        let item = this.state.current;
+        let params = new FormData();
+        params.append("sheetId", item.id);
+        params.append("sheetType", item.sheetType);
+        params.append("auditFlag", 2);
+        params.append("remarks", item.remarks);
+        callService(this, 'sheetAudit.do', params, function (response) {
+            Alert.alert(
+                '提示',
+                '驳回成功',
+                [
+                    { text: 'OK', onPress: () => { this.queryTodoList() } },
+                ],
+                { cancelable: false }
+            );
+        });
+    }
+
     render() {
-        let receiveData = this._getData();
         return (
             <View style={{ flex: 1 }} >
                 <Modal
@@ -117,10 +172,11 @@ export default class WaitApprove extends Component {
                             </View>
                             <TextInput style={styles.input} multiline={true}
                                 placeholder='&nbsp;&nbsp;请输入驳回意见'
+                                onChangeText={(text) => this.state.current.remarks = text}
                                 placeholderTextColor={'#999'}
                                 underlineColorAndroid="transparent" />
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <TouchableOpacity style={[styles.button, { borderWidth: 0, width: 150, backgroundColor: '#6334E6' }]} onPress={() => this._onClose()}>
+                                <TouchableOpacity style={[styles.button, { borderWidth: 0, width: 150, backgroundColor: '#6334E6' }]} onPress={() => this.reject()}>
                                     <Text style={{ textAlign: 'center', color: '#fff', fontSize: 13 }}>确定</Text>
                                 </TouchableOpacity>
                             </View>
@@ -131,7 +187,7 @@ export default class WaitApprove extends Component {
                     <Image style={styles.titleImg} source={require('../../../assets/image/todo/waitApprove.png')} />
                     <Text style={{ fontSize: 13, color: '#333' }}>待审核</Text>
                 </View >
-                <FlatList style={{ flex: 1 }} data={receiveData} renderItem={this._renderItem} />
+                <FlatList style={{ flex: 1 }} data={this.state.todoList} renderItem={this._renderItem} />
             </View>
         );
     }
@@ -231,7 +287,7 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     itemContainer: {
-        height: 220,
+        height: 300,
         backgroundColor: '#fff',
         marginBottom: 10
     }

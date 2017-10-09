@@ -11,9 +11,29 @@ import {
     StyleSheet,
     Image
 } from 'react-native';
-import data from './data';
+import Storage from '../../utils/storage';
 
 export default class Member extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            modalVisible: false,
+            userInfo: {}
+        };
+    }
+
+    componentDidMount() {
+        Storage.getStorageAsync('userInfo').then((userInfo) => {
+            if (userInfo === null || userInfo === '') {
+                this.props.navigation.navigate('Login');
+                return;
+            }
+            this.setState({
+                userInfo: JSON.parse(userInfo).users[0]
+            });
+        });
+    }
 
     _renderItem = ({ item }) => (
         <View style={styles.itemContainer}>
@@ -31,29 +51,29 @@ export default class Member extends Component {
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.labelText}>姓名</Text>
-                        <Text style={styles.valueText}>{data.name}</Text>
+                        <Text style={styles.valueText}>{this.state.userInfo.realName}</Text>
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.labelText}>性别</Text>
-                        <Text style={styles.valueText}>{data.sex}</Text>
+                        <Text style={styles.valueText}>{this.state.userInfo.sex == 0 ? "男" : "女"}</Text>
                     </View>
                 </View>
                 <View style={styles.infoContainer}>
                     <View style={styles.itemContainer}>
                         <Text style={styles.labelText}>所属公司</Text>
-                        <Text style={styles.valueText}>{data.company}</Text>
+                        <Text style={styles.valueText}>{this.state.userInfo.companyName}</Text>
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.labelText}>所属门店</Text>
-                        <Text style={styles.valueText}>{data.store}</Text>
+                        <Text style={styles.valueText}>{this.state.userInfo.shopName}</Text>
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.labelText}>所属职能</Text>
-                        <Text style={styles.valueText}>{data.level}</Text>
+                        <Text style={styles.valueText}>{this.state.userInfo.userRoleName}</Text>
                     </View>
                     <View style={styles.itemContainer}>
                         <Text style={styles.labelText}>绑定手机</Text>
-                        <Text style={styles.valueText}>{data.phone}</Text>
+                        <Text style={styles.valueText}>{this.state.userInfo.mobile}</Text>
                     </View>
                 </View>
             </ScrollView>

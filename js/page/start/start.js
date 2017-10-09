@@ -1,7 +1,8 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions, Alert } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import Storage from '../../utils/storage';
+import { Common } from '../../utils/common';
 
 const splashImg = require('../../../assets/image/start/start.jpg');//加载图片
 
@@ -16,35 +17,23 @@ export default class Start extends Component {
     }
 
     componentDidMount() {
-        // fetch('http://192.168.0.124:8088/JNERP/zklApi/cIn.do', {
-        //     method: 'GET'
-        // }).then((response) => {
-        //         Alert.alert(
-        //             '提示',
-        //             '结果：' + JSON.stringify(response),
-        //             [
-        //                 { text: 'OK', onPress: () => { } },
-        //             ],
-        //             { cancelable: false }
-        //         );
-        //     });
         Animated.timing(
             this.state.bounceValue, { toValue: 1.2, duration: 1500 }
         ).start();
         this.timer = setTimeout(() => {
-            Storage.getStorageAsync('isFrist').then((result) => {
-                if (result == null || result == '') {
+            Storage.getStorageAsync(Common.VERSION).then((result) => {
+                if (result === null || result === '') {
                     //第一次启动 
                     this.props.navigation.navigate('Guide');
-                    Storage.setStorageAsync('isFrist', 'true');
+                    Storage.setStorageAsync(Common.VERSION, 'true');
                 } else {
                     //第二次启动
                     Storage.getStorageAsync('currentAccount').then((account) => {
-                        if (account == null || account == '') {
+                        if (account === null || account === '') {
                             this.props.navigation.navigate('Login');
                         } else {
                             Storage.getStorageAsync(account).then((result) => {
-                                if (result == null || result == '') {
+                                if (result === null || result === '') {
                                     this.props.navigation.navigate('Login');
                                 } else {
                                     this.props.navigation.navigate('CheckPwd');

@@ -17,13 +17,14 @@ import {
     FlatList,
     Modal
 } from 'react-native';
-import data from './data';
+import { callService } from '../../utils/service';
 
 export default class Follow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modalVisible: false
+            modalVisible: false,
+            barCode: ''
         };
     }
 
@@ -35,7 +36,21 @@ export default class Follow extends Component {
         4: '#F8B5B5',
         5: '#83D0E3',
         6: '#93D987',
-        7: '#EBC77D',
+        7: '#EBC77D'
+    }
+
+    queryGoodsInfo() {
+        let params = new FormData();
+        params.append("barCode", this.state.barCode);
+        callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
+            this.setState({
+                data: response.goodsInfoList
+            });
+        });
+    }
+
+    componentWillMount() {
+        queryGoodsInfo();
     }
 
     _renderProp = ({ item }) => {
@@ -51,17 +66,17 @@ export default class Follow extends Component {
         return (
             <View style={{ height: 230, flex: 1, flexDirection: 'row' }}>
                 <View style={{ flex: 1, margin: 10 }}>
-                    <View style={[styles.leftTopContainer, { backgroundColor: this.colorMap[item.type] }]}>
+                    <View style={[styles.leftTopContainer, { backgroundColor: this.colorMap[item.mainType] }]}>
                         <Text style={{ color: '#fff', fontSize: 13 }}>{item.key}</Text>
                     </View>
-                    <View style={[styles.leftBottomContainer, { borderColor: this.colorMap[item.type] }]}>
-                        <Text style={{ color: this.colorMap[item.type], fontSize: 13 }}>{item.title}</Text>
+                    <View style={[styles.leftBottomContainer, { borderColor: this.colorMap[item.mainType] }]}>
+                        <Text style={{ color: this.colorMap[item.mainType], fontSize: 13 }}>{item.typeName}</Text>
                     </View>
                 </View>
                 <View style={{ width: 1, borderWidth: 0.5, borderColor: '#999', borderStyle: 'dashed' }}></View>
                 <View style={{ flex: 3, margin: 10, marginLeft: 15 }}>
-                    <View style={[styles.rightTopContainer, { backgroundColor: this.colorMap[item.type] }]}>
-                        <Text style={{ color: '#fff', fontSize: 12, marginLeft: 10 }}>操作时间：{item.lastUpdateDate}</Text>
+                    <View style={[styles.rightTopContainer, { backgroundColor: this.colorMap[item.mainType] }]}>
+                        <Text style={{ color: '#fff', fontSize: 12, marginLeft: 10 }}>操作时间：{item.operTime}</Text>
                     </View>
                     <View style={styles.rightBottomContainer}>
                         <FlatList style={{ flex: 1, margin: 10 }} data={item.props} renderItem={this._renderProp} />
@@ -76,8 +91,9 @@ export default class Follow extends Component {
             <ScrollView style={styles.container}>
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入商品条码'
+                        onChangeText={(text) => this.state.barCode = text}
                         underlineColorAndroid="transparent" />
-                    <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
+                    <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
                         <Image style={{ height: 17, width: 14, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
@@ -85,15 +101,15 @@ export default class Follow extends Component {
                     </TouchableOpacity>
                 </View>
                 {
-                    data ?
+                    this.state.data ?
                         <View style={{ flex: 1 }}>
                             <View style={styles.baseInfoContainer}>
                                 <Image style={{ width: 80, height: 80, margin: 15 }} source={require('../../../assets/image/check/newCheck.png')} />
                                 <View style={{ flex: 1 }}>
-                                    <Text style={[styles.label, { marginTop: 15 }]}>商品条码      <Text style={styles.value}>{data.archivesNo}</Text></Text>
-                                    <Text style={styles.label}>商品名称      <Text style={styles.value}>{data.goodsName}</Text></Text>
-                                    <Text style={styles.label}>子名称          <Text style={styles.value}>{data.subGoodsName}</Text></Text>
-                                    <Text style={styles.label}>供应商          <Text style={styles.value}>{data.supplierName}</Text></Text>
+                                    <Text style={[styles.label, { marginTop: 15 }]}>商品条码      <Text style={styles.value}>{this.state.data.archivesNo}</Text></Text>
+                                    <Text style={styles.label}>商品名称      <Text style={styles.value}>{this.state.data.goodsName}</Text></Text>
+                                    <Text style={styles.label}>子名称          <Text style={styles.value}>{this.state.data.subGoodsName}</Text></Text>
+                                    <Text style={styles.label}>供应商          <Text style={styles.value}>{this.state.data.supplierName}</Text></Text>
                                     <View style={{ flex: 1, justifyContent: 'center' }}>
                                         {
                                             this.state.modalVisible ?
@@ -114,57 +130,57 @@ export default class Follow extends Component {
                                         <View style={{ borderTopWidth: 1.5, borderColor: '#f3f3f1', margin: 10 }}></View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>条码号</Text>
-                                            <Text style={styles.detailValue}>{data.barCode}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.barCode}</Text>
                                             <Text style={styles.detailLabel}>原条码号</Text>
-                                            <Text style={styles.detailValue}>{data.oldBarCode}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.oldBarCode}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>证书号</Text>
-                                            <Text style={styles.detailValue}>{data.certificateNo}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.certificateNo}</Text>
                                             <Text style={styles.detailLabel}>GIA证书</Text>
-                                            <Text style={styles.detailValue}>{data.giaCertificateNo}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.giaCertificateNo}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>款式</Text>
-                                            <Text style={styles.detailValue}>{data.style}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.style}</Text>
                                             <Text style={styles.detailLabel}>款号</Text>
-                                            <Text style={styles.detailValue}>{data.styleNo}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.styleNo}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>实际分类</Text>
-                                            <Text style={styles.detailValue}>{data.goodsClassify}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.goodsClassify}</Text>
                                             <Text style={styles.detailLabel}>备注</Text>
-                                            <Text style={styles.detailValue}>{data.remarks}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.remarks}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>主石重</Text>
-                                            <Text style={styles.detailValue}>{data.mainStoneWeight}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.mainStoneWeight}</Text>
                                             <Text style={styles.detailLabel}>主石数</Text>
-                                            <Text style={styles.detailValue}>{data.mainStoneNum}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.mainStoneNum}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>颜色</Text>
-                                            <Text style={styles.detailValue}>{data.mainStoneColor}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.mainStoneColor}</Text>
                                             <Text style={styles.detailLabel}>级别</Text>
-                                            <Text style={styles.detailValue}>{data.mainStoneClarity}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.mainStoneClarity}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>副石重</Text>
-                                            <Text style={styles.detailValue}>{data.subStone1Weight}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone1Weight}</Text>
                                             <Text style={styles.detailLabel}>副石数</Text>
-                                            <Text style={styles.detailValue}>{data.subStone1Num}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone1Num}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>副石2数重</Text>
-                                            <Text style={styles.detailValue}>{data.subStone2Weight}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone2Weight}</Text>
                                             <Text style={styles.detailLabel}>副石2数</Text>
-                                            <Text style={styles.detailValue}>{data.subStone2Num}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone2Num}</Text>
                                         </View>
                                     </View>
                                     :
                                     <View></View>
                             }
-                            <FlatList style={{ flex: 1, marginTop: 10 }} data={data.steps} renderItem={this._renderItem} />
+                            <FlatList style={{ flex: 1, marginTop: 10 }} data={this.state.data.steps} renderItem={this._renderItem} />
                         </View>
                         :
                         <Image style={styles.img} source={require('../../../assets/image/info/no_follow.png')} />
