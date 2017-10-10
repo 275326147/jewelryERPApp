@@ -34,14 +34,16 @@ export default class Center extends Component {
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
     { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') }];
 
-    componentWillMount() {
+    componentDidMount() {
         callService(this, 'getMyTodoNum.do', new FormData(), function (response) {
-            this.setState({
-                todoData: [{ key: 1, text: '待审核', url: 'WaitApprove', num: response.myTodoNum.needAuditSheetNum, split: true },
-                { key: 2, text: '审核驳回', url: 'RejectApprove', num: response.myTodoNum.auditRejectSheetNum },
-                { key: 3, text: '待接收在途', url: 'WaitReceive', num: response.myTodoNum.onWayNeedReceiveSheetNum, split: true },
-                { key: 4, text: '调拨驳回', url: 'RejectTransfer', num: response.myTodoNum.rejectMoveSheetNum }]
-            });
+            if (response.myTodoNum) {
+                this.setState({
+                    todoData: [{ key: 1, text: '待审核', url: 'WaitApprove', num: response.myTodoNum.needAuditSheetNum, split: true },
+                    { key: 2, text: '审核驳回', url: 'RejectApprove', num: response.myTodoNum.auditRejectSheetNum },
+                    { key: 3, text: '待接收在途', url: 'WaitReceive', num: response.myTodoNum.onWayNeedReceiveSheetNum, split: true },
+                    { key: 4, text: '调拨驳回', url: 'RejectTransfer', num: response.myTodoNum.rejectMoveSheetNum }]
+                });
+            }
         });
     }
 

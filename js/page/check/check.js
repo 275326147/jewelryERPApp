@@ -16,26 +16,28 @@ import {
     FlatList,
     Alert
 } from 'react-native';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 
 export default class Check extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkDate: []
+            checkData: []
         };
     }
 
     querySubSheet() {
         callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
-            this.setState({
-                checkDate: response.subSheetList
-            });
+            if (response.subSheetList) {
+                this.setState({
+                    checkData: handleResult(response.subSheetList)
+                });
+            }
         });
     }
 
-    componentWillMount() {
-        querySubSheet();
+    componentDidMount() {
+        this.querySubSheet();
     }
 
     _delSubSheet(subSheetId) {

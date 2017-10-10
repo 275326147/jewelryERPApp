@@ -32,14 +32,16 @@ export default class Member extends Component {
         let params = new FormData();
         params.append("keyword", this.state.keyword);
         callService(this, 'queryCustomer.do', params, function (response) {
-            this.setState({
-                memberList: response.customerList
-            });
+            if (response.customerList) {
+                this.setState({
+                    memberList: response.customerList
+                });
+            }
         });
     }
 
-    componentWillMount() {
-        queryMemberList();
+    componentDidMount() {
+        this.queryMemberList();
     }
 
     _renderItem = ({ item }) => {

@@ -49,8 +49,8 @@ export default class WaitApprove extends Component {
         });
     }
 
-    componentWillMount() {
-        queryTodoList();
+    componentDidMount() {
+        this.queryTodoList();
     }
 
     _renderItem = ({ item }) => {

@@ -24,13 +24,9 @@ export default class Member extends Component {
     }
 
     componentDidMount() {
-        Storage.getStorageAsync('userInfo').then((userInfo) => {
-            if (userInfo === null || userInfo === '') {
-                this.props.navigation.navigate('Login');
-                return;
-            }
+        Storage.getStorageAsync('currentUser').then((currentUser) => {
             this.setState({
-                userInfo: JSON.parse(userInfo).users[0]
+                userInfo: JSON.parse(currentUser)
             });
         });
     }

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import Storage from '../../utils/storage';
-import { callService } from '../../utils/service';
+import { callServiceWithoutToken } from '../../utils/service';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,7 +22,7 @@ export default class Login extends Component {
             let params = new FormData();
             params.append("mobileNum", this.state.account);
             params.append("type", 1);
-            callService(this, 'getSmsValidateCode.do', params);
+            callServiceWithoutToken(this, 'getSmsValidateCode.do', params);
             this.setState({
                 enable: false
             });
@@ -46,9 +46,23 @@ export default class Login extends Component {
         let params = new FormData();
         params.append("mobileNo", this.state.account);
         params.append("smsValiCode", this.state.code);
-        callService(this, 'checkLogin.do', params, function (response) {
+        callServiceWithoutToken(this, 'checkLogin.do', params, function (response) {
             Storage.setStorageAsync('currentAccount', this.state.account);
             Storage.setStorageAsync('userInfo', JSON.stringify(response));
+            //多用户场景，设置当前用户，上次已设置则取上次使用的用户，否则默认取第一个用户
+            if (response.users && response.users.length > 0) {
+                Storage.getStorageAsync('currentUser').then((currentUser) => {
+                    if (currentUser == null || currentUser == '') {
+                        Storage.setStorageAsync('currentUser', response.users[0]);
+                    } else {
+                        response.users.forEach(function (item) {
+                            if (currentUser.companyNo === item.companyNo && currentUser.userId === item.userId) {
+                                Storage.setStorageAsync('currentUser', item);
+                            }
+                        });
+                    }
+                });
+            }
             Storage.getStorageAsync(this.state.account).then((result) => {
                 if (result === null || result === '') {
                     this.props.navigation.navigate('SetPwd');

@@ -28,14 +28,16 @@ export default class WaitReceive extends Component {
         let params = new FormData();
         params.append("todoType", 3);
         callService(this, 'getMyTodoList.do', params, function (response) {
-            this.setState({
-                todoList: response.todoList
-            });
+            if (response.todoList) {
+                this.setState({
+                    todoList: response.todoList
+                });
+            }
         });
     }
 
-    componentWillMount() {
-        queryTodoList();
+    componentDidMount() {
+        this.queryTodoList();
     }
 
 

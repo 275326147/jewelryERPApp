@@ -13,10 +13,11 @@ import {
     DeviceEventEmitter,
     FlatList,
     Image,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Dimensions
 } from 'react-native';
 import Storage from '../../utils/storage';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 
 export default class Settings extends Component {
 
@@ -24,26 +25,39 @@ export default class Settings extends Component {
         super(props);
         this.state = {
             modalVisible: false,
-            userInfo: {}
+            changeUserVisible: false,
+            userInfo: {},
+            users: [],
+            menuData: [
+                { key: 2, text: '修改手势密码', handler: () => { this._onClose(); this.props.navigation.navigate('ResetPwd'); } },
+                { key: 3, text: '关于软件', handler: () => { } }
+            ]
         };
     }
 
     componentDidMount() {
         //注意addListener的key和emit的key保持一致
         this.msgListener = DeviceEventEmitter.addListener('showSettings', (listenerMsg) => {
-            this.setState({
-                modalVisible: true
-            })
+            Storage.getStorageAsync('currentUser').then((currentUser) => {
+                this.setState({
+                    userInfo: JSON.parse(currentUser),
+                    modalVisible: true
+                });
+            });
         });
 
         Storage.getStorageAsync('userInfo').then((userInfo) => {
-            if (userInfo === null || userInfo === '') {
-                this.props.navigation.navigate('Login');
-                return;
+            userInfo = JSON.parse(userInfo);
+            if (userInfo && userInfo.users && userInfo.users.length > 1) {
+                this.setState({
+                    users: handleResult(userInfo.users),
+                    menuData: [
+                        { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
+                        { key: 2, text: '修改手势密码', handler: () => { this._onClose(); this.props.navigation.navigate('ResetPwd'); } },
+                        { key: 3, text: '关于软件', handler: () => { } }
+                    ]
+                });
             }
-            this.setState({
-                userInfo: JSON.parse(userInfo).users[0]
-            });
         });
     }
 
@@ -52,16 +66,10 @@ export default class Settings extends Component {
         this.msgListener && this.msgListener.remove();
     }
 
-    menuData = [{ key: 1, text: '关于软件', handler: () => { }, subText: 'v1.0', img: require('../../../assets/image/head/new.png') },
-    { key: 2, text: '清除缓存', handler: () => { }, img: '' },
-    { key: 3, text: '修改手势密码', handler: () => { this._onClose(); this.props.navigation.navigate('ResetPwd'); }, img: '' }];
-
     _renderItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={item.handler.bind(this)}>
             <View style={styles.menuContainer}>
                 <Text style={styles.menuText}>{item.text}</Text>
-                {item.img ? <Image style={styles.menuImg} source={item.img} /> : <View />}
-                <Text style={styles.subText}>{item.subText}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -84,44 +92,94 @@ export default class Settings extends Component {
         });
     }
 
+    _renderUserItem = ({ item }) => (
+        <TouchableWithoutFeedback onPress={() => { this._selectUser(item) }}>
+            <View style={styles.menuContainer}>
+                <Text style={styles.menuText}>{item.realName}</Text>
+                <Text style={styles.menuText}>{item.companyName}</Text>
+                <Text style={styles.menuText}>{item.shopName}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+
+    _selectUser(user) {
+        Storage.setStorageAsync('currentUser', JSON.stringify(user));
+        this._onUserClose();
+    }
+
+    _changeUser() {
+        this._onClose();
+        this.setState({
+            changeUserVisible: true
+        });
+    }
+
+    _onUserClose() {
+        this.setState({ changeUserVisible: false });
+    }
+
     render() {
         return (
-            <Modal
-                visible={this.state.modalVisible}
-                animationType={'slide'}
-                transparent={true}
-                onRequestClose={() => { this._onClose() }}>
-                <View style={styles.container}>
-                    <View style={styles.innerContainer}>
-                        <View style={styles.headContainer}>
-                            <TouchableWithoutFeedback onPress={() => { this._gotoUserInfo() }}>
-                                <Image style={styles.headImg} source={require('../../../assets/image/head/head.png')} />
-                            </TouchableWithoutFeedback>
-                            <View style={styles.userInfoContainer}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Text style={styles.nameText}>{this.state.userInfo.realName}</Text>
-                                    <View style={styles.subNameContainer}>
-                                        <Text style={styles.subNameText}>{this.state.userInfo.userRoleName}</Text>
-                                    </View>
-                                </View>
-                                <Text style={styles.companyText}>{this.state.userInfo.companyName}</Text>
-                                <Text style={styles.companyText}>{this.state.userInfo.shopName}</Text>
-                            </View>
+            <View>
+                <Modal
+                    visible={this.state.changeUserVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onUserClose()}>
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.modalContainer, { height: (this.state.users.length * 50) }]}>
+                            <FlatList style={{ flex: 1 }} data={this.state.users} renderItem={this._renderUserItem} />
                         </View>
-                        <FlatList style={{ flex: 1 }} data={this.menuData} renderItem={this._renderItem} />
-                        <TouchableOpacity style={styles.button} onPress={() => { this._logout() }}>
-                            <Text style={styles.buttonText}>退出登录</Text>
+                    </View>
+                </Modal>
+                <Modal
+                    visible={this.state.modalVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => { this._onClose() }}>
+                    <View style={styles.container}>
+                        <View style={styles.innerContainer}>
+                            <View style={styles.headContainer}>
+                                <TouchableWithoutFeedback onPress={() => { this._gotoUserInfo() }}>
+                                    <Image style={styles.headImg} source={require('../../../assets/image/head/head.png')} />
+                                </TouchableWithoutFeedback>
+                                <View style={styles.userInfoContainer}>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <Text style={styles.nameText}>{this.state.userInfo.realName}</Text>
+                                        <View style={styles.subNameContainer}>
+                                            <Text style={styles.subNameText}>{this.state.userInfo.userRoleName}</Text>
+                                        </View>
+                                    </View>
+                                    <Text style={styles.companyText}>{this.state.userInfo.companyName}</Text>
+                                    <Text style={styles.companyText}>{this.state.userInfo.shopName}</Text>
+                                </View>
+                            </View>
+                            <FlatList style={{ flex: 1 }} data={this.state.menuData} renderItem={this._renderItem} />
+                            <TouchableOpacity style={styles.button} onPress={() => { this._logout() }}>
+                                <Text style={styles.buttonText}>退出登录</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }} onPress={() => { this._onClose() }}>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }} onPress={() => { this._onClose() }}>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
+                </Modal>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    modalContainer: {
+        backgroundColor: '#fff',
+        width: (Dimensions.get('window').width - 60),
+        borderRadius: 4
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     container: {
         flex: 1,
         flexDirection: 'row'
@@ -151,16 +209,6 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderBottomWidth: 0.5,
         borderColor: '#f3f3f1'
-    },
-    subText: {
-        marginTop: 15,
-        marginLeft: 100,
-        color: '#999'
-    },
-    menuImg: {
-        height: 12,
-        width: 28,
-        marginTop: 16
     },
     menuText: {
         margin: 15,

@@ -43,14 +43,16 @@ export default class Follow extends Component {
         let params = new FormData();
         params.append("barCode", this.state.barCode);
         callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
-            this.setState({
-                data: response.goodsInfoList
-            });
+            if (response.goodsInfoList) {
+                this.setState({
+                    data: response.goodsInfoList
+                });
+            }
         });
     }
 
-    componentWillMount() {
-        queryGoodsInfo();
+    componentDidMount() {
+        this.queryGoodsInfo();
     }
 
     _renderProp = ({ item }) => {
