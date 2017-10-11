@@ -203,13 +203,13 @@ const SimpleStack = StackNavigator(
         SetPwd: {
             screen: SetPwd,
             navigationOptions: ({ navigation }) => ({
-                title: '设置手势密码'
+                header: null
             })
         },
         ResetPwd: {
             screen: ResetPwd,
             navigationOptions: ({ navigation }) => ({
-                title: '重置手势密码'
+                header: null
             })
         }
     },

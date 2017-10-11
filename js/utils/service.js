@@ -28,6 +28,15 @@ export function callServiceWithoutToken(master, url, params, successCallback, fa
             return;
         }
         if (typeof successCallback === 'function') successCallback.call(master, responseJson);
+    }, () => {
+        Alert.alert(
+            '错误提示',
+            '网络异常，请联系管理员',
+            [
+                { text: 'OK' }
+            ],
+            { cancelable: false }
+        );
     });
 }
 
@@ -85,6 +94,15 @@ export function callService(master, url, params, successCallback, failCallback) 
                         return;
                     }
                     if (typeof successCallback === 'function') successCallback.call(master, responseJson);
+                }, () => {
+                    Alert.alert(
+                        '错误提示',
+                        '系统异常，请联系管理员处理',
+                        [
+                            { text: 'OK' }
+                        ],
+                        { cancelable: false }
+                    );
                 });
             });
         });

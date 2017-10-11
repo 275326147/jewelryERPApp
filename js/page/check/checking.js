@@ -43,7 +43,7 @@ export default class Checking extends Component {
                     '提示',
                     '提交成功',
                     [
-                        { text: 'OK', onPress: () => this.props.navigation.navigate('Home') },
+                        { text: '确定', onPress: () => this.props.navigation.navigate('Home') },
                     ],
                     { cancelable: false }
                 );
@@ -93,15 +93,8 @@ export default class Checking extends Component {
 
     barcodeReceived(e) {
         if (!this.state.lockCamera) {
-            this.setState({ lockCamera: true })
-            Alert.alert(
-                '提示',
-                '条码号：' + e.data + ', 条码类型：' + e.type,
-                [
-                    { text: 'OK', onPress: () => this.setState({ lockCamera: false }) },
-                ],
-                { cancelable: false }
-            )
+            this.setState({ lockCamera: true, keyword: e.data })
+            this.queryGoods();
         }
     }
 
@@ -119,10 +112,11 @@ export default class Checking extends Component {
                         '提示',
                         response.msg,
                         [
-                            { text: 'OK' }
+                            { text: '确定' }
                         ],
                         { cancelable: false }
                     );
+                    master.setState({ lockCamera: false });
                     break;
                 case 1:
                     //选择一条进货记录，之后调用doProcess4InputCheck.do， codeType传4， importItemId传选择的importItemId
@@ -138,6 +132,7 @@ export default class Checking extends Component {
                         hasCheckNum4SubSheet: response.hasCheckNum4SubSheet,
                         hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet
                     });
+                    master.setState({ lockCamera: false })
                     break;
                 case 4:
                     //修改已盘点一码多货
@@ -146,6 +141,7 @@ export default class Checking extends Component {
                     break;
             }
         });
+        this.setState({ keyword: '' })
     }
 
     render() {
@@ -196,7 +192,8 @@ export default class Checking extends Component {
                                 </View>
                                 <View style={styles.searchContainer}>
                                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入原条码号／条码号／证书号'
-                                        onChangeText={(text) => this.state.keyword = text}
+                                        onChangeText={(text) => this.setState({ keyword: text })}
+                                        value={this.state.keyword}
                                         underlineColorAndroid="transparent">
                                     </TextInput>
                                     <TouchableWithoutFeedback onPress={() => { this.queryGoods() }}>

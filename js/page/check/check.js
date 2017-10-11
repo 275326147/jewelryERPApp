@@ -46,23 +46,23 @@ export default class Check extends Component {
             '删除后将无法回退，是否确定删除盘点单？',
             [
                 {
-                    text: 'OK', onPress: () => {
+                    text: '确定', onPress: () => {
                         let params = new FormData();
                         params.append("subSheetId", subSheetId);
                         callService(this, 'delSubSheet.do', params, function (response) {
-                            querySubSheet();
+                            this.querySubSheet();
                             Alert.alert(
                                 '提示',
                                 '删除成功',
                                 [
-                                    { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                    { text: '确定', onPress: () => console.log('OK Pressed') },
                                 ],
                                 { cancelable: false }
                             );
                         });
                     }
                 },
-                { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+                { text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
             ],
             { cancelable: false }
         );
