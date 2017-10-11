@@ -6,7 +6,7 @@
 	<dict>
 		<key>Base.lproj/LaunchScreen.nib</key>
 		<data>
-		M0c2acPninTt+1QzU/Dbg+SNvOQ=
+		wx5MPs4tWPd8whegy/hYXG7O6eg=
 		</data>
 		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
 		<data>
@@ -239,15 +239,15 @@
 		</data>
 		<key>PlugIns/jewelryERPAppTests.xctest/Info.plist</key>
 		<data>
-		R8dkXcRtA3WZyafOTgZ/dq88iQk=
+		fogFYflaF3QNIvuNS7i/ljt3sBg=
 		</data>
 		<key>PlugIns/jewelryERPAppTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
-		9E7uCFPq6ifLwge2hvseFzY3x3E=
+		m+q2VaB2UleM+VUgZNiZVPAONcE=
 		</data>
 		<key>PlugIns/jewelryERPAppTests.xctest/jewelryERPAppTests</key>
 		<data>
-		aFEgyE+m6YbocuMZO/w7HkppHcg=
+		B5OfoeLp1UhSwJuItJ+URzEnHPo=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -256,11 +256,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			M0c2acPninTt+1QzU/Dbg+SNvOQ=
+			wx5MPs4tWPd8whegy/hYXG7O6eg=
 			</data>
 			<key>hash2</key>
 			<data>
-			IhSsCO7j+cfTzW1S5VPopU0a/ANuMtuPxVdTmFVIpWE=
+			3/aSCpFTOwiNLxhoHkwiK8wwV02imXXgRuQ2/m/Yc2g=
 			</data>
 		</dict>
 		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
@@ -863,33 +863,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			R8dkXcRtA3WZyafOTgZ/dq88iQk=
+			fogFYflaF3QNIvuNS7i/ljt3sBg=
 			</data>
 			<key>hash2</key>
 			<data>
-			V89vX2F4/fZiGxDGITzYCY1XxnyKaQS1Km8YW//aWyM=
+			jDCsLugVYlM+Zv9783jhF3tF0sy31IqZuvlAfAFKwfM=
 			</data>
 		</dict>
 		<key>PlugIns/jewelryERPAppTests.xctest/_CodeSignature/CodeResources</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			9E7uCFPq6ifLwge2hvseFzY3x3E=
+			m+q2VaB2UleM+VUgZNiZVPAONcE=
 			</data>
 			<key>hash2</key>
 			<data>
-			B0t5oreQZdQ5FQOdJX1t8Lns0mY/T8u8Wf3POVypsBY=
+			7fa6UpTzqFHArQv1TOszwFet1o9THBJYIM0/tX8dL18=
 			</data>
 		</dict>
 		<key>PlugIns/jewelryERPAppTests.xctest/jewelryERPAppTests</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			aFEgyE+m6YbocuMZO/w7HkppHcg=
+			B5OfoeLp1UhSwJuItJ+URzEnHPo=
 			</data>
 			<key>hash2</key>
 			<data>
-			sVIDaZRtQLHg2TTonup9DaKUNc1aUFSGvlXQQk1+omQ=
+			J0fvV5rWaJ36FlbPqmpXhMfGa+q2cGibNmC4+LiJYW8=
 			</data>
 		</dict>
 	</dict>

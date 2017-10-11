@@ -1,6 +1,10 @@
 [
     {
-        "merged": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\ic_launcher.png",
-        "source": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi\\ic_launcher.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_launcher.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
     }
 ]

@@ -1,18 +1,34 @@
 [
     {
-        "merged": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\richpush_btn_selector.xml",
-        "source": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\richpush_btn_selector.xml"
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\richpush_btn_selector.xml",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\richpush_btn_selector.xml"
     },
     {
-        "merged": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_richpush_actionbar_divider.png",
-        "source": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\ic_richpush_actionbar_divider.png"
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/richpush_btn_selector.xml",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/res/drawable-mdpi-v4/richpush_btn_selector.xml"
     },
     {
-        "merged": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_richpush_actionbar_back.png",
-        "source": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\ic_richpush_actionbar_back.png"
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/ic_richpush_actionbar_back.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/res/drawable-mdpi-v4/ic_richpush_actionbar_back.png"
     },
     {
-        "merged": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
-        "source": "D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\ic_launcher.png"
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_richpush_actionbar_divider.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\ic_richpush_actionbar_divider.png"
+    },
+    {
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/ic_launcher.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/res/drawable-mdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_richpush_actionbar_back.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\ic_richpush_actionbar_back.png"
+    },
+    {
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/D:\\react-native\\code\\jewelryERPApp\\android\\app\\build\\intermediates\\exploded-aar\\jewelryERPApp\\jpush-react-native\\unspecified\\res\\drawable-mdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4/ic_richpush_actionbar_divider.png",
+        "source": "/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/res/drawable-mdpi-v4/ic_richpush_actionbar_divider.png"
     }
 ]
