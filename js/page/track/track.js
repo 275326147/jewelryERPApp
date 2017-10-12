@@ -15,9 +15,12 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     FlatList,
-    Modal
+    Modal,
+    Platform
 } from 'react-native';
 import { callService } from '../../utils/service';
+import ImagePicker from 'react-native-image-picker';
+import { forward } from '../../utils/common';
 
 export default class Follow extends Component {
     constructor(props) {
@@ -88,6 +91,64 @@ export default class Follow extends Component {
         );
     }
 
+    options = {
+        title: '选择图片',
+        cancelButtonTitle: '取消',
+        takePhotoButtonTitle: '拍照',
+        chooseFromLibraryButtonTitle: '图片库',
+        cameraType: 'back',
+        mediaType: 'photo',
+        videoQuality: 'high',
+        durationLimit: 10,
+        maxWidth: 600,
+        maxHeight: 600,
+        aspectX: 2,
+        aspectY: 1,
+        quality: 0.8,
+        angle: 0,
+        allowsEditing: false,
+        noData: false,
+        storageOptions: {
+            skipBackup: true,
+            path: 'images'
+        }
+    };
+
+    showImagePicker() {
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else {
+                let source;
+                if (Platform.OS === 'android') {
+                    source = { uri: response.uri, isStatic: true }
+                } else {
+                    source = { uri: response.uri.replace('file://', ''), isStatic: true }
+                }
+
+                let file;
+                if (Platform.OS === 'android') {
+                    file = response.uri
+                } else {
+                    file = response.uri.replace('file://', '')
+                }
+                this.setState({
+                    loading: true
+                });
+                this.props.onFileUpload(file, response.fileName || '未命名文件.jpg')
+                    .then(result => {
+                        this.setState({
+                            loading: false
+                        })
+                    })
+            }
+        });
+    }
+
     render() {
         return (
             <ScrollView style={styles.container}>
@@ -98,7 +159,7 @@ export default class Follow extends Component {
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
                         <Image style={{ height: 17, width: 14, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('Scanner', { type: 'track' }); }}>
+                    <TouchableOpacity onPress={() => { forward(this, 'Scanner', { type: 'track' }) }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 </View>
@@ -106,7 +167,9 @@ export default class Follow extends Component {
                     this.state.data ?
                         <View style={{ flex: 1 }}>
                             <View style={styles.baseInfoContainer}>
-                                <Image style={{ width: 80, height: 80, margin: 15 }} source={require('../../../assets/image/check/newCheck.png')} />
+                                <TouchableOpacity onPress={() => { this.showImagePicker(); }}>
+                                    <Image style={{ width: 80, height: 80, margin: 15 }} source={this.state.data.img ? { uri: this.state.data.img } : require('../../../assets/image/track/camera.png')} />
+                                </TouchableOpacity>
                                 <View style={{ flex: 1 }}>
                                     <Text style={[styles.label, { marginTop: 15 }]}>商品条码      <Text style={styles.value}>{this.state.data.archivesNo}</Text></Text>
                                     <Text style={styles.label}>商品名称      <Text style={styles.value}>{this.state.data.goodsName}</Text></Text>

@@ -18,6 +18,10 @@ export default class Home extends Component {
         super(props);
     }
 
+    componentWillMount() {
+
+    }
+
     render() {
         return (
             <View style={styles.container}>

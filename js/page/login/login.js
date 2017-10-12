@@ -1,8 +1,9 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import Storage from '../../utils/storage';
 import { callServiceWithoutToken } from '../../utils/service';
+import { forward } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
@@ -10,7 +11,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            account: '',
+            account: Platform.OS === 'android' ? '18682077880' : '18682077360',
             code: '',
             second: 60,
             enable: true
@@ -22,9 +23,11 @@ export default class Login extends Component {
             let params = new FormData();
             params.append("mobileNum", this.state.account);
             params.append("type", 1);
-            callServiceWithoutToken(this, 'getSmsValidateCode.do', params);
-            this.setState({
-                enable: false
+            callServiceWithoutToken(this, 'getSmsValidateCode.do', params, function (response) {
+                this.setState({
+                    code: response.msg,
+                    enable: false
+                });
             });
             this.timer = setInterval(() => {
                 if (this.state.second > 0) {
@@ -48,29 +51,13 @@ export default class Login extends Component {
         params.append("smsValiCode", this.state.code);
         callServiceWithoutToken(this, 'checkLogin.do', params, function (response) {
             Storage.setStorageAsync('currentAccount', this.state.account);
-            Storage.setStorageAsync('userInfo', JSON.stringify(response));
-            //多用户场景，设置当前用户，上次已设置则取上次使用的用户，否则默认取第一个用户
-            if (response.users && response.users.length > 0) {
-                Storage.getStorageAsync('currentUser').then((currentUser) => {
-                    if (currentUser == null || currentUser == '') {
-                        Storage.setStorageAsync('currentUser', response.users[0]);
-                    } else {
-                        response.users.forEach(function (item) {
-                            if (currentUser.companyNo === item.companyNo && currentUser.userId === item.userId) {
-                                Storage.setStorageAsync('currentUser', item);
-                            }
-                        });
-                    }
-                });
-            }
-            Storage.getStorageAsync(this.state.account).then((result) => {
-                if (result === null || result === '') {
-                    this.props.navigation.navigate('SetPwd');
+            Storage.setAccountInfo(this, response);
+            Storage.getCurrentAccount(this, function (accountInfo) {
+                if (!accountInfo.password) {
+                    forward(this, 'SetPwd');
                 } else {
-                    this.props.navigation.navigate('CheckPwd');
+                    forward(this, 'CheckPwd');
                 }
-            }).catch((error) => {
-                console.log('系统异常' + error);
             });
         });
     }
@@ -81,11 +68,13 @@ export default class Login extends Component {
                 <View style={styles.container}>
                     <TextInput style={styles.input} placeholder='   请输入您的手机号码'
                         onChangeText={(text) => this.setState({ account: text })}
+                        value={this.state.account}
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <View style={styles.inputContainer}>
                         <TextInput style={styles.codeInput} placeholder='   请输入验证码'
                             onChangeText={(text) => this.setState({ code: text })}
+                            value={this.state.code}
                             underlineColorAndroid="transparent">
                         </TextInput>
                         {

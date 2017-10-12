@@ -13,10 +13,10 @@ import {
     Image,
     Text,
     Dimensions,
-    FlatList,
-    Alert
+    FlatList
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
+import { alert, forward } from '../../utils/common';
 
 export default class Check extends Component {
     constructor(props) {
@@ -41,35 +41,19 @@ export default class Check extends Component {
     }
 
     _delSubSheet(subSheetId) {
-        Alert.alert(
-            '提示',
+        alert(
+            this,
+            'info',
             '删除后将无法回退，是否确定删除盘点单？',
-            [
-                {
-                    text: '确定', onPress: () => {
-                        let params = new FormData();
-                        params.append("subSheetId", subSheetId);
-                        callService(this, 'delSubSheet.do', params, function (response) {
-                            this.querySubSheet();
-                            Alert.alert(
-                                '提示',
-                                '删除成功',
-                                [
-                                    { text: '确定', onPress: () => console.log('OK Pressed') },
-                                ],
-                                { cancelable: false }
-                            );
-                        });
-                    }
-                },
-                { text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
-            ],
-            { cancelable: false }
+            () => {
+                let params = new FormData();
+                params.append("subSheetId", subSheetId);
+                callService(this, 'delSubSheet.do', params, function (response) {
+                    this.querySubSheet();
+                    alert(this, 'info', '删除成功');
+                });
+            }
         );
-    }
-
-    _gotoPage(url, param) {
-        this.props.navigation.navigate(url, param);
     }
 
     _renderItem = ({ item }) => {
@@ -87,7 +71,7 @@ export default class Check extends Component {
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 15 }}>删除</Text>
                     </TouchableOpacity>
                     <View style={{ borderLeftWidth: 1, borderColor: '#f3f3f1', width: 10, height: 20 }}></View>
-                    <TouchableOpacity onPress={() => { this._gotoPage('Checking', { item: item }) }}>
+                    <TouchableOpacity onPress={() => { forward(this, 'Checking', { item: item }) }}>
                         <Text style={{ flex: 2, color: '#333', fontSize: 13, marginRight: 10, marginLeft: 5 }}>续盘</Text>
                     </TouchableOpacity>
                 </View>
@@ -99,13 +83,13 @@ export default class Check extends Component {
         return (
             <ScrollView style={styles.container}>
                 <View style={{ flexDirection: 'row', height: 60 }}>
-                    <TouchableWithoutFeedback onPress={() => { this._gotoPage('NewCheck') }}>
+                    <TouchableWithoutFeedback onPress={() => { forward(this, 'NewCheck') }}>
                         <View style={[styles.menuContainer, { borderRightWidth: 1, borderColor: '#f3f3f1' }]}>
                             <Image style={styles.menuImg} source={require('../../../assets/image/check/newCheck.png')} />
                             <Text style={styles.menuText}>新建盘点</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => { this._gotoPage('QueryCheck') }}>
+                    <TouchableWithoutFeedback onPress={() => { forward(this, 'QueryCheck') }}>
                         <View style={styles.menuContainer}>
                             <Image style={styles.menuImg} source={require('../../../assets/image/check/queryCheck.png')} />
                             <Text style={styles.menuText}>盘点单查询</Text>

@@ -24,9 +24,9 @@ export default class Member extends Component {
     }
 
     componentDidMount() {
-        Storage.getStorageAsync('currentUser').then((currentUser) => {
+        Storage.getCurrentAccount(this, function (accountInfo) {
             this.setState({
-                userInfo: JSON.parse(currentUser)
+                userInfo: accountInfo.currentUser
             });
         });
     }

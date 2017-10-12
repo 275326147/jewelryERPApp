@@ -1,6 +1,7 @@
 'use strict';
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { forward } from '../../utils/common';
 
 let image1 = require('../../../assets/image/start/guide1.jpg');
 let image2 = require('../../../assets/image/start/guide2.jpg');
@@ -21,9 +22,7 @@ export default class Guide extends Component {
                 <Image source={image3} style={[styles.backgroundImage, styles.btnOut]} >
                     <TouchableOpacity
                         style={styles.btn}
-                        onPress={() => {
-                            this.props.navigation.navigate('Login');
-                        }}>
+                        onPress={() => { forward(this, 'Login') }}>
                         <Text style={styles.btnText}>立即使用</Text>
                     </TouchableOpacity>
                 </Image>

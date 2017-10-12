@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:1:1-38:12
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:1:1-39:12
 	package
 		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:2:5-32
 		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
@@ -31,29 +31,35 @@ ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/s
 MERGED from [jewelryERPApp:react-native-camera:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-camera/unspecified/AndroidManifest.xml:11:5-65
 	android:name
 		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:8:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:9:5-80
+MERGED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:21:5-81
+	android:name
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:9:22-78
 uses-permission#android.permission.VIBRATE
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:9:5-66
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:10:5-66
 MERGED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:24:5-66
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:9:22-63
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:10:22-63
 uses-feature#android.hardware.camera
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:10:5-85
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:11:5-85
 MERGED from [jewelryERPApp:react-native-camera:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-camera/unspecified/AndroidManifest.xml:13:5-15:36
 	android:required
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:10:58-82
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:11:58-82
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:10:19-57
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:11:19-57
 uses-feature#android.hardware.camera.front
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:11:5-91
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:12:5-91
 	android:required
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:11:64-88
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:12:64-88
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:11:19-63
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:12:19-63
 uses-sdk
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:13:5-15:41
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:14:5-16:41
 MERGED from [jewelryERPApp:react-native-camera:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-camera/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [jewelryERPApp:jcore-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jcore-react-native/unspecified/AndroidManifest.xml:7:5-9:41
+MERGED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:7:5-9:41
 MERGED from [com.facebook.react:react-native:0.44.3] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.3/AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.0.1] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/AndroidManifest.xml:20:5-43
@@ -66,70 +72,71 @@ MERGED from [com.facebook.fresco:imagepipeline-base:1.0.1] /Users/fuziyang/Deskt
 MERGED from [com.facebook.fresco:fbcore:1.0.1] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/AndroidManifest.xml:2:3-70
 	android:targetSdkVersion
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:15:9-38
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:16:9-38
 		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:14:9-35
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:15:9-35
 		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
 application
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:17:5-36:19
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:18:5-37:19
 MERGED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:38:5-102:19
 MERGED from [jewelryERPApp:jcore-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jcore-react-native/unspecified/AndroidManifest.xml:11:5-52:19
+MERGED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:11:5-21:19
 MERGED from [com.facebook.react:react-native:0.44.3] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.3/AndroidManifest.xml:13:5-20
 MERGED from [com.android.support:appcompat-v7:23.0.1] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.0.1] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.facebook.soloader:soloader:0.1.0] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/AndroidManifest.xml:3:3-17
 MERGED from [org.webkit:android-jsc:r174650] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/org.webkit/android-jsc/r174650/AndroidManifest.xml:2:3-17
 	android:label
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:20:7-39
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:21:7-39
 	android:allowBackup
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:19:7-33
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:20:7-33
 	android:icon
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:21:7-41
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:22:7-41
 	android:theme
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:22:7-38
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:23:7-38
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:18:7-38
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:19:7-38
 activity#com.jewelryerpapp.MainActivity
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:23:7-32:18
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:24:7-33:18
 	android:label
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:25:9-41
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:26:9-41
 	android:windowSoftInputMode
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:27:9-51
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:28:9-51
 	android:configChanges
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:26:9-79
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:27:9-79
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:24:9-37
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:25:9-37
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:28:9-31:25
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:29:9-32:25
 action#android.intent.action.MAIN
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:29:13-65
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:30:13-65
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:29:21-62
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:30:21-62
 category#android.intent.category.LAUNCHER
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:30:13-73
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:31:13-73
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:30:23-70
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:31:23-70
 activity#com.facebook.react.devsupport.DevSettingsActivity
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:33:7-84
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:34:7-84
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:33:17-81
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:34:17-81
 meta-data#JPUSH_CHANNEL
-ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:34:7-79
-	android:value
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:34:47-77
-		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
-	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:34:18-46
-meta-data#JPUSH_APPKEY
 ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:35:7-79
 	android:value
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:35:46-77
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:35:47-77
 		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
 	android:name
-		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:35:18-45
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:35:18-46
+meta-data#JPUSH_APPKEY
+ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:36:7-79
+	android:value
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:36:46-77
+		INJECTED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml
+	android:name
+		ADDED from /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/src/main/AndroidManifest.xml:36:18-45
 uses-feature#android.hardware.camera.autofocus
 ADDED from [jewelryERPApp:react-native-camera:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-camera/unspecified/AndroidManifest.xml:16:5-18:36
 	android:required
@@ -158,10 +165,6 @@ uses-permission#android.permission.READ_PHONE_STATE
 ADDED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:20:5-75
 	android:name
 		ADDED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:20:22-72
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:21:5-81
-	android:name
-		ADDED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:21:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [jewelryERPApp:jpush-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/AndroidManifest.xml:22:5-80
 	android:name
@@ -372,3 +375,19 @@ receiver#cn.jpush.android.service.AlarmReceiver
 ADDED from [jewelryERPApp:jcore-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jcore-react-native/unspecified/AndroidManifest.xml:51:9-75
 	android:name
 		ADDED from [jewelryERPApp:jcore-react-native:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jcore-react-native/unspecified/AndroidManifest.xml:51:19-72
+provider#android.support.v4.content.FileProvider
+ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:12:9-20:20
+	android:authorities
+		ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:14:13-60
+	android:grantUriPermissions
+		ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:16:13-47
+	android:exported
+		ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:15:13-37
+	android:name
+		ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:13:13-67
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:17:13-19:58
+	android:resource
+		ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:19:17-55
+	android:name
+		ADDED from [jewelryERPApp:react-native-image-picker:unspecified] /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/AndroidManifest.xml:18:17-67

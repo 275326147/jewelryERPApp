@@ -146,6 +146,7 @@ dependencies {
     compile project(':react-native-camera')
     compile project(':jpush-react-native')
     compile project(':jcore-react-native')
+    compile project(':react-native-image-picker')
     compile "com.facebook.react:react-native:+" 
 }
 

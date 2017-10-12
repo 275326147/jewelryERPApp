@@ -16,7 +16,7 @@ import {
     Platform
 } from 'react-native';
 import { callService } from '../../utils/service';
-import { Common } from '../../utils/common';
+import { Constant } from '../../utils/common';
 
 export default class UpgradeDialog extends Component {
 
@@ -33,7 +33,7 @@ export default class UpgradeDialog extends Component {
         params.append("platformName", 'beta');
         params.append("packageName", 'com.jewelryerpapp');
         params.append("appType", Platform.OS === 'android' ? 1 : 2);
-        params.append("versionCode", Common.VERSION);
+        params.append("versionCode", Constant.VERSION);
         callService(this, 'updataCheck.do', params, function (response) {
             if (response.needUpdateFlag === 1) {
                 this.setState({

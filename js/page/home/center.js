@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import Settings from '../user/settings';
 import { callService } from '../../utils/service';
+import { forward } from '../../utils/common';
 
 export default class Center extends Component {
 
@@ -48,7 +49,7 @@ export default class Center extends Component {
     }
 
     _renderItem = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
+        <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>
             <View style={styles.menuContainer}>
                 <Image style={styles.menuImg} source={item.img} />
                 <Text style={styles.menuText}>{item.text}</Text>
@@ -57,17 +58,13 @@ export default class Center extends Component {
     );
 
     _renderTodo = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { this._gotoPage(item.url) }}>
+        <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>
             <View style={item.split ? styles.splitContainer : styles.todoContainer}>
                 <Text style={styles.todoText}>{item.text}</Text>
                 <Text style={styles.countText}>{item.num}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
-
-    _gotoPage = (url) => {
-        this.props.navigation.navigate(url);
-    };
 
     render() {
         return (

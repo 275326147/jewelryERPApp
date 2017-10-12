@@ -21,6 +21,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_a5b4ac0e47f90216cca6756035f6c052ea89fe01.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.0.1/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -36,6 +45,24 @@
         revision="23.0.1"
         sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
         <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/okhttp-ws-3.4.1_322b23a0ca8e3c1eb20c0e828a325fde7ff68f8d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1_e7fdf6299d8a209d1f948665927f5219a317b0a9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/fuziyang/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_eb7aa8052176e77beb92f9bd33041f90a319241f.jar" />
     </item>
     <item
         is-multidex="false"
@@ -84,105 +111,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.3/jars/libs/infer-annotations-1.5.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/infer-annotations-1.5_2039392be4139d72c0586a695c1aa31abd09a6df.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/private/var/root/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_e3e1dfcdf1091ad62101747e52cf18170b899a78.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-camera/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="a9161da891dd3c9ae10d21b1a1f9f1b0ff683cfe">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jewelryERPApp-react-native-camera-unspecified_785bbfda17d99dfe92d44b383e63abe4a60b7cec.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="2668e49e4e31c7d451b76a36009b902bf44e0d70">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.0.1_07c2922f9024b8a61e0ab88dd8b68cc687247796.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="2c855255fbc3b66f71f23ead7003dac9a104a28c">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jewelryERPApp-jpush-react-native-unspecified_08e55c3fd0d7dc545df9a175918b9de69b088da1.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/private/var/root/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/okhttp-3.4.1_feedac7e64b9529289caba241193a90c4fd79a6a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_e45937b1fc83aaede2f16c74afe3a987dd0590b8.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_3fbcd87c3018b99b86b2bbef6afbaa3d362bab2a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_a5b4ac0e47f90216cca6756035f6c052ea89fe01.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1_e7fdf6299d8a209d1f948665927f5219a317b0a9.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/fuziyang/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_eb7aa8052176e77beb92f9bd33041f90a319241f.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -210,12 +138,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.44.3/jars/libs/infer-annotations-1.5.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="dcac634e137395f79693ec760f081a86eb2bd84e">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/infer-annotations-1.5_2039392be4139d72c0586a695c1aa31abd09a6df.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/private/var/root/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_e3e1dfcdf1091ad62101747e52cf18170b899a78.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jcore-react-native/unspecified/jars/libs/jcore-android-1.1.6.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="344faac01790b58672501bfd7f6d63bcef868710">
         <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jcore-android-1.1.6_1eae47416c44d7f5e19a0236fb1d550ed9a346b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-camera/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a9161da891dd3c9ae10d21b1a1f9f1b0ff683cfe">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jewelryERPApp-react-native-camera-unspecified_785bbfda17d99dfe92d44b383e63abe4a60b7cec.jar" />
     </item>
     <item
         is-multidex="false"
@@ -228,12 +183,39 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2668e49e4e31c7d451b76a36009b902bf44e0d70">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.0.1_07c2922f9024b8a61e0ab88dd8b68cc687247796.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2c855255fbc3b66f71f23ead7003dac9a104a28c">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jewelryERPApp-jpush-react-native-unspecified_08e55c3fd0d7dc545df9a175918b9de69b088da1.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/jpush-react-native/unspecified/jars/libs/jpush-android-3.0.7.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="d5ee4cc53a8e54b8fea37756f36b72987525cb02">
         <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jpush-android-3.0.7_17500351ace473ccf69ff457dbd55ed1020f901d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/private/var/root/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.4.1/c7c4f9e35c2fd5900da24f9872e3971801f08ce0/okhttp-3.4.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/okhttp-3.4.1_feedac7e64b9529289caba241193a90c4fd79a6a.jar" />
     </item>
     <item
         is-multidex="false"
@@ -255,6 +237,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/jewelryERPApp/react-native-image-picker/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="9f95540d3b14aed0250ba28dd07beece0df87598">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/jewelryERPApp-react-native-image-picker-unspecified_5b3917545277a6bd09760aeff631310f81a830cc.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/private/var/root/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.4.1/63994437f62bc861bc20c605d12962f7246116d1/okhttp-urlconnection-3.4.1.jar"
         jumboMode="false"
         optimize="true"
@@ -270,6 +261,24 @@
         revision="23.0.1"
         sha1="55615fa2582424e38705487d1d3969af8554f637">
         <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/xmpcore-5.1.2_49d375f4595ceb29c9c1f07ac1859e01433885d7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_e45937b1fc83aaede2f16c74afe3a987dd0590b8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
+        <dex dex="/Users/fuziyang/Desktop/react-native/code/jewelryERPApp/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_3fbcd87c3018b99b86b2bbef6afbaa3d362bab2a.jar" />
     </item>
 
 </items>

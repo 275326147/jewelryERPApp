@@ -16,6 +16,7 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
+import { forward } from '../../utils/common';
 
 export default class NewCheck extends Component {
     constructor(props) {
@@ -72,7 +73,7 @@ export default class NewCheck extends Component {
         let params = new FormData();
         params.append("mainSheetId", this.state.selected);
         callService(this, 'createSubSheetByMain.do', params, function (response) {
-            this.props.navigation.navigate('Checking', { item: response.subSheet });
+            forward(this, 'Checking', { item: response.subSheet });
         });
     }
 

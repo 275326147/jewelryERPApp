@@ -116,6 +116,11 @@ const SimpleStack = StackNavigator(
                         <Text style={styles.buttonText}>提交</Text>
                     </TouchableOpacity>
                 ),
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.navigate('Check'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         QueryCheck: {
@@ -223,7 +228,7 @@ const SimpleStack = StackNavigator(
                 alignSelf: 'center'
             },
             headerLeft: (
-                <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Home'); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                 </TouchableOpacity>
             )

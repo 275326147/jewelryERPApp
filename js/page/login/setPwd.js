@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Image, Dimensions, Text } from 'react-native';
 import PasswordGesture from 'react-native-smart-gesture-password';
 import Storage from '../../utils/storage';
+import { forward } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 let pwd = '';
@@ -34,12 +35,8 @@ export default class SetPwd extends Component {
                     messageColor: '#00AAEF',
                     message: '密码设置成功'
                 });
-                Storage.getStorageAsync('currentAccount').then((account) => {
-                    Storage.setStorageAsync(account, pwd);
-                }).catch((error) => {
-                    console.log('系统异常' + error);
-                });
-                this.props.navigation.navigate('Home');
+                Storage.setPassword(this, pwd);
+                forward(this, 'Home');
             } else {
                 this.setState({
                     isWarning: true,
@@ -68,7 +65,7 @@ export default class SetPwd extends Component {
 
     _renderDescription = () => {
         return (
-            <View style={{ height: 30, paddingBottom: 10, justifyContent: 'flex-end', alignItems: 'center', }}>
+            <View style={{ height: 40, paddingBottom: 30, justifyContent: 'flex-end', alignItems: 'center', }}>
                 <Text style={{ fontSize: 18, color: this.state.messageColor }}>
                     {this.state.message}
                 </Text>
@@ -78,7 +75,7 @@ export default class SetPwd extends Component {
 
     _renderActions = () => {
         return (
-            <View style={{ marginTop: 20, height: 40 }}></View>
+            <View style={{ marginTop: 30, height: 40 }}></View>
         )
     }
 

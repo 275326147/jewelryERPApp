@@ -11,6 +11,7 @@ import {
     StyleSheet,
     TouchableOpacity
 } from 'react-native';
+import { forward } from '../../utils/common';
 
 export default class Foot extends Component {
 
@@ -19,11 +20,11 @@ export default class Foot extends Component {
     }
 
     _backHome() {
-        this.props.navigation.navigate('Home');
+        forward(this, 'Home');
     }
 
     _gotoMessage() {
-        this.props.navigation.navigate('Message');
+        forward(this, 'Message');
     }
 
     render() {

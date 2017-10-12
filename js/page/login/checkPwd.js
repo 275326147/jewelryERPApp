@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Image, Dimensions, Text, TouchableWithoutFeedback } from 'react-native';
 import PasswordGesture from 'react-native-smart-gesture-password';
 import Storage from '../../utils/storage';
+import { forward } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,37 +18,26 @@ export default class Password extends Component {
     }
 
     _onFinish = (password) => {
-        Storage.getStorageAsync('currentAccount').then((account) => {
-            if (account == null || account == '') {
-                //本地找不到当前登录账号，重新登录验证
-                this.props.navigation.navigate('Login');
+        Storage.getCurrentAccount(this, function (accountInfo) {
+            if (!accountInfo.password) {
+                //本地找不到对应手势密码，重新登录验证
+                forward(this, 'Login');
                 return;
             }
-            Storage.getStorageAsync(account).then((result) => {
-                if (result == null || result == '') {
-                    //本地找不到对应手势密码，重新登录验证
-                    this.props.navigation.navigate('Login');
-                    return;
-                }
-                if (password === result) {
-                    this.setState({
-                        isWarning: false,
-                        messageColor: '#00AAEF',
-                        message: '密码验证成功'
-                    });
-                    this.props.navigation.navigate('Home');
-                } else {
-                    this.setState({
-                        isWarning: true,
-                        messageColor: 'red',
-                        message: '密码错误，请重试'
-                    });
-                }
-            }).catch((error) => {
-                console.log('系统异常' + error);
-            });
-        }).catch((error) => {
-            console.log('系统异常' + error);
+            if (password === accountInfo.password) {
+                this.setState({
+                    isWarning: false,
+                    messageColor: '#00AAEF',
+                    message: '密码验证成功'
+                });
+                forward(this, 'Home');
+            } else {
+                this.setState({
+                    isWarning: true,
+                    messageColor: 'red',
+                    message: '密码错误，请重试'
+                });
+            }
         });
     }
 
@@ -61,7 +51,7 @@ export default class Password extends Component {
 
     _renderDescription = () => {
         return (
-            <View style={{ height: 30, paddingBottom: 10, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <View style={{ height: 40, paddingBottom: 30, justifyContent: 'flex-end', alignItems: 'center' }}>
                 <Text style={{ fontSize: 18, color: this.state.messageColor }}>
                     {this.state.message}
                 </Text>
@@ -72,7 +62,7 @@ export default class Password extends Component {
     _renderActions = () => {
         return (
             <TouchableWithoutFeedback onPress={() => { this.forgot() }}>
-                <View style={{ marginTop: 20, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ marginTop: 30, height: 40, alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: '#fff', fontSize: 14 }}>忘记密码</Text>
                 </View>
             </TouchableWithoutFeedback>
@@ -81,13 +71,13 @@ export default class Password extends Component {
 
 
     forgot() {
-        Storage.getStorageAsync('currentAccount').then((result) => {
-            Storage.setStorageAsync(result, '');
-            Storage.setStorageAsync('currentAccount', '');
-        }).catch((error) => {
-            console.log('系统异常' + error);
+        Storage.getCurrentAccount(this, function (accountInfo) {
+            accountInfo.token = '';
+            accountInfo.password = '';
+            Storage.setAccountInfo(this, accountInfo);
         });
-        this.props.navigation.navigate('Login');
+        Storage.setStorageAsync('currentAccount', '');
+        forward(this, 'Login');
     }
 
     render() {

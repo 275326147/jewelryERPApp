@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import Storage from '../../utils/storage';
 import { callService, handleResult } from '../../utils/service';
+import { forward } from '../../utils/common';
 
 export default class Settings extends Component {
 
@@ -29,7 +30,7 @@ export default class Settings extends Component {
             userInfo: {},
             users: [],
             menuData: [
-                { key: 2, text: '修改手势密码', handler: () => { this._onClose(); this.props.navigation.navigate('ResetPwd'); } },
+                { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
                 { key: 3, text: '关于软件', handler: () => { } }
             ]
         };
@@ -38,26 +39,23 @@ export default class Settings extends Component {
     componentDidMount() {
         //注意addListener的key和emit的key保持一致
         this.msgListener = DeviceEventEmitter.addListener('showSettings', (listenerMsg) => {
-            Storage.getStorageAsync('currentUser').then((currentUser) => {
+            Storage.getCurrentAccount(this, function (accountInfo) {
                 this.setState({
-                    userInfo: JSON.parse(currentUser),
+                    userInfo: accountInfo.currentUser,
                     modalVisible: true
                 });
             });
         });
 
-        Storage.getStorageAsync('userInfo').then((userInfo) => {
-            userInfo = JSON.parse(userInfo);
-            if (userInfo && userInfo.users && userInfo.users.length > 1) {
-                this.setState({
-                    users: handleResult(userInfo.users),
-                    menuData: [
-                        { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
-                        { key: 2, text: '修改手势密码', handler: () => { this._onClose(); this.props.navigation.navigate('ResetPwd'); } },
-                        { key: 3, text: '关于软件', handler: () => { } }
-                    ]
-                });
-            }
+        Storage.getCurrentAccount(this, function (accountInfo) {
+            this.setState({
+                users: handleResult(accountInfo.users),
+                menuData: [
+                    { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
+                    { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
+                    { key: 3, text: '关于软件', handler: () => { } }
+                ]
+            });
         });
     }
 
@@ -80,15 +78,18 @@ export default class Settings extends Component {
 
     _gotoUserInfo() {
         this._onClose();
-        this.props.navigation.navigate('UserInfo');
+        forward(this, 'UserInfo');
     }
 
     _logout() {
         this._onClose();
-        this.props.navigation.navigate('Login');
         callService(this, 'logout.do', new FormData(), function () {
+            Storage.getCurrentAccount(this, function (accountInfo) {
+                accountInfo.token = '';
+                Storage.setAccountInfo(this, accountInfo);
+            });
             Storage.setStorageAsync('currentAccount', '');
-            Storage.setStorageAsync('userInfo', '');
+            forward(this, 'Login');
         });
     }
 
@@ -103,7 +104,10 @@ export default class Settings extends Component {
     );
 
     _selectUser(user) {
-        Storage.setStorageAsync('currentUser', JSON.stringify(user));
+        Storage.getCurrentAccount(this, function (accountInfo) {
+            accountInfo.currentUser = user;
+            Storage.setAccountInfo(this, accountInfo);
+        });
         this._onUserClose();
     }
 

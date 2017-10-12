@@ -11,7 +11,6 @@ import {
     StyleSheet,
     Dimensions,
     Image,
-    Alert,
     DeviceEventEmitter,
     TouchableOpacity,
     TextInput,
@@ -19,6 +18,7 @@ import {
 } from 'react-native';
 import { QRScannerView } from 'ac-qrcode';
 import { callService } from '../../utils/service';
+import { alert, forward } from '../../utils/common';
 
 export default class Checking extends Component {
     constructor(props) {
@@ -39,13 +39,11 @@ export default class Checking extends Component {
             let params = new FormData();
             params.append("subSheetId", this.state.item.id);
             callService(this, 'submitSubSheet.do', params, function (response) {
-                Alert.alert(
-                    '提示',
+                alert(
+                    this,
+                    'info',
                     '提交成功',
-                    [
-                        { text: '确定', onPress: () => this.props.navigation.navigate('Home') },
-                    ],
-                    { cancelable: false }
+                    () => { forward(this, 'Home') }
                 );
             });
         });
@@ -108,15 +106,12 @@ export default class Checking extends Component {
             let master = this;
             switch (eventType) {
                 case -1:
-                    Alert.alert(
-                        '提示',
+                    alert(
+                        this,
+                        'info',
                         response.msg,
-                        [
-                            { text: '确定' }
-                        ],
-                        { cancelable: false }
+                        () => master.setState({ lockCamera: false })
                     );
-                    master.setState({ lockCamera: false });
                     break;
                 case 1:
                     //选择一条进货记录，之后调用doProcess4InputCheck.do， codeType传4， importItemId传选择的importItemId
@@ -154,15 +149,17 @@ export default class Checking extends Component {
                                 onScanResultReceived={this.barcodeReceived.bind(this)}
                                 renderBottomMenuView={() => {
                                     return (
-                                        <TouchableOpacity style={{ height: 30, width: Dimensions.get('window').width, alignItems: 'flex-end' }} onPress={() => { this.setState({ showCamera: false }) }}>
-                                            <Image style={{ width: 20, height: 20 }} source={require('../../../assets/image/check/lock.png')} />
-                                        </TouchableOpacity>
+                                        <View style={{ alignItems: 'flex-end', width: Dimensions.get('window').width, height: 30 }}>
+                                            <TouchableOpacity style={{ height: 30, width: 30 }} onPress={() => { this.setState({ showCamera: false }) }}>
+                                                <Image style={{ width: 30, height: 30 }} source={require('../../../assets/image/check/keyboard.png')} />
+                                            </TouchableOpacity>
+                                        </View>
                                     )
                                 }}
                                 hintText={'  '}
                                 renderTopBarView={() => {
                                     return (
-                                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                                        <View style={{ flex: 1, height: 35, flexDirection: 'row' }}>
                                             <View style={styles.view_title_container}>
                                                 <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
                                                     <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#fff', fontSize: 14, marginRight: 60 }}>原条码</Text>
@@ -197,7 +194,7 @@ export default class Checking extends Component {
                                         underlineColorAndroid="transparent">
                                     </TextInput>
                                     <TouchableWithoutFeedback onPress={() => { this.queryGoods() }}>
-                                        <Image style={{ height: 17, width: 14, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
+                                        <Image style={{ height: 25, width: 25, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
                                     </TouchableWithoutFeedback>
                                     <TouchableOpacity onPress={() => { this.setState({ showCamera: true }) }}>
                                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
@@ -217,7 +214,7 @@ export default class Checking extends Component {
                         this.state.goodsInfo ?
                             <View style={{ height: 100, flexDirection: 'row', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
                                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                    <Image style={{ width: 55, height: 55, margin: 15 }} source={{ uri: this.state.goodsInfo.img }} />
+                                    <Image style={{ width: 55, height: 55, margin: 15 }} source={this.state.goodsInfo.img ? { uri: this.state.goodsInfo.img } : require('../../../assets/image/check/empty.png')} />
                                 </View>
                                 <View style={{ flex: 2, flexDirection: 'column' }}>
                                     <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -255,9 +252,9 @@ export default class Checking extends Component {
 
 const styles = StyleSheet.create({
     cameraImg: {
-        height: 18,
-        width: 18,
-        marginLeft: 25
+        height: 25,
+        width: 25,
+        marginLeft: 50
     },
     view_title_container: {
         flex: 1,
@@ -276,13 +273,14 @@ const styles = StyleSheet.create({
         height: 130,
         backgroundColor: '#fff',
         alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'row'
     },
     input: {
         fontSize: 12,
-        height: 35,
-        width: Dimensions.get('window').width - 60,
-        borderRadius: 15,
+        height: 55,
+        width: Dimensions.get('window').width - 100,
+        borderRadius: 20,
         backgroundColor: '#f3f3f1',
         margin: 10,
         padding: 0

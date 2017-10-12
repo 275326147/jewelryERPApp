@@ -3,119 +3,77 @@
  */
 'use strict';
 
-import { Alert } from 'react-native';
-import { Common } from './common';
+import { Constant, alert, forward } from './common';
 import Storage from './storage';
 
 export function callServiceWithoutToken(master, url, params, successCallback, failCallback) {
-    return fetch(Common.baseURL + url, {
-        method: 'POST',
-        headers: {},
-        body: params
-    }).then((response) => response.json()).then((responseJson) => {
-        let code = responseJson.ret;
-        let message = responseJson.msg;
-        if (code < 0) {
-            Alert.alert(
-                '错误提示',
-                message,
-                [
-                    { text: 'OK' }
-                ],
-                { cancelable: false }
-            );
-            if (typeof failCallback === 'function') failCallback.call(master, responseJson);
-            return;
-        }
-        if (typeof successCallback === 'function') successCallback.call(master, responseJson);
-    }, () => {
-        Alert.alert(
-            '错误提示',
-            '网络异常，请联系管理员',
-            [
-                { text: 'OK' }
-            ],
-            { cancelable: false }
-        );
-    });
+    try {
+        return fetch(Constant.baseURL + url, {
+            method: 'POST',
+            headers: {},
+            body: params
+        }).then((response) => {
+            return response.json()
+        }).then((responseJson) => {
+            let code = responseJson.ret;
+            let message = responseJson.msg;
+            if (code < 0) {
+                alert(this, 'error', message, () => {
+                    if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+                });
+                return;
+            }
+            if (typeof successCallback === 'function') successCallback.call(master, responseJson);
+        }, (e) => {
+            console.error(e);
+            alert(this, 'error', '网络异常，请联系管理员');
+        });
+    } catch (e) {
+        console.error(e);
+        alert(this, 'error', '系统异常，请联系管理员处理');
+    }
 }
 
 export function callService(master, url, params, successCallback, failCallback) {
     try {
-        Storage.getStorageAsync('userInfo').then((userInfo) => {
-            if (userInfo === null || userInfo === '') {
-                master.props.navigation.navigate('Login');
-                return;
-            }
-            Storage.getStorageAsync('currentUser').then((currentUser) => {
-                userInfo = JSON.parse(userInfo);
-                if (currentUser === null || currentUser === '') {
-                    let users = userInfo.users;
-                    if (users && users.length > 0) {
-                        currentUser = users[0];
-                    }
-                } else {
-                    currentUser = JSON.parse(currentUser);
-                }
-                if (!params) params = new FormData();
-                params.append("token", userInfo.token);
-                params.append("userIndex", currentUser.index);
-                return fetch(Common.baseURL + url, {
-                    method: 'POST',
-                    headers: {},
-                    body: params
-                }).then((response) => response.json()).then((responseJson) => {
-                    let code = responseJson.ret;
-                    let message = responseJson.msg;
-                    if (code === -20) {
-                        Alert.alert(
-                            '提示',
-                            '会话已过期，请重新登录',
-                            [
-                                { text: 'OK' }
-                            ],
-                            { cancelable: false }
-                        );
+        Storage.getCurrentAccount(master, function (accountInfo) {
+            if (!params) params = new FormData();
+            params.append("token", accountInfo.token);
+            params.append("userIndex", accountInfo.currentUser.index);
+            return fetch(Constant.baseURL + url, {
+                method: 'POST',
+                headers: {},
+                body: params
+            }).then((response) => {
+                return response.json();
+            }).then((responseJson) => {
+                let code = responseJson.ret;
+                let message = responseJson.msg;
+                if (code === -20) {
+                    alert(this, 'info', '会话已过期，请重新登录', () => {
+                        Storage.getCurrentAccount(master, function (accountInfo) {
+                            accountInfo.token = '';
+                            Storage.setAccountInfo(master, accountInfo);
+                        });
                         Storage.setStorageAsync('currentAccount', '');
-                        Storage.setStorageAsync('userInfo', '');
-                        master.props.navigation.navigate('Login');
-                        return;
-                    }
-                    if (code < 0) {
-                        Alert.alert(
-                            '错误提示',
-                            message,
-                            [
-                                { text: 'OK' }
-                            ],
-                            { cancelable: false }
-                        );
-                        if (typeof failCallback === 'function') failCallback.call(master, responseJson);
-                        return;
-                    }
-                    if (typeof successCallback === 'function') successCallback.call(master, responseJson);
-                }, () => {
-                    Alert.alert(
-                        '错误提示',
-                        '系统异常，请联系管理员处理',
-                        [
-                            { text: 'OK' }
-                        ],
-                        { cancelable: false }
-                    );
-                });
+                        forward(master, 'Login');
+                    });
+                    return;
+                }
+                if (code < 0) {
+                    alert(this, 'error', message);
+                    if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+                    return;
+                }
+                if (typeof successCallback === 'function') successCallback.call(master, responseJson);
+            }, (e) => {
+                console.error(e);
+                alert(this, 'error', '系统异常，请联系管理员处理');
             });
         });
     } catch (e) {
         console.error(e);
-        Alert.alert(
-            '错误提示',
-            '系统异常，请联系管理员处理',
-            [
-                { text: 'OK' }
-            ],
-            { cancelable: false }
-        );
+        alert(this, 'error', '系统异常，请联系管理员处理');
     }
 }
 

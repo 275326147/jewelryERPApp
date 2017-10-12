@@ -12,6 +12,7 @@ import {
     TextInput
 } from 'react-native';
 import { callService } from '../../utils/service';
+import { alert } from '../../utils/common';
 
 export default class WaitReceive extends Component {
 
@@ -97,13 +98,11 @@ export default class WaitReceive extends Component {
         params.append("sheetType", item.sheetType);
         params.append("auditFlag", 1);
         callService(this, 'zaiTuReceiveOrReject.do', params, function (response) {
-            Alert.alert(
-                '提示',
+            alert(
+                this,
+                'info',
                 '审批成功',
-                [
-                    { text: 'OK', onPress: () => { this.queryTodoList() } },
-                ],
-                { cancelable: false }
+                () => { this.queryTodoList() }
             );
         });
     }
@@ -117,13 +116,11 @@ export default class WaitReceive extends Component {
         params.append("auditFlag", 2);
         params.append("remarks", item.remarks);
         callService(this, 'zaiTuReceiveOrReject.do', params, function (response) {
-            Alert.alert(
-                '提示',
+            alert(
+                this,
+                'info',
                 '驳回成功',
-                [
-                    { text: 'OK', onPress: () => { this.queryTodoList() } },
-                ],
-                { cancelable: false }
+                () => { this.queryTodoList() }
             );
         });
     }
