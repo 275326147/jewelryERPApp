@@ -67,7 +67,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '首页',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner', { type: 'home' }); }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),
@@ -134,7 +134,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '通知消息',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner', { type: 'home' }); }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),

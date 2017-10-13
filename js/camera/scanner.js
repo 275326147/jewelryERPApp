@@ -4,9 +4,11 @@ import {
     Alert,
     StyleSheet,
     TouchableOpacity,
-    Text
+    Text,
+    DeviceEventEmitter
 } from 'react-native';
 import { QRScannerView } from 'ac-qrcode';
+import { forward } from '../utils/common';
 
 export default class Scanner extends Component {
     constructor(props) {
@@ -19,7 +21,6 @@ export default class Scanner extends Component {
 
     render() {
         return (
-
             < QRScannerView
                 onScanResultReceived={this.barcodeReceived.bind(this)}
                 topMenuHeight={35}
@@ -47,29 +48,10 @@ export default class Scanner extends Component {
         )
     }
 
-    _renderTitleBar() {
-        return (
-            <View></View>
-        );
-    }
-
-    _renderMenu() {
-        return (
-            <View></View>
-        )
-    }
-
     barcodeReceived(e) {
         if (!this.state.lockCamera) {
-            this.setState({ lockCamera: true })
-            Alert.alert(
-                '提示',
-                '条码号：' + e.data + ', 条码类型：' + e.type,
-                [
-                    { text: 'OK', onPress: () => this.setState({ lockCamera: false }) },
-                ],
-                { cancelable: false }
-            )
+            this.setState({ lockCamera: true });
+            forward(this, 'Track', { type: this.state.type, barCode: e.data });
         }
     }
 }

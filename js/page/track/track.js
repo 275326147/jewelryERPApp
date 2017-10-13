@@ -14,6 +14,7 @@ import {
     TextInput,
     TouchableOpacity,
     TouchableWithoutFeedback,
+    DeviceEventEmitter,
     FlatList,
     Modal,
     Platform
@@ -33,6 +34,19 @@ export default class Follow extends Component {
             type: 1
         };
     }
+
+    componentDidMount() {
+        let paramType = this.props.navigation.state.params.type;
+        let paramBarCode = this.props.navigation.state.params.barCode;
+        if (paramType && paramBarCode) {
+            this.setState({
+                type: paramType,
+                barCode: paramBarCode
+            });
+            this.queryGoodsInfo();
+        }
+    }
+
 
     //1 --进货   2 --调拨   3 --调价   4 --销售   5 --出库   6 --调款   7 --礼品兑换
     colorMap = {
@@ -153,12 +167,12 @@ export default class Follow extends Component {
                 this.setState({
                     loading: true
                 });
-                this.props.onFileUpload(file, response.fileName || '未命名文件.jpg')
-                    .then(result => {
-                        this.setState({
-                            loading: false
-                        })
-                    })
+                // this.props.onFileUpload(file, response.fileName || '未命名文件.jpg')
+                //     .then(result => {
+                //         this.setState({
+                //             loading: false
+                //         })
+                //     })
             }
         });
     }
@@ -224,7 +238,7 @@ export default class Follow extends Component {
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
                         <Image style={{ height: 17, width: 16, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
-                    <TouchableOpacity onPress={() => { forward(this, 'Scanner', { type: 'track' }) }}>
+                    <TouchableOpacity onPress={() => { forward(this, 'Scanner') }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 </View>
