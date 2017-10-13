@@ -22,7 +22,8 @@ export default class Scanner extends Component {
 
             < QRScannerView
                 onScanResultReceived={this.barcodeReceived.bind(this)}
-
+                topMenuHeight={35}
+                hintText={'  '}
                 renderTopBarView={() => {
                     return (
                         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        height: 50,
+        height: 35,
         alignItems: 'center'
     }
 });

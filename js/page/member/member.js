@@ -16,7 +16,8 @@ import {
     TextInput,
     TouchableWithoutFeedback
 } from 'react-native';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
+import { alert } from '../../utils/common';
 
 export default class Member extends Component {
     constructor(props) {
@@ -32,16 +33,16 @@ export default class Member extends Component {
         let params = new FormData();
         params.append("keyword", this.state.keyword);
         callService(this, 'queryCustomer.do', params, function (response) {
-            if (response.customerList) {
+            let result = response.customerList;
+            if (result) {
                 this.setState({
-                    memberList: response.customerList
+                    memberList: handleResult(response.customerList)
                 });
+                if (result.length === 0) {
+                    alert(this, 'info', '没有相关查询信息');
+                }
             }
         });
-    }
-
-    componentDidMount() {
-        this.queryMemberList();
     }
 
     _renderItem = ({ item }) => {
@@ -165,7 +166,7 @@ export default class Member extends Component {
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <TouchableWithoutFeedback onPress={() => { this.queryMemberList() }}>
-                        <Image style={{ height: 17, width: 14, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
+                        <Image style={{ height: 17, width: 16, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
                 </View>
                 {

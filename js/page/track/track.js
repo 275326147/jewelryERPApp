@@ -18,7 +18,7 @@ import {
     Modal,
     Platform
 } from 'react-native';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
 import { forward } from '../../utils/common';
 
@@ -27,7 +27,10 @@ export default class Follow extends Component {
         super(props);
         this.state = {
             modalVisible: false,
-            barCode: ''
+            barCode: '',
+            selectGoodsVisible: false,
+            goodsList: [],
+            type: 1
         };
     }
 
@@ -44,24 +47,35 @@ export default class Follow extends Component {
 
     queryGoodsInfo() {
         let params = new FormData();
-        params.append("barCode", this.state.barCode);
+        let field = "barCode";
+        if (this.state.type === 2) {
+            field = "oldBarCode";
+        } else if (this.state.type === 3) {
+            field = "certificateNo";
+        }
+        params.append(field, this.state.barCode);
         callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
-            if (response.goodsInfoList) {
+            if (response.goodsInfoList && response.goodsInfoList.length > 1) {
                 this.setState({
-                    data: response.goodsInfoList
+                    selectGoodsVisible: true,
+                    goodsList: handleResult(response.goodsInfoList)
+                });
+            } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
+                this.setState({
+                    data: response.goodsInfoList[0],
+                    steps: handleResult(response.goodsTrackingList)
                 });
             }
         });
-    }
-
-    componentDidMount() {
-        this.queryGoodsInfo();
+        this.setState({
+            barCode: ''
+        });
     }
 
     _renderProp = ({ item }) => {
         return (
             <View style={{ height: 20, flexDirection: 'row' }}>
-                <Text style={{ flex: 1, fontSize: 12, color: '#333' }}>{item.label}</Text>
+                <Text style={{ flex: 1.2, fontSize: 12, color: '#333' }}>{item.label}</Text>
                 <Text style={{ flex: 3, fontSize: 12, color: '#666', textAlign: 'left' }}>{item.value}</Text>
             </View>
         )
@@ -69,7 +83,7 @@ export default class Follow extends Component {
 
     _renderItem = ({ item }) => {
         return (
-            <View style={{ height: 230, flex: 1, flexDirection: 'row' }}>
+            <View style={{ height: 250, flex: 1, flexDirection: 'row' }}>
                 <View style={{ flex: 1, margin: 10 }}>
                     <View style={[styles.leftTopContainer, { backgroundColor: this.colorMap[item.mainType] }]}>
                         <Text style={{ color: '#fff', fontSize: 13 }}>{item.key}</Text>
@@ -84,7 +98,7 @@ export default class Follow extends Component {
                         <Text style={{ color: '#fff', fontSize: 12, marginLeft: 10 }}>操作时间：{item.operTime}</Text>
                     </View>
                     <View style={styles.rightBottomContainer}>
-                        <FlatList style={{ flex: 1, margin: 10 }} data={item.props} renderItem={this._renderProp} />
+                        <FlatList style={{ flex: 1, margin: 10 }} data={handleResult(item.props)} renderItem={this._renderProp} />
                     </View>
                 </View>
             </View >
@@ -115,7 +129,7 @@ export default class Follow extends Component {
     };
 
     showImagePicker() {
-        ImagePicker.showImagePicker(options, (response) => {
+        ImagePicker.showImagePicker(this.options, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             }
@@ -149,15 +163,66 @@ export default class Follow extends Component {
         });
     }
 
+    _onClose() {
+        this.setState({
+            selectGoodsVisible: false
+        });
+    }
+
+    _selectGoods(item) {
+        let params = new FormData();
+        params.append("barCode", item.barCode);
+        callService(this, 'queryGoodsTrackList.do', params, function (response) {
+            this.setState({
+                data: item,
+                steps: handleResult(response.goodsTrackingList)
+            });
+        });
+        this._onClose();
+    }
+
+    _renderGoodsItem = ({ item }) => (
+        <TouchableWithoutFeedback onPress={() => { this._selectGoods(item) }}>
+            <View style={styles.menuContainer}>
+                <Text style={styles.menuText}>{item.archivesNo}</Text>
+                <Text style={styles.menuText}>{item.goodsName}</Text>
+                <Text style={styles.menuText}>{item.barCode}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+
     render() {
         return (
             <ScrollView style={styles.container}>
+                <Modal
+                    visible={this.state.selectGoodsVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onClose()}>
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 50) }]}>
+                            <FlatList style={{ flex: 1 }} data={this.state.goodsList} renderItem={this._renderGoodsItem} />
+                        </View>
+                    </View>
+                </Modal>
+                <View style={styles.view_title_container}>
+                    <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
+                        <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#999', fontSize: 14, marginRight: 60 }}>原条码</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.setState({ type: 2 }) }}>
+                        <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#999', fontSize: 14, marginRight: 60 }}>条码</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => { this.setState({ type: 3 }) }}>
+                        <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#999', fontSize: 14 }}>证书号</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入商品条码'
-                        onChangeText={(text) => this.state.barCode = text}
+                        onChangeText={(text) => this.setState({ barCode: text })}
+                        value={this.state.barCode}
                         underlineColorAndroid="transparent" />
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
-                        <Image style={{ height: 17, width: 14, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
+                        <Image style={{ height: 17, width: 16, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
                     <TouchableOpacity onPress={() => { forward(this, 'Scanner', { type: 'track' }) }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
@@ -168,10 +233,15 @@ export default class Follow extends Component {
                         <View style={{ flex: 1 }}>
                             <View style={styles.baseInfoContainer}>
                                 <TouchableOpacity onPress={() => { this.showImagePicker(); }}>
-                                    <Image style={{ width: 80, height: 80, margin: 15 }} source={this.state.data.img ? { uri: this.state.data.img } : require('../../../assets/image/track/camera.png')} />
+                                    {
+                                        this.state.data.img ?
+                                            <Image style={{ width: 80, height: 80, margin: 15 }} source={{ uri: this.state.data.img }} />
+                                            :
+                                            <Image style={{ width: 80, height: 80, margin: 15 }} source={require('../../../assets/image/track/camera.png')} />
+                                    }
                                 </TouchableOpacity>
                                 <View style={{ flex: 1 }}>
-                                    <Text style={[styles.label, { marginTop: 15 }]}>商品条码      <Text style={styles.value}>{this.state.data.archivesNo}</Text></Text>
+                                    <Text style={[styles.label, { marginTop: 15 }]}>商品代码      <Text style={styles.value}>{this.state.data.archivesNo}</Text></Text>
                                     <Text style={styles.label}>商品名称      <Text style={styles.value}>{this.state.data.goodsName}</Text></Text>
                                     <Text style={styles.label}>子名称          <Text style={styles.value}>{this.state.data.subGoodsName}</Text></Text>
                                     <Text style={styles.label}>供应商          <Text style={styles.value}>{this.state.data.supplierName}</Text></Text>
@@ -245,7 +315,7 @@ export default class Follow extends Component {
                                     :
                                     <View></View>
                             }
-                            <FlatList style={{ flex: 1, marginTop: 10 }} data={this.state.data.steps} renderItem={this._renderItem} />
+                            <FlatList style={{ flex: 1, marginTop: 10 }} data={this.state.steps} renderItem={this._renderItem} />
                         </View>
                         :
                         <Image style={styles.img} source={require('../../../assets/image/info/no_follow.png')} />
@@ -257,6 +327,31 @@ export default class Follow extends Component {
 }
 
 const styles = StyleSheet.create({
+    view_title_container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+        height: 25,
+        alignItems: 'center'
+    },
+    menuContainer: {
+        flexDirection: 'row',
+        height: 50,
+        borderTopWidth: 1,
+        borderBottomWidth: 0.5,
+        borderColor: '#f3f3f1'
+    },
+    menuText: {
+        margin: 15,
+        marginRight: 10
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     modalContainer: {
         height: 200,
         backgroundColor: '#fff'
@@ -318,7 +413,7 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
     detailLabel: {
-        flex: 1,
+        flex: 1.5,
         fontSize: 12,
         color: '#333'
     },

@@ -151,9 +151,6 @@ export default class Settings extends Component {
                                 <View style={styles.userInfoContainer}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <Text style={styles.nameText}>{this.state.userInfo.realName}</Text>
-                                        <View style={styles.subNameContainer}>
-                                            <Text style={styles.subNameText}>{this.state.userInfo.userRoleName}</Text>
-                                        </View>
                                     </View>
                                     <Text style={styles.companyText}>{this.state.userInfo.companyName}</Text>
                                     <Text style={styles.companyText}>{this.state.userInfo.shopName}</Text>
