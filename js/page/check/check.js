@@ -52,19 +52,25 @@ export default class Check extends Component {
                     this.querySubSheet();
                     alert(this, 'info', '删除成功');
                 });
-            }
+            },
+            () => { }
         );
     }
 
     _renderItem = ({ item }) => {
         return (
-            <View style={{ height: 75, flexDirection: 'column', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
+            <View style={{ height: 85, flexDirection: 'column', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                    <Text style={{ flex: 1, color: '#333', fontSize: 13, marginLeft: 10 }}>单号</Text>
-                    <Text style={{ flex: 3, color: '#666', fontSize: 13 }}>{item.sheetNo}</Text>
-                    <Text style={{ flex: 4, color: '#666', fontSize: 13, textAlign: 'right', marginRight: 10 }}>{item.lastUpdateDate}</Text>
+                    <Text style={{ width: 50, color: '#333', fontSize: 13, marginLeft: 10 }}>单号</Text>
+                    <Text style={{ flex: 2, color: '#666', fontSize: 13 }}>{item.sheetNo}</Text>
+                    <Text style={{ flex: 1, color: '#666', fontSize: 13, textAlign: 'right', marginRight: 10 }}>{item.sheetDate}</Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                    <Text style={{ width: 50, color: '#333', fontSize: 13, marginLeft: 10 }}>门店</Text>
+                    <Text style={{ flex: 2, color: '#666', fontSize: 13 }}>{item.deptAreaName}</Text>
+                    <Text style={{ flex: 1, color: '#666', fontSize: 13, textAlign: 'right', marginRight: 10 }}>{item.storeName}</Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 10, marginBottom: 2 }}>
                     <Text style={{ flex: 1.5, color: '#333', fontSize: 11, marginLeft: 10 }}>操作员：</Text>
                     <Text style={{ flex: 4, color: '#666', fontSize: 11, textAlign: 'left' }}>{item.createUserName}</Text>
                     <TouchableOpacity onPress={() => { this._delSubSheet(item.id) }}>

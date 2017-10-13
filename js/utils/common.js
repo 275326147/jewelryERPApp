@@ -14,12 +14,14 @@ export function alert(master, type, message, okCallback, cancelCallback) {
         showFlag = false;
         let actions = [{
             text: '确定', onPress: () => {
+                showFlag = true;
                 if (okCallback) okCallback.call(master);
             }
         }];
         if (cancelCallback) {
             actions.push({
                 text: '取消', onPress: () => {
+                    showFlag = true;
                     cancelCallback.call(master);
                 }
             });

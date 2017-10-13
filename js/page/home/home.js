@@ -11,21 +11,15 @@ import {
 } from 'react-native';
 import Foot from './foot';
 import Center from './center';
-import UpgradeDialog from '../upgrade/upgradeDialog';
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
     }
 
-    componentWillMount() {
-
-    }
-
     render() {
         return (
             <View style={styles.container}>
-                <UpgradeDialog navigation={this.props.navigation} />
                 <Center navigation={this.props.navigation} />
                 <Foot navigation={this.props.navigation} />
             </View>

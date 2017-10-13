@@ -6,12 +6,12 @@ import Storage from '../../utils/storage';
 import { forward } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
-let pwd = '';
 
 export default class SetPwd extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            pwd: '',
             isWarning: false,
             messageColor: '#fff',
             message: '请设置手势密码'
@@ -19,23 +19,23 @@ export default class SetPwd extends Component {
     }
 
     _onFinish = (password) => {
-        if (pwd === '') {
+        if (this.state.pwd === '') {
             // The first password
-            pwd = password;
             this.setState({
+                pwd: password,
                 isWarning: false,
                 messageColor: '#fff',
                 message: '请再次绘制手势密码'
             });
         } else {
             // The second password
-            if (password === pwd) {
+            if (password === this.state.pwd) {
                 this.setState({
                     isWarning: false,
                     messageColor: '#00AAEF',
                     message: '密码设置成功'
                 });
-                Storage.setPassword(this, pwd);
+                Storage.setPassword(this, password);
                 forward(this, 'Home');
             } else {
                 this.setState({
@@ -48,7 +48,7 @@ export default class SetPwd extends Component {
     }
 
     _onReset = () => {
-        if (pwd === '') {
+        if (this.state.pwd === '') {
             this.setState({
                 isWarning: false,
                 messageColor: '#fff',

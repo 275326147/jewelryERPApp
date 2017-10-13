@@ -86,10 +86,11 @@ export default class Settings extends Component {
         callService(this, 'logout.do', new FormData(), function () {
             Storage.getCurrentAccount(this, function (accountInfo) {
                 accountInfo.token = '';
-                Storage.setAccountInfo(this, accountInfo);
+                Storage.setAccountInfo(this, accountInfo, function () {
+                    Storage.setStorageAsync('currentAccount', '');
+                    forward(this, 'Login');
+                });
             });
-            Storage.setStorageAsync('currentAccount', '');
-            forward(this, 'Login');
         });
     }
 

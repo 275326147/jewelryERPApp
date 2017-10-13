@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import Storage from '../../utils/storage';
 import { Constant, alert, forward } from '../../utils/common';
+import UpgradeDialog from '../upgrade/upgradeDialog';
+import Settings from '../user/settings';
 
 const splashImg = require('../../../assets/image/start/start.jpg');//加载图片
 
@@ -31,9 +33,9 @@ export default class Start extends Component {
                 //第二次启动
                 Storage.getCurrentAccount(this, function (accountInfo) {
                     if (accountInfo.password) {
-                        forward(this, 'SetPwd');
-                    } else {
                         forward(this, 'CheckPwd');
+                    } else {
+                        forward(this, 'SetPwd');
                     }
                 });
             }).catch((error) => {
@@ -48,14 +50,18 @@ export default class Start extends Component {
 
     render() {
         return (
-            <Animated.Image
-                style={{
-                    width: width,
-                    height: height,
-                    transform: [{ scale: this.state.bounceValue }]
-                }}
-                source={splashImg}
-            />
+            <View>
+                <Animated.Image
+                    style={{
+                        width: width,
+                        height: height,
+                        transform: [{ scale: this.state.bounceValue }]
+                    }}
+                    source={splashImg}
+                />
+                <UpgradeDialog navigation={this.props.navigation} />
+                <Settings navigation={this.props.navigation} />
+            </View>
         );
     }
 }

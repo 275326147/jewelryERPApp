@@ -147,16 +147,8 @@ export default class Checking extends Component {
                         this.state.showCamera ?
                             <QRScannerView rectWidth={Dimensions.get('window').width - 80} rectHeight={100} cornerBorderWidth={1} scanBarMargin={25}
                                 onScanResultReceived={this.barcodeReceived.bind(this)}
-                                renderBottomMenuView={() => {
-                                    return (
-                                        <View style={{ alignItems: 'flex-end', width: Dimensions.get('window').width, height: 30 }}>
-                                            <TouchableOpacity style={{ height: 30, width: 30 }} onPress={() => { this.setState({ showCamera: false }) }}>
-                                                <Image style={{ width: 30, height: 30 }} source={require('../../../assets/image/check/keyboard.png')} />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )
-                                }}
                                 hintText={'  '}
+                                topMenuHeight={30}
                                 renderTopBarView={() => {
                                     return (
                                         <View style={{ flex: 1, height: 35, flexDirection: 'row' }}>
@@ -171,6 +163,15 @@ export default class Checking extends Component {
                                                     <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#fff', fontSize: 14 }}>证书号</Text>
                                                 </TouchableOpacity>
                                             </View>
+                                        </View>
+                                    )
+                                }}
+                                renderBottomMenuView={() => {
+                                    return (
+                                        <View style={{ alignItems: 'flex-end', justifyContent: 'center', height: 65 }}>
+                                            <TouchableOpacity onPress={() => { this.setState({ showCamera: false }) }}>
+                                                <Image style={{ width: 30, height: 30 }} source={require('../../../assets/image/check/keyboard.png')} />
+                                            </TouchableOpacity>
                                         </View>
                                     )
                                 }} />
@@ -188,13 +189,15 @@ export default class Checking extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.searchContainer}>
-                                    <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入原条码号／条码号／证书号'
-                                        onChangeText={(text) => this.setState({ keyword: text })}
-                                        value={this.state.keyword}
-                                        underlineColorAndroid="transparent">
-                                    </TextInput>
+                                    <View>
+                                        <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入原条码号／条码号／证书号'
+                                            onChangeText={(text) => this.setState({ keyword: text })}
+                                            value={this.state.keyword}
+                                            underlineColorAndroid="transparent">
+                                        </TextInput>
+                                    </View>
                                     <TouchableWithoutFeedback onPress={() => { this.queryGoods() }}>
-                                        <Image style={{ height: 25, width: 25, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
+                                        <Image style={{ height: 20, width: 20, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
                                     </TouchableWithoutFeedback>
                                     <TouchableOpacity onPress={() => { this.setState({ showCamera: true }) }}>
                                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
@@ -204,17 +207,22 @@ export default class Checking extends Component {
                     }
                 </View>
                 <View style={{ height: 35, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ flex: 1.1, fontSize: 12, color: '#333', textAlign: 'right' }}>盘点单号：</Text>
+                    <Text style={{ width: 70, fontSize: 12, color: '#333', textAlign: 'right' }}>盘点单号：</Text>
                     <Text style={{ flex: 2, fontSize: 12, color: '#999', textAlign: 'left' }}>{this.state.item.sheetNo}</Text>
-                    <Text style={{ flex: 1, fontSize: 10, color: '#333', textAlign: 'right' }}>操作员：</Text>
-                    <Text style={{ flex: 1.5, fontSize: 10, color: '#999', textAlign: 'left' }}>{this.state.item.createUserName}</Text>
+                    <Text style={{ width: 50, fontSize: 10, color: '#333', textAlign: 'right' }}>操作员：</Text>
+                    <Text style={{ flex: 1, fontSize: 10, color: '#999', textAlign: 'left' }}>{this.state.item.createUserName}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
                     {
                         this.state.goodsInfo ?
                             <View style={{ height: 100, flexDirection: 'row', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
                                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                    <Image style={{ width: 55, height: 55, margin: 15 }} source={this.state.goodsInfo.img ? { uri: this.state.goodsInfo.img } : require('../../../assets/image/check/empty.png')} />
+                                    {
+                                        this.state.goodsInfo.img ?
+                                            <Image style={{ width: 55, height: 55, margin: 15 }} source={{ uri: this.state.goodsInfo.img }} />
+                                            :
+                                            <Image style={{ width: 55, height: 55, margin: 15 }} source={require('../../../assets/image/check/empty.png')} />
+                                    }
                                 </View>
                                 <View style={{ flex: 2, flexDirection: 'column' }}>
                                     <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -252,9 +260,9 @@ export default class Checking extends Component {
 
 const styles = StyleSheet.create({
     cameraImg: {
-        height: 25,
-        width: 25,
-        marginLeft: 50
+        height: 20,
+        width: 20,
+        marginLeft: 30
     },
     view_title_container: {
         flex: 1,
@@ -277,9 +285,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     input: {
-        fontSize: 12,
-        height: 55,
-        width: Dimensions.get('window').width - 100,
+        fontSize: 14,
+        height: 50,
+        width: Dimensions.get('window').width - 60,
         borderRadius: 20,
         backgroundColor: '#f3f3f1',
         margin: 10,

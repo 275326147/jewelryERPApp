@@ -42,65 +42,76 @@ class Storage {
      * 获取当前账号信息
      */
     getCurrentAccount(master, callback) {
-        this.getStorageAsync('currentAccount').then((currentAccount) => {
-            if (!currentAccount) {
-                forward(master, 'Login');
-                return;
-            }
-            this.getStorageAsync(currentAccount).then((accountInfo) => {
-                if (!accountInfo || !accountInfo.token) {
+        try {
+            this.getStorageAsync('currentAccount').then((currentAccount) => {
+                if (!currentAccount) {
                     forward(master, 'Login');
                     return;
                 }
-                accountInfo = JSON.parse(accountInfo);
-                callback.call(master, accountInfo);
-            }).catch((error) => {
-                alert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
+                this.getStorageAsync(currentAccount).then((accountInfo) => {
+                    if (!accountInfo) {
+                        forward(master, 'Login');
+                        return;
+                    }
+                    accountInfo = JSON.parse(accountInfo);
+                    if (!accountInfo.token) {
+                        forward(master, 'Login');
+                        return;
+                    }
+                    callback.call(master, accountInfo);
+                });
             });
-        }).catch((error) => {
+        } catch (error) {
+            console.error(error);
             alert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
-        });
+        }
     }
 
     /**
      * 设置账号信息
      */
-    setAccountInfo(master, value) {
-        this.getStorageAsync('currentAccount').then((currentAccount) => {
-            let info = {};
-            info.token = value.token;
-            info.users = value.users;
-            info.currentUser = value.currentUser
-            if (!value.users || value.users.length === 0) {
-                alert(this, 'error', '用户列表为空，请联系管理员');
-                forward(master, 'Login');
-                return;
-            }
-            if (!info.currentUser) info.currentUser = value.users[0];
-            this.getStorageAsync(currentAccount).then((accountInfo) => {
-                if (accountInfo) {
-                    accountInfo = JSON.parse(accountInfo);
-                    let currentUser = accountInfo.currentUser;
-                    if (currentUser) {
+    setAccountInfo(master, value, callback) {
+        try {
+            this.getStorageAsync('currentAccount').then((currentAccount) => {
+                this.getStorageAsync(currentAccount).then((accountInfo) => {
+                    if (!accountInfo) {
+                        accountInfo = {};
+                    } else {
+                        accountInfo = JSON.parse(accountInfo);
+                    }
+                    if (typeof value.password === "string") accountInfo.password = value.password;
+                    accountInfo.token = value.token;
+                    accountInfo.users = value.users;
+                    if (value.currentUser) accountInfo.currentUser = value.currentUser;
+                    if (!value.users || value.users.length === 0) {
+                        alert(this, 'error', '用户列表为空，请联系管理员');
+                        forward(master, 'Login');
+                        return;
+                    }
+                    if (!accountInfo.currentUser) {
+                        accountInfo.currentUser = value.users[0];
+                    } else {
                         let flag = false;
+                        let currentUser = accountInfo.currentUser;
                         value.users.forEach(function (item) {
                             if (currentUser.companyNo === item.companyNo && currentUser.userId === item.userId) {
-                                info.currentUser = item;
+                                accountInfo.currentUser = item;
                                 flag = true;
                             }
                         });
-                        if (!flag) info.currentUser = value.users[0];
+                        if (!flag) accountInfo.currentUser = value.users[0];
                     }
-                }
-                this.setStorageAsync(currentAccount, JSON.stringify(info)).catch((error) => {
-                    alert(this, 'error', '设置本地缓存失败，请确认APP是否有读写本地存储的权限');
+                    this.setStorageAsync(currentAccount, JSON.stringify(accountInfo)).then(function () {
+                        if (callback) {
+                            callback.call(master);
+                        }
+                    });
                 });
-            }).catch((error) => {
-                alert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
             });
-        }).catch((error) => {
+        } catch (error) {
+            console.error(error);
             alert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
-        });
+        }
     }
 
     /**
@@ -111,7 +122,7 @@ class Storage {
         this.getCurrentAccount(master, function (accountInfo) {
             self.getStorageAsync('currentAccount').then((account) => {
                 accountInfo.password = password;
-                self.setAccountInfo(account, accountInfo);
+                self.setAccountInfo(master, accountInfo);
             }).catch((error) => {
                 calert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
             });

@@ -15,7 +15,6 @@ import {
     StyleSheet,
     TouchableWithoutFeedback
 } from 'react-native';
-import Settings from '../user/settings';
 import { callService } from '../../utils/service';
 import { forward } from '../../utils/common';
 
@@ -69,7 +68,6 @@ export default class Center extends Component {
     render() {
         return (
             <ScrollView style={{ flex: 1 }}>
-                <Settings navigation={this.props.navigation} />
                 <Image style={styles.img} source={require('../../../assets/image/home/banner.jpg')} />
                 <View style={styles.iconContainer}>
                     <FlatList style={styles.list} data={this.menuData} renderItem={this._renderItem} horizontal={false} numColumns={3} />

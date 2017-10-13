@@ -74,10 +74,11 @@ export default class Password extends Component {
         Storage.getCurrentAccount(this, function (accountInfo) {
             accountInfo.token = '';
             accountInfo.password = '';
-            Storage.setAccountInfo(this, accountInfo);
+            Storage.setAccountInfo(this, accountInfo, function () {
+                Storage.setStorageAsync('currentAccount', '');
+                forward(this, 'Login');
+            });
         });
-        Storage.setStorageAsync('currentAccount', '');
-        forward(this, 'Login');
     }
 
     render() {

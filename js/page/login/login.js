@@ -51,13 +51,14 @@ export default class Login extends Component {
         params.append("smsValiCode", this.state.code);
         callServiceWithoutToken(this, 'checkLogin.do', params, function (response) {
             Storage.setStorageAsync('currentAccount', this.state.account);
-            Storage.setAccountInfo(this, response);
-            Storage.getCurrentAccount(this, function (accountInfo) {
-                if (!accountInfo.password) {
-                    forward(this, 'SetPwd');
-                } else {
-                    forward(this, 'CheckPwd');
-                }
+            Storage.setAccountInfo(this, response, function () {
+                Storage.getCurrentAccount(this, function (accountInfo) {
+                    if (!accountInfo.password) {
+                        forward(this, 'SetPwd');
+                    } else {
+                        forward(this, 'CheckPwd');
+                    }
+                });
             });
         });
     }

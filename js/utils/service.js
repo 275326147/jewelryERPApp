@@ -53,10 +53,11 @@ export function callService(master, url, params, successCallback, failCallback) 
                     alert(this, 'info', '会话已过期，请重新登录', () => {
                         Storage.getCurrentAccount(master, function (accountInfo) {
                             accountInfo.token = '';
-                            Storage.setAccountInfo(master, accountInfo);
+                            Storage.setAccountInfo(master, accountInfo, function(){
+                                Storage.setStorageAsync('currentAccount', '');
+                                forward(master, 'Login');
+                            });
                         });
-                        Storage.setStorageAsync('currentAccount', '');
-                        forward(master, 'Login');
                     });
                     return;
                 }
