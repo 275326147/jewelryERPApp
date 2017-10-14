@@ -103,14 +103,19 @@ export default class Checking extends Component {
         }
     }
 
-    queryGoods() {
+    queryGoods(type, importItemId) {
         let params = new FormData();
         params.append("subSheetId", this.state.item.id);
-        params.append("codeType", this.state.type);
+        params.append("codeType", type ? type : this.state.type);
         params.append("codeStr", this.state.keyword);
-        if (this.state.importItemId) params.append("importItemId", this.state.importItemId);
+        if (importItemId) params.append("importItemId", importItemId);
         callService(this, 'doProcess4InputCheck.do', params, function (response) {
             let eventType = response.eventType;
+            if (eventType !== 2) {
+                this.setState({
+                    importItemId: null
+                });
+            }
             let master = this;
             switch (eventType) {
                 case -1:
@@ -159,32 +164,47 @@ export default class Checking extends Component {
         this.setState({ keyword: '' })
     }
 
+    _onSelectClose() {
+        this.setState({
+            selectGoodsVisible: false
+        });
+    }
+
     _onClose() {
         this.setState({
-            selectGoodsVisible: false,
             updateGoodsVisible: false
         });
     }
 
     _selectGoods(item) {
         this.setState({
-            type: 4,
-            importItemId: item.importItemId,
-            selectGoodsVisible: false
-        }, () => {
-            this.queryGoods();
+            selectGoodsVisible: false,
+            importItemId: item.importItemId
         });
+        this.queryGoods(4, item.importItemId);
     }
 
     submit() {
+        let params = new FormData();
+        params.append("subSheetId", this.props.navigation.state.params.item.id);
+        params.append("itemId", this.state.importItemId ? this.state.importItemId : this.state.goods.itemId);
+        params.append("dataType", this.state.importItemId ? 1 : 2);
+        params.append("num", parseInt(this.state.checkNum));
+        params.append("goldWeight", parseInt(this.state.goldWeight));
+        callService(this, 'doProcess4InputCheckData.do', params, function (response) {
+            this.setState({
+                importItemId: null,
+                goodsInfo: response.checkItemInfo,
+                hasCheckNum4SubSheet: response.hasCheckNum4SubSheet,
+                hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet
+            });
+        });
         this._onClose();
     }
 
     _renderGoodsItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._selectGoods(item) }}>
             <View style={styles.menuContainer}>
-                <Text style={styles.menuText}>{item.archivesNo}</Text>
-                <Text style={styles.menuText}>{item.goodsName}</Text>
                 <Text style={styles.menuText}>{item.barCode}</Text>
             </View>
         </TouchableWithoutFeedback>
@@ -197,7 +217,7 @@ export default class Checking extends Component {
                     visible={this.state.selectGoodsVisible}
                     animationType={'slide'}
                     transparent={true}
-                    onRequestClose={() => this._onClose()}>
+                    onRequestClose={() => this._onSelectClose()}>
                     <View style={styles.modalBackground}>
                         <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 50) }]}>
                             <FlatList style={{ flex: 1 }} data={this.state.goodsList} renderItem={this._renderGoodsItem} />
@@ -210,7 +230,7 @@ export default class Checking extends Component {
                     transparent={true}
                     onRequestClose={() => this._onClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={{ height: 140, flexDirection: 'row', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
+                        <View style={styles.goodsContainer}>
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 {
                                     this.state.goods.img ?
@@ -220,32 +240,35 @@ export default class Checking extends Component {
                                 }
                             </View>
                             <View style={{ flex: 2, flexDirection: 'column' }}>
-                                <View style={{ flex: 1, flexDirection: 'column' }}>
+                                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                                     <Text style={{ fontSize: 12, color: '#333', marginTop: 15 }}>商品条码  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goods.goodsInfo.barCode}</Text></Text>
                                     <Text style={{ fontSize: 12, color: '#333', marginTop: 3 }}>商品名称  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goods.goodsInfo.goodsName}</Text></Text>
                                 </View>
-                                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                                    <View style={{ flex: 2, flexDirection: 'column', alignItems: 'center' }}>
+                                <View style={{ flex: 2, flexDirection: 'row', marginTop: 30 }}>
+                                    <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                                         <Text style={{ fontSize: 10, color: '#333' }}>金重</Text>
-                                        <TextInput style={{ height: 30, width: 30 }}
-                                            onChangeText={(text) => this.setState({ goldWeight: text })}
-                                            value={this.state.goods.hasCheckGoldWeight}
-                                            underlineColorAndroid="transparent">
-                                        </TextInput>
+                                        <View>
+                                            <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
+                                                onChangeText={(text) => this.setState({ goldWeight: text })}
+                                                value={this.state.goods.hasCheckGoldWeight}
+                                                underlineColorAndroid="transparent">
+                                            </TextInput>
+                                        </View>
                                     </View>
-                                    <View style={{ flex: 1, borderLeftWidth: 1, borderColor: '#f3f3f1', height: 20, alignItems: 'center' }}></View>
-                                    <View style={{ flex: 2, flexDirection: 'column', alignItems: 'flex-start' }}>
+                                    <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
                                         <Text style={{ fontSize: 10, color: '#333' }}>数量</Text>
-                                        <TextInput style={{ height: 30, width: 30 }}
-                                            onChangeText={(text) => this.setState({ checkNum: text })}
-                                            value={this.state.goods.hasCheckNum}
-                                            underlineColorAndroid="transparent">
-                                        </TextInput>
+                                        <View>
+                                            <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
+                                                onChangeText={(text) => this.setState({ checkNum: text })}
+                                                value={this.state.goods.hasCheckNum}
+                                                underlineColorAndroid="transparent">
+                                            </TextInput>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
                         </View >
-                        <View style={{ height: 50, backgroundColor: '#fff', width: Dimensions.get('window').width, alignItems: 'center', justifyContent: 'center' }}>
+                        <View style={[styles.goodsContainer, { height: 50 }]}>
                             <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
                                 <Text style={{ textAlign: 'center', color: '#fff', fontSize: 13 }}>确定</Text>
                             </TouchableOpacity>
@@ -369,6 +392,13 @@ export default class Checking extends Component {
 }
 
 const styles = StyleSheet.create({
+    goodsContainer: {
+        width: Dimensions.get('window').width - 50,
+        height: 140, flexDirection: 'row',
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     button: {
         borderWidth: 0,
         width: 150,
@@ -381,8 +411,9 @@ const styles = StyleSheet.create({
         margin: 10
     },
     menuContainer: {
-        flexDirection: 'row',
+        alignItems: 'center',
         height: 50,
+        width: 150,
         borderTopWidth: 1,
         borderBottomWidth: 0.5,
         borderColor: '#f3f3f1'
