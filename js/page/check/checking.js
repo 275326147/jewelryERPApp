@@ -14,7 +14,8 @@ import {
     DeviceEventEmitter,
     TouchableOpacity,
     TextInput,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Modal
 } from 'react-native';
 import { QRScannerView } from 'ac-qrcode';
 import { callService } from '../../utils/service';
@@ -30,23 +31,28 @@ export default class Checking extends Component {
             item: {},
             showCamera: true,
             hasCheckGoldWeight4SubSheet: 0,
-            hasCheckNum4SubSheet: 0
+            hasCheckNum4SubSheet: 0,
+            selectGoodsVisible: false,
+            updateGoodsVisible: false,
+            goodsList: [],
+            goods: {
+                goodsInfo: {}
+            }
         };
     }
 
     componentDidMount() {
         this.msgListener = DeviceEventEmitter.addListener('commitCheck', (listenerMsg) => {
-            // let params = new FormData();
-            // params.append("subSheetId", this.state.item.id);
-            // callService(this, 'submitSubSheet.do', params, function (response) {
-            //     alert(
-            //         this,
-            //         'info',
-            //         '提交成功',
-            //         () => { forward(this, 'Home') }
-            //     );
-            // });
-            this.props.navigation.goBack('Home');
+            let params = new FormData();
+            params.append("subSheetId", this.state.item.id);
+            callService(this, 'submitSubSheet.do', params, function (response) {
+                alert(
+                    this,
+                    'info',
+                    '提交成功',
+                    () => { this.props.navigation.goBack('Check'); }
+                );
+            });
         });
         let params = new FormData();
         params.append("subSheetId", this.props.navigation.state.params.item.id);
@@ -102,6 +108,7 @@ export default class Checking extends Component {
         params.append("subSheetId", this.state.item.id);
         params.append("codeType", this.state.type);
         params.append("codeStr", this.state.keyword);
+        if (this.state.importItemId) params.append("importItemId", this.state.importItemId);
         callService(this, 'doProcess4InputCheck.do', params, function (response) {
             let eventType = response.eventType;
             let master = this;
@@ -116,9 +123,17 @@ export default class Checking extends Component {
                     break;
                 case 1:
                     //选择一条进货记录，之后调用doProcess4InputCheck.do， codeType传4， importItemId传选择的importItemId
+                    this.setState({
+                        goodsList: response.importSheetItemList,
+                        selectGoodsVisible: true
+                    })
                     break;
                 case 2:
                     //进货单一码多货
+                    this.setState({
+                        goods: response,
+                        updateGoodsVisible: true
+                    });
                     break;
                 case 3:
                     //一码一货
@@ -132,6 +147,10 @@ export default class Checking extends Component {
                     break;
                 case 4:
                     //修改已盘点一码多货
+                    this.setState({
+                        goods: response,
+                        updateGoodsVisible: true
+                    });
                     break;
                 default:
                     break;
@@ -140,9 +159,99 @@ export default class Checking extends Component {
         this.setState({ keyword: '' })
     }
 
+    _onClose() {
+        this.setState({
+            selectGoodsVisible: false,
+            updateGoodsVisible: false
+        });
+    }
+
+    _selectGoods(item) {
+        this.setState({
+            type: 4,
+            importItemId: item.importItemId,
+            selectGoodsVisible: false
+        }, () => {
+            this.queryGoods();
+        });
+    }
+
+    submit() {
+        this._onClose();
+    }
+
+    _renderGoodsItem = ({ item }) => (
+        <TouchableWithoutFeedback onPress={() => { this._selectGoods(item) }}>
+            <View style={styles.menuContainer}>
+                <Text style={styles.menuText}>{item.archivesNo}</Text>
+                <Text style={styles.menuText}>{item.goodsName}</Text>
+                <Text style={styles.menuText}>{item.barCode}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    )
+
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
+                <Modal
+                    visible={this.state.selectGoodsVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onClose()}>
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 50) }]}>
+                            <FlatList style={{ flex: 1 }} data={this.state.goodsList} renderItem={this._renderGoodsItem} />
+                        </View>
+                    </View>
+                </Modal>
+                <Modal
+                    visible={this.state.updateGoodsVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onClose()}>
+                    <View style={styles.modalBackground}>
+                        <View style={{ height: 140, flexDirection: 'row', backgroundColor: '#fff', borderTopWidth: 1, borderColor: '#f3f3f1' }}>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                {
+                                    this.state.goods.img ?
+                                        <Image style={{ width: 55, height: 55, margin: 15 }} source={{ uri: this.state.goods.goodsInfo.img }} />
+                                        :
+                                        <Image style={{ width: 55, height: 55, margin: 15 }} source={require('../../../assets/image/check/empty.png')} />
+                                }
+                            </View>
+                            <View style={{ flex: 2, flexDirection: 'column' }}>
+                                <View style={{ flex: 1, flexDirection: 'column' }}>
+                                    <Text style={{ fontSize: 12, color: '#333', marginTop: 15 }}>商品条码  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goods.goodsInfo.barCode}</Text></Text>
+                                    <Text style={{ fontSize: 12, color: '#333', marginTop: 3 }}>商品名称  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goods.goodsInfo.goodsName}</Text></Text>
+                                </View>
+                                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                                    <View style={{ flex: 2, flexDirection: 'column', alignItems: 'center' }}>
+                                        <Text style={{ fontSize: 10, color: '#333' }}>金重</Text>
+                                        <TextInput style={{ height: 30, width: 30 }}
+                                            onChangeText={(text) => this.setState({ goldWeight: text })}
+                                            value={this.state.goods.hasCheckGoldWeight}
+                                            underlineColorAndroid="transparent">
+                                        </TextInput>
+                                    </View>
+                                    <View style={{ flex: 1, borderLeftWidth: 1, borderColor: '#f3f3f1', height: 20, alignItems: 'center' }}></View>
+                                    <View style={{ flex: 2, flexDirection: 'column', alignItems: 'flex-start' }}>
+                                        <Text style={{ fontSize: 10, color: '#333' }}>数量</Text>
+                                        <TextInput style={{ height: 30, width: 30 }}
+                                            onChangeText={(text) => this.setState({ checkNum: text })}
+                                            value={this.state.goods.hasCheckNum}
+                                            underlineColorAndroid="transparent">
+                                        </TextInput>
+                                    </View>
+                                </View>
+                            </View>
+                        </View >
+                        <View style={{ height: 50, backgroundColor: '#fff', width: Dimensions.get('window').width, alignItems: 'center', justifyContent: 'center' }}>
+                            <TouchableOpacity style={styles.button} onPress={() => this.submit()}>
+                                <Text style={{ textAlign: 'center', color: '#fff', fontSize: 13 }}>确定</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={{ height: 165 }}>
                     {
                         this.state.showCamera ?
@@ -260,6 +369,38 @@ export default class Checking extends Component {
 }
 
 const styles = StyleSheet.create({
+    button: {
+        borderWidth: 0,
+        width: 150,
+        backgroundColor: '#6334E6',
+        height: 30,
+        borderColor: '#b5b5b5',
+        borderRadius: 18,
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 10
+    },
+    menuContainer: {
+        flexDirection: 'row',
+        height: 50,
+        borderTopWidth: 1,
+        borderBottomWidth: 0.5,
+        borderColor: '#f3f3f1'
+    },
+    menuText: {
+        margin: 15,
+        marginRight: 10
+    },
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    modalContainer: {
+        height: 200,
+        backgroundColor: '#fff'
+    },
     cameraImg: {
         height: 20,
         width: 20,
