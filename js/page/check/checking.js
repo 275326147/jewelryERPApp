@@ -143,16 +143,16 @@ export default class Checking extends Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
-                <View style={{ height: 160 }}>
+                <View style={{ height: 165 }}>
                     {
                         this.state.showCamera ?
                             <QRScannerView rectWidth={Dimensions.get('window').width - 80} rectHeight={100} cornerBorderWidth={1} scanBarMargin={25}
                                 onScanResultReceived={this.barcodeReceived.bind(this)}
                                 hintText={'  '}
-                                topMenuHeight={30}
+                                topMenuHeight={40}
                                 renderTopBarView={() => {
                                     return (
-                                        <View style={{ flex: 1, height: 35, flexDirection: 'row' }}>
+                                        <View style={{ flex: 1, height: 40, flexDirection: 'row' }}>
                                             <View style={styles.view_title_container}>
                                                 <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
                                                     <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#fff', fontSize: 14, marginRight: 60 }}>原条码</Text>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        height: 35,
+        height: 40,
         alignItems: 'center'
     },
     container: {

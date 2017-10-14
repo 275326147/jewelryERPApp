@@ -39,13 +39,13 @@ export default class RejectApprove extends Component {
     queryTodoList() {
         let params = new FormData();
         params.append("todoType", 2);
-        callService(this, 'getMyTodoList.do', params, function (response) {
-            if (response.todoList) {
-                this.setState({
-                    todoList: response.todoList
-                });
-            }
-        });
+        // callService(this, 'getMyTodoList.do', params, function (response) {
+        //     if (response.todoList) {
+        //         this.setState({
+        //             todoList: response.todoList
+        //         });
+        //     }
+        // });
     }
 
     componentDidMount() {

@@ -13,7 +13,8 @@ import {
     Image,
     Text,
     Dimensions,
-    FlatList
+    FlatList,
+    DeviceEventEmitter
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import { alert, forward } from '../../utils/common';
@@ -38,6 +39,13 @@ export default class Check extends Component {
 
     componentDidMount() {
         this.querySubSheet();
+        this.msgListener = DeviceEventEmitter.addListener('refreshSubCheck', (listenerMsg) => {
+            this.querySubSheet();
+        });
+    }
+
+    componentWillUnmount() {
+        this.msgListener && this.msgListener.remove();
     }
 
     _delSubSheet(subSheetId) {

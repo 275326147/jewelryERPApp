@@ -43,11 +43,11 @@ export default class WaitApprove extends Component {
     queryTodoList() {
         let params = new FormData();
         params.append("todoType", 1);
-        callService(this, 'getMyTodoList.do', params, function (response) {
-            this.setState({
-                todoList: response.todoList
-            });
-        });
+        // callService(this, 'getMyTodoList.do', params, function (response) {
+        //     this.setState({
+        //         todoList: response.todoList
+        //     });
+        // });
     }
 
     componentDidMount() {

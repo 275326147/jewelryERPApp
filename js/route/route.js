@@ -93,7 +93,12 @@ const SimpleStack = StackNavigator(
         Check: {
             screen: Check,
             navigationOptions: ({ navigation }) => ({
-                title: '盘点'
+                title: '盘点',
+                headerRight: (
+                    <TouchableOpacity style={styles.button} onPress={() => { DeviceEventEmitter.emit('refreshSubCheck', '刷新盘点主单'); }}>
+                        <Text style={styles.buttonText}>刷新</Text>
+                    </TouchableOpacity>
+                )
             })
         },
         NewCheck: {
