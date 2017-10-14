@@ -36,16 +36,17 @@ export default class Checking extends Component {
 
     componentDidMount() {
         this.msgListener = DeviceEventEmitter.addListener('commitCheck', (listenerMsg) => {
-            let params = new FormData();
-            params.append("subSheetId", this.state.item.id);
-            callService(this, 'submitSubSheet.do', params, function (response) {
-                alert(
-                    this,
-                    'info',
-                    '提交成功',
-                    () => { forward(this, 'Home') }
-                );
-            });
+            // let params = new FormData();
+            // params.append("subSheetId", this.state.item.id);
+            // callService(this, 'submitSubSheet.do', params, function (response) {
+            //     alert(
+            //         this,
+            //         'info',
+            //         '提交成功',
+            //         () => { forward(this, 'Home') }
+            //     );
+            // });
+            this.props.navigation.goBack('Home');
         });
         let params = new FormData();
         params.append("subSheetId", this.props.navigation.state.params.item.id);

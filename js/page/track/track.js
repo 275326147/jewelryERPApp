@@ -36,8 +36,10 @@ export default class Follow extends Component {
     }
 
     componentDidMount() {
-        let paramType = this.props.navigation.state.params.type;
-        let paramBarCode = this.props.navigation.state.params.barCode;
+        let params = this.props.navigation.state.params;
+        if (!params) return;
+        let paramType = params.type;
+        let paramBarCode = params.barCode;
         if (paramType && paramBarCode) {
             this.setState({
                 type: paramType,
@@ -238,7 +240,7 @@ export default class Follow extends Component {
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
                         <Image style={{ height: 17, width: 16, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
-                    <TouchableOpacity onPress={() => { forward(this, 'Scanner') }}>
+                    <TouchableOpacity onPress={() => { forward(this, 'Scanner'); }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 </View>

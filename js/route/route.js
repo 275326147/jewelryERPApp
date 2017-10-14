@@ -105,6 +105,11 @@ const SimpleStack = StackNavigator(
                         <Text style={styles.buttonText}>刷新</Text>
                     </TouchableOpacity>
                 ),
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         Checking: {
@@ -117,7 +122,7 @@ const SimpleStack = StackNavigator(
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Check'); }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack('Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -126,7 +131,12 @@ const SimpleStack = StackNavigator(
         QueryCheck: {
             screen: QueryCheck,
             navigationOptions: ({ navigation }) => ({
-                title: '盘点单查询'
+                title: '盘点单查询',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         Message: {
@@ -178,7 +188,12 @@ const SimpleStack = StackNavigator(
         Scanner: {
             screen: Scanner,
             navigationOptions: ({ navigation }) => ({
-                title: '扫描'
+                title: '扫描',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         Guide: {
@@ -228,7 +243,7 @@ const SimpleStack = StackNavigator(
                 alignSelf: 'center'
             },
             headerLeft: (
-                <TouchableOpacity onPress={() => { navigation.navigate('Home'); }}>
+                <TouchableOpacity onPress={() => { navigation.goBack('Home'); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                 </TouchableOpacity>
             )

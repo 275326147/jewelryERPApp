@@ -66,22 +66,18 @@ public class MutableImage {
                 return;
             } else if (exifIFD0Directory.containsTag(ExifIFD0Directory.TAG_ORIENTATION)) {
                 int exifOrientation = exifIFD0Directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
-                if(exifOrientation != 1) {
-                    rotate(exifOrientation);
-                    exifIFD0Directory.setInt(ExifIFD0Directory.TAG_ORIENTATION, 1);
-                }
+                rotate(exifOrientation);
             }
         } catch (ImageProcessingException | IOException | MetadataException e) {
             throw new ImageMutationFailedException("failed to fix orientation", e);
         }
     }
 
-    //see http://www.impulseadventure.com/photo/exif-orientation.html
     private void rotate(int exifOrientation) throws ImageMutationFailedException {
         final Matrix bitmapMatrix = new Matrix();
         switch (exifOrientation) {
             case 1:
-                return;//no rotation required
+                break;
             case 2:
                 bitmapMatrix.postScale(-1, 1);
                 break;
