@@ -63,9 +63,9 @@ export default class Follow extends Component {
 
     queryGoodsInfo() {
         let params = new FormData();
-        let field = "barCode";
+        let field = "oldBarCode";
         if (this.state.type === 2) {
-            field = "oldBarCode";
+            field = "barCode";
         } else if (this.state.type === 3) {
             field = "certificateNo";
         }
