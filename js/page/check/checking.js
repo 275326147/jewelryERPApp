@@ -199,6 +199,9 @@ export default class Checking extends Component {
                 hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet
             });
         });
+        this.setState({
+            lockCamera: false
+        });
         this._onClose();
     }
 

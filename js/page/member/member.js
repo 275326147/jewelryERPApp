@@ -43,6 +43,9 @@ export default class Member extends Component {
                 }
             }
         });
+        this.setState({
+            keyword: ''
+        });
     }
 
     _renderItem = ({ item }) => {
@@ -162,7 +165,8 @@ export default class Member extends Component {
             <View style={{ flex: 1 }}>
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入会员卡号／会员名／手机号'
-                        onChangeText={(text) => this.state.keyword = text}
+                        onChangeText={(text) => this.setState({ keyword: text })}
+                        value={this.state.keyword}
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <TouchableWithoutFeedback onPress={() => { this.queryMemberList() }}>
