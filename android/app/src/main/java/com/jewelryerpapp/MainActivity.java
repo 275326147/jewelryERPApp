@@ -3,6 +3,7 @@ package com.jewelryerpapp;
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
 import cn.jpush.android.api.JPushInterface;
+import com.reactnativecomponent.barcode.RCTCapturePackage; 
 
 public class MainActivity extends ReactActivity {
 

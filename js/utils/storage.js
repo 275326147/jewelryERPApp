@@ -124,7 +124,7 @@ class Storage {
                 accountInfo.password = password;
                 self.setAccountInfo(master, accountInfo);
             }).catch((error) => {
-                calert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
+                alert(this, 'error', '读取本地缓存失败，请确认APP是否有读写本地存储的权限');
             });
         });
     }

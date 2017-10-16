@@ -249,7 +249,7 @@ const SimpleStack = StackNavigator(
                 alignSelf: 'center'
             },
             headerLeft: (
-                <TouchableOpacity onPress={() => { navigation.goBack('Home'); }}>
+                <TouchableOpacity onPress={() => { navigation.navigate('Home'); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                 </TouchableOpacity>
             )

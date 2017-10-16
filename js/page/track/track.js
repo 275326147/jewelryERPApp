@@ -44,8 +44,9 @@ export default class Follow extends Component {
             this.setState({
                 type: paramType,
                 barCode: paramBarCode
+            }, () => {
+                this.queryGoodsInfo();
             });
-            this.queryGoodsInfo();
         }
     }
 
@@ -233,16 +234,16 @@ export default class Follow extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.searchContainer}>
+                    <TouchableOpacity onPress={() => { forward(this, 'Scanner'); }}>
+                        <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
+                    </TouchableOpacity>
                     <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入商品条码'
                         onChangeText={(text) => this.setState({ barCode: text })}
                         value={this.state.barCode}
                         underlineColorAndroid="transparent" />
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
-                        <Image style={{ height: 17, width: 16, marginTop: 5, marginLeft: -30 }} source={require('../../../assets/image/track/search.png')} />
+                        <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
-                    <TouchableOpacity onPress={() => { forward(this, 'Scanner'); }}>
-                        <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
-                    </TouchableOpacity>
                 </View>
                 {
                     this.state.data ?
@@ -377,15 +378,14 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 12,
-        height: 25,
-        marginLeft: 10,
-        marginTop: 10,
-        width: (Dimensions.get('window').width - 50),
+        height: 30,
+        margin: 10,
+        width: (Dimensions.get('window').width - 80),
         borderRadius: 15, backgroundColor: '#f3f3f1',
         padding: 0
     },
     searchContainer: {
-        height: 40,
+        height: 50,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center'
@@ -397,11 +397,9 @@ const styles = StyleSheet.create({
         width: 200
     },
     cameraImg: {
-        height: 18,
-        width: 18,
-        marginLeft: 30,
-        marginRight: 10,
-        marginTop: 5
+        height: 20,
+        width: 20,
+        marginLeft: 10
     },
     arrowImg: {
         marginTop: 10,

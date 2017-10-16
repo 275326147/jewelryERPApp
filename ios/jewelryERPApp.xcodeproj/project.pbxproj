@@ -23,7 +23,9 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1508705C1F8F1EA6000BA27C /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508704F1F8F1E2B000BA27C /* libRNImagePicker.a */; };
-		155C15751F6EBAD800DB649F /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 155C15731F6EADA300DB649F /* libRCTCamera.a */; };
+		15B0C26D1F94703B00984E14 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508705B1F8F1E7A000BA27C /* libRCTJPushModule.a */; };
+		15B0C26E1F94704100984E14 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150870551F8F1E4E000BA27C /* libRCTJCoreModule.a */; };
+		15B0C26F1F94705200984E14 /* libRCTBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B0C2521F946FD000984E14 /* libRCTBarcode.a */; };
 		24C548D74F3042568036A58C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5345D5AC5496E8734765D /* Security.framework */; };
 		2B35C34B7EDD4C8DB4C25F1E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8457CF8CB4DC49DBA2D62343 /* CoreTelephony.framework */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -42,12 +44,10 @@
 		43F575699EED4DD9A0B63D87 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E9A756123A423EBDA63E18 /* UIKit.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		671DC146612949E38B973FDE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 666096237027428783223B45 /* libz.tbd */; };
-		6E8D0FE7AF144F3BBF9E7A01 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6451C05239BB41A5B883DD69 /* libRCTJPushModule.a */; };
 		7EEFD8E174FC4048B8985E3C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0D44DCA7764AAD9C9BCEE1 /* CoreGraphics.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		950F7E92248E49AEB2863285 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB7DE51A782D4A1CBAA78EA0 /* CFNetwork.framework */; };
 		9E2CCFE2FAE64CEE8DD6A1AB /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 55AEA5EB1331403FA69905F3 /* libresolv.tbd */; };
-		ACDDBF1B549D4CE288AF3601 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B28DA98AAF44516929C8BE4 /* libRCTJCoreModule.a */; };
 		DA87D5AB98AD486C9301851F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9605401FEA4458BD80342B /* CoreFoundation.framework */; };
 		ED9BF7285CB04BD1BDFC144B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6285AE07B34ABDB1B69ED5 /* UserNotifications.framework */; };
 		EF41A7B7BE2B4FA7BE91108C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 737BA9D57A374FFD98C5A308 /* SystemConfiguration.framework */; };
@@ -138,12 +138,12 @@
 			remoteGlobalIDString = 6280980A1CEDC407000D3A81;
 			remoteInfo = RCTJPushModule;
 		};
-		155C15721F6EADA300DB649F /* PBXContainerItemProxy */ = {
+		15B0C2511F946FD000984E14 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 155C156E1F6EADA300DB649F /* RCTCamera.xcodeproj */;
+			containerPortal = 15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
-			remoteInfo = RCTCamera;
+			remoteGlobalIDString = 9FCCD7581DAC8DA800025BFD;
+			remoteInfo = RCTBarcode;
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -295,7 +295,8 @@
 		1508704A1F8F1E2B000BA27C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		150870501F8F1E4D000BA27C /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
 		150870561F8F1E7A000BA27C /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
-		155C156E1F6EADA300DB649F /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
+		15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBarCode.xcodeproj; path = "../node_modules/react-native-smart-barcode/ios/RCTBarcode/RCTBarCode.xcodeproj"; sourceTree = "<group>"; };
+		15B0C2701F947C9000984E14 /* raw */ = {isa = PBXFileReference; lastKnownFileType = folder; name = raw; path = "../node_modules/react-native-smart-barcode/ios/raw"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* jewelryERPApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "jewelryERPApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* jewelryERPApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "jewelryERPApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35E9A756123A423EBDA63E18 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -329,8 +330,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15B0C26F1F94705200984E14 /* libRCTBarcode.a in Frameworks */,
+				15B0C26E1F94704100984E14 /* libRCTJCoreModule.a in Frameworks */,
+				15B0C26D1F94703B00984E14 /* libRCTJPushModule.a in Frameworks */,
 				1508705C1F8F1EA6000BA27C /* libRNImagePicker.a in Frameworks */,
-				155C15751F6EBAD800DB649F /* libRCTCamera.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -342,8 +345,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				ACDDBF1B549D4CE288AF3601 /* libRCTJCoreModule.a in Frameworks */,
-				6E8D0FE7AF144F3BBF9E7A01 /* libRCTJPushModule.a in Frameworks */,
 				671DC146612949E38B973FDE /* libz.tbd in Frameworks */,
 				ED9BF7285CB04BD1BDFC144B /* UserNotifications.framework in Frameworks */,
 				2B35C34B7EDD4C8DB4C25F1E /* CoreTelephony.framework in Frameworks */,
@@ -463,6 +464,7 @@
 		13B07FAE1A68108700A75B9A /* jewelryERPApp */ = {
 			isa = PBXGroup;
 			children = (
+				15B0C2701F947C9000984E14 /* raw */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -521,10 +523,10 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		155C156F1F6EADA300DB649F /* Products */ = {
+		15B0C24B1F946FD000984E14 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				155C15731F6EADA300DB649F /* libRCTCamera.a */,
+				15B0C2521F946FD000984E14 /* libRCTBarcode.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -568,10 +570,10 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */,
 				150870561F8F1E7A000BA27C /* RCTJPushModule.xcodeproj */,
 				150870501F8F1E4D000BA27C /* RCTJCoreModule.xcodeproj */,
 				1508704A1F8F1E2B000BA27C /* RNImagePicker.xcodeproj */,
-				155C156E1F6EADA300DB649F /* RCTCamera.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -744,8 +746,8 @@
 					ProjectRef = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
 				},
 				{
-					ProductGroup = 155C156F1F6EADA300DB649F /* Products */;
-					ProjectRef = 155C156E1F6EADA300DB649F /* RCTCamera.xcodeproj */;
+					ProductGroup = 15B0C24B1F946FD000984E14 /* Products */;
+					ProjectRef = 15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -884,11 +886,11 @@
 			remoteRef = 1508705A1F8F1E7A000BA27C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		155C15731F6EADA300DB649F /* libRCTCamera.a */ = {
+		15B0C2521F946FD000984E14 /* libRCTBarcode.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRCTCamera.a;
-			remoteRef = 155C15721F6EADA300DB649F /* PBXContainerItemProxy */;
+			path = libRCTBarcode.a;
+			remoteRef = 15B0C2511F946FD000984E14 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
@@ -1207,8 +1209,10 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)..\node_modulesjcore-react-nativeiosRCTJCoreModule",
-					"$(SRCROOT)..\node_modulesjpush-react-nativeiosRCTJPushModule",
+					"$(SRCROOT)..",
+					"node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)..",
+					"node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = jewelryERPApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1232,8 +1236,10 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)..\node_modulesjcore-react-nativeiosRCTJCoreModule",
-					"$(SRCROOT)..\node_modulesjpush-react-nativeiosRCTJPushModule",
+					"$(SRCROOT)..",
+					"node_modules/jcore-react-native/ios/RCTJCoreModule",
+					"$(SRCROOT)..",
+					"node_modules/jpush-react-native/ios/RCTJPushModule",
 				);
 				INFOPLIST_FILE = jewelryERPApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

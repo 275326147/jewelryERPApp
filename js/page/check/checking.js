@@ -17,15 +17,15 @@ import {
     TouchableWithoutFeedback,
     Modal
 } from 'react-native';
-import { QRScannerView } from 'ac-qrcode';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 import { alert, forward } from '../../utils/common';
+import Barcode from 'react-native-smart-barcode';
 
 export default class Checking extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            lockCamera: false,
+            lock: false,
             type: 1,
             keyword: '',
             item: {},
@@ -96,10 +96,23 @@ export default class Checking extends Component {
         );
     }
 
-    barcodeReceived(e) {
-        if (!this.state.lockCamera) {
-            this.setState({ lockCamera: true, keyword: e.data })
-            this.queryGoods();
+    _startScan = (e) => {
+        if (this._barCode) this._barCode.startScan();
+    }
+
+    _stopScan = (e) => {
+        if (this._barCode) this._barCode.stopScan();
+    }
+
+    _onBarCodeRead(e) {
+        if (!this.state.lock) {
+            this.setState({
+                lock: true
+            });
+            this._stopScan();
+            this.setState({ keyword: e.data }, () => {
+                this.queryGoods();
+            });
         }
     }
 
@@ -123,13 +136,18 @@ export default class Checking extends Component {
                         this,
                         'info',
                         response.msg,
-                        () => master.setState({ lockCamera: false })
+                        () => {
+                            master._startScan();
+                            master.setState({
+                                lock: false
+                            });
+                        }
                     );
                     break;
                 case 1:
                     //选择一条进货记录，之后调用doProcess4InputCheck.do， codeType传4， importItemId传选择的importItemId
                     this.setState({
-                        goodsList: response.importSheetItemList,
+                        goodsList: handleResult(response.importSheetItemList),
                         selectGoodsVisible: true
                     })
                     break;
@@ -146,9 +164,10 @@ export default class Checking extends Component {
                         goodsInfo: response.goodsInfo,
                         showCheckInfo: response.showCheckInfo,
                         hasCheckNum4SubSheet: response.hasCheckNum4SubSheet,
-                        hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet
+                        hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet,
+                        lock: false
                     });
-                    master.setState({ lockCamera: false })
+                    master._startScan();
                     break;
                 case 4:
                     //修改已盘点一码多货
@@ -199,8 +218,9 @@ export default class Checking extends Component {
                 hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet
             });
         });
+        this._startScan();
         this.setState({
-            lockCamera: false
+            lock: false
         });
         this._onClose();
     }
@@ -278,50 +298,43 @@ export default class Checking extends Component {
                         </View>
                     </View>
                 </Modal>
-                <View style={{ height: 165 }}>
+                <View style={{ height: 190 }}>
                     {
                         this.state.showCamera ?
-                            <QRScannerView rectWidth={Dimensions.get('window').width - 80} rectHeight={100} cornerBorderWidth={1} scanBarMargin={25}
-                                onScanResultReceived={this.barcodeReceived.bind(this)}
-                                hintText={'  '}
-                                topMenuHeight={40}
-                                renderTopBarView={() => {
-                                    return (
-                                        <View style={{ flex: 1, height: 40, flexDirection: 'row' }}>
-                                            <View style={styles.view_title_container}>
-                                                <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
-                                                    <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#fff', fontSize: 14, marginRight: 60 }}>原条码</Text>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity onPress={() => { this.setState({ type: 2 }) }}>
-                                                    <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#fff', fontSize: 14, marginRight: 60 }}>条码</Text>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity onPress={() => { this.setState({ type: 3 }) }}>
-                                                    <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#fff', fontSize: 14 }}>证书号</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    )
-                                }}
-                                renderBottomMenuView={() => {
-                                    return (
-                                        <View style={{ alignItems: 'flex-end', justifyContent: 'center', height: 65 }}>
-                                            <TouchableOpacity onPress={() => { this.setState({ showCamera: false }) }}>
-                                                <Image style={{ width: 30, height: 30 }} source={require('../../../assets/image/check/keyboard.png')} />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )
-                                }} />
+                            <View style={{ flex: 1 }}>
+                                <View style={styles.view_title_container}>
+                                    <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
+                                        <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#999', fontSize: 18, marginRight: 60 }}>原条码</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => { this.setState({ type: 2 }) }}>
+                                        <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#999', fontSize: 18, marginRight: 60 }}>条码</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => { this.setState({ type: 3 }) }}>
+                                        <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#999', fontSize: 18 }}>证书号</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <Barcode style={{ flex: 1 }}
+                                    scannerRectHeight={100}
+                                    scannerRectTop={10}
+                                    ref={component => this._barCode = component}
+                                    onBarCodeRead={this._onBarCodeRead.bind(this)} />
+                                <View style={{ alignItems: 'center', justifyContent: 'center', height: 30, backgroundColor: '#fff' }}>
+                                    <TouchableOpacity onPress={() => { this.setState({ showCamera: false }) }}>
+                                        <Image style={{ width: 30, height: 30 }} source={require('../../../assets/image/check/keyboard.png')} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
                             :
                             <View style={styles.container}>
                                 <View style={styles.view_title_container}>
                                     <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
-                                        <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#999', fontSize: 14, marginRight: 60 }}>原条码</Text>
+                                        <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#999', fontSize: 18, marginRight: 60 }}>原条码</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => { this.setState({ type: 2 }) }}>
-                                        <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#999', fontSize: 14, marginRight: 60 }}>条码</Text>
+                                        <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#999', fontSize: 18, marginRight: 60 }}>条码</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => { this.setState({ type: 3 }) }}>
-                                        <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#999', fontSize: 14 }}>证书号</Text>
+                                        <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#999', fontSize: 18 }}>证书号</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.searchContainer}>
@@ -335,6 +348,8 @@ export default class Checking extends Component {
                                     <TouchableWithoutFeedback onPress={() => { this.queryGoods() }}>
                                         <Image style={{ height: 20, width: 20, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
                                     </TouchableWithoutFeedback>
+                                </View>
+                                <View style={{ alignItems: 'center', justifyContent: 'center', height: 35 }}>
                                     <TouchableOpacity onPress={() => { this.setState({ showCamera: true }) }}>
                                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                                     </TouchableOpacity>
@@ -441,20 +456,19 @@ const styles = StyleSheet.create({
         marginLeft: 30
     },
     view_title_container: {
-        flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: 'transparent',
-        height: 40,
+        backgroundColor: '#fff',
+        height: 35,
         alignItems: 'center'
     },
     container: {
-        height: 160,
+        height: 180,
         backgroundColor: '#fff',
         alignItems: 'center'
     },
     searchContainer: {
-        height: 130,
+        flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
@@ -463,10 +477,10 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 14,
         height: 50,
-        width: Dimensions.get('window').width - 60,
+        width: Dimensions.get('window').width - 40,
         borderRadius: 20,
         backgroundColor: '#f3f3f1',
-        margin: 10,
+        marginRight: 20,
         padding: 0
     }
 });
