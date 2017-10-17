@@ -6,10 +6,14 @@
 import React from 'react';
 import Route from './route/route';
 import JPushModule from 'jpush-react-native';
-import { Platform } from 'react-native';
+import { Platform, BackHandler } from 'react-native';
 
 export default class JewelryERPApp extends React.Component {
     componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', function () {
+            this.exitApp();
+            return false;
+        });
         if (Platform.OS === 'android') {
             // 在收到点击事件之前调用此接口
             JPushModule.notifyJSDidLoad((resultCode) => { });
@@ -31,6 +35,10 @@ export default class JewelryERPApp extends React.Component {
                 console.log("Device register succeed, registrationId " + registrationId);
             });
         }
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress');
     }
 
     render() {

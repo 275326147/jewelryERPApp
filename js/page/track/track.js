@@ -381,7 +381,8 @@ const styles = StyleSheet.create({
         height: 30,
         margin: 10,
         width: (Dimensions.get('window').width - 80),
-        borderRadius: 15, backgroundColor: '#f3f3f1',
+        borderRadius: 15, 
+        backgroundColor: '#f3f3f1',
         padding: 0
     },
     searchContainer: {

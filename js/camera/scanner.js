@@ -14,13 +14,14 @@ export default class Scanner extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            type: 1,
-            lock: false
+            type: 1
         };
     }
 
+    lock = false;
+
     render() {
-        this._startScan();
+        this.lock = false;
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.view_title_container}>
@@ -42,24 +43,12 @@ export default class Scanner extends Component {
     }
 
     _onBarCodeRead = (e) => {
-        if (!this.state.lock) {
-            this.setState({
-                lock: true
-            });
+        if (!this.lock) {
+            this.lock = true;
             console.log(`e.nativeEvent.data.type = ${e.nativeEvent.data.type}, e.nativeEvent.data.code = ${e.nativeEvent.data.code}`)
-            this._stopScan();
             forward(this, 'Track', { type: this.state.type, barCode: e.nativeEvent.data.code });
         }
     }
-
-    _startScan = (e) => {
-        if (this._barCode) this._barCode.startScan();
-    }
-
-    _stopScan = (e) => {
-        if (this._barCode) this._barCode.stopScan();
-    }
-
 }
 
 const styles = StyleSheet.create({

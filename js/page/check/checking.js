@@ -29,6 +29,7 @@ export default class Checking extends Component {
             type: 1,
             keyword: '',
             item: {},
+            showCheckInfo: {},
             showCamera: true,
             hasCheckGoldWeight4SubSheet: 0,
             hasCheckNum4SubSheet: 0,
@@ -36,7 +37,8 @@ export default class Checking extends Component {
             updateGoodsVisible: false,
             goodsList: [],
             goods: {
-                goodsInfo: {}
+                goodsInfo: {},
+                showCheckInfo: {}
             }
         };
     }
@@ -50,7 +52,10 @@ export default class Checking extends Component {
                     this,
                     'info',
                     '提交成功',
-                    () => { this.props.navigation.goBack('Check'); }
+                    () => {
+                        DeviceEventEmitter.emit('refreshSubCheck');
+                        this.props.navigation.goBack('Check');
+                    }
                 );
             });
         });
@@ -124,11 +129,6 @@ export default class Checking extends Component {
         if (importItemId) params.append("importItemId", importItemId);
         callService(this, 'doProcess4InputCheck.do', params, function (response) {
             let eventType = response.eventType;
-            if (eventType !== 2) {
-                this.setState({
-                    importItemId: null
-                });
-            }
             let master = this;
             switch (eventType) {
                 case -1:
@@ -197,30 +197,34 @@ export default class Checking extends Component {
 
     _selectGoods(item) {
         this.setState({
-            selectGoodsVisible: false,
-            importItemId: item.importItemId
+            selectGoodsVisible: false
         });
         this.queryGoods(4, item.importItemId);
     }
 
     submit() {
         let params = new FormData();
-        params.append("subSheetId", this.props.navigation.state.params.item.id);
-        params.append("itemId", this.state.importItemId ? this.state.importItemId : this.state.goods.itemId);
-        params.append("dataType", this.state.importItemId ? 1 : 2);
-        params.append("num", parseInt(this.state.checkNum));
-        params.append("goldWeight", parseInt(this.state.goldWeight));
+        params.append("mainSheetId", this.state.item.mainSheetId);
+        params.append("subSheetId", this.state.item.id);
+        params.append("itemId", this.state.goods.goodsInfo.itemId);
+        params.append("dataType", this.state.goods.goodsInfo.itemType);
+        if (this.state.checkNum) params.append("num", parseInt(this.state.checkNum));
+        if (this.state.goldWeight) params.append("goldWeight", parseInt(this.state.goldWeight));
+        if (this.state.stoneWeight) params.append("stoneWeight", parseInt(this.state.stoneWeight));
         callService(this, 'doProcess4InputCheckData.do', params, function (response) {
             this.setState({
-                importItemId: null,
                 goodsInfo: response.checkItemInfo,
+                showCheckInfo: response.showCheckInfo,
                 hasCheckNum4SubSheet: response.hasCheckNum4SubSheet,
                 hasCheckGoldWeight4SubSheet: response.hasCheckGoldWeight4SubSheet
             });
         });
         this._startScan();
         this.setState({
-            lock: false
+            lock: false,
+            checkNum: null,
+            goldWeight: null,
+            stoneWeight: null
         });
         this._onClose();
     }
@@ -256,7 +260,7 @@ export default class Checking extends Component {
                         <View style={styles.goodsContainer}>
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 {
-                                    this.state.goods.img ?
+                                    this.state.goods.goodsInfo.img ?
                                         <Image style={{ width: 55, height: 55, margin: 15 }} source={{ uri: this.state.goods.goodsInfo.img }} />
                                         :
                                         <Image style={{ width: 55, height: 55, margin: 15 }} source={require('../../../assets/image/check/empty.png')} />
@@ -268,26 +272,48 @@ export default class Checking extends Component {
                                     <Text style={{ fontSize: 12, color: '#333', marginTop: 3 }}>商品名称  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goods.goodsInfo.goodsName}</Text></Text>
                                 </View>
                                 <View style={{ flex: 2, flexDirection: 'row', marginTop: 30 }}>
-                                    <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                        <Text style={{ fontSize: 10, color: '#333' }}>金重</Text>
-                                        <View>
-                                            <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
-                                                onChangeText={(text) => this.setState({ goldWeight: text })}
-                                                value={this.state.goods.hasCheckGoldWeight}
-                                                underlineColorAndroid="transparent">
-                                            </TextInput>
-                                        </View>
-                                    </View>
-                                    <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                        <Text style={{ fontSize: 10, color: '#333' }}>数量</Text>
-                                        <View>
-                                            <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
-                                                onChangeText={(text) => this.setState({ checkNum: text })}
-                                                value={this.state.goods.hasCheckNum}
-                                                underlineColorAndroid="transparent">
-                                            </TextInput>
-                                        </View>
-                                    </View>
+                                    {
+                                        this.state.goods.showCheckInfo.showGoldWeightInput ?
+                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 10, color: '#333' }}>金重</Text>
+                                                <View>
+                                                    <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
+                                                        onChangeText={(text) => this.setState({ goldWeight: text })}
+                                                        defaultValue={"" + this.state.goods.showCheckInfo.hasCheckGoldWeight}
+                                                        keyboardType='numeric'
+                                                        underlineColorAndroid="transparent">
+                                                    </TextInput>
+                                                </View>
+                                            </View> : <View />
+                                    }
+                                    {
+                                        this.state.goods.showCheckInfo.showNumInput ?
+                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 10, color: '#333' }}>数量</Text>
+                                                <View>
+                                                    <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
+                                                        onChangeText={(text) => this.setState({ checkNum: text })}
+                                                        defaultValue={"" + this.state.goods.showCheckInfo.hasCheckNum}
+                                                        keyboardType='numeric'
+                                                        underlineColorAndroid="transparent">
+                                                    </TextInput>
+                                                </View>
+                                            </View> : <View />
+                                    }
+                                    {
+                                        this.state.goods.showCheckInfo.showStoneWeightInput ?
+                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                <Text style={{ fontSize: 10, color: '#333' }}>石重</Text>
+                                                <View>
+                                                    <TextInput style={[styles.input, { height: 30, width: 50, borderRadius: 0 }]}
+                                                        onChangeText={(text) => this.setState({ stoneWeight: text })}
+                                                        defaultValue={"" + this.state.goods.showCheckInfo.hasCheckStoneWeight}
+                                                        keyboardType='numeric'
+                                                        underlineColorAndroid="transparent">
+                                                    </TextInput>
+                                                </View>
+                                            </View> : <View />
+                                    }
                                 </View>
                             </View>
                         </View >
@@ -298,7 +324,7 @@ export default class Checking extends Component {
                         </View>
                     </View>
                 </Modal>
-                <View style={{ height: 190 }}>
+                <View style={{ height: 290 }}>
                     {
                         this.state.showCamera ?
                             <View style={{ flex: 1 }}>
@@ -314,7 +340,7 @@ export default class Checking extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <Barcode style={{ flex: 1 }}
-                                    scannerRectHeight={100}
+                                    scannerRectHeight={200}
                                     scannerRectTop={10}
                                     ref={component => this._barCode = component}
                                     onBarCodeRead={this._onBarCodeRead.bind(this)} />
@@ -346,7 +372,7 @@ export default class Checking extends Component {
                                         </TextInput>
                                     </View>
                                     <TouchableWithoutFeedback onPress={() => { this.queryGoods() }}>
-                                        <Image style={{ height: 20, width: 20, marginTop: 3, marginLeft: -40 }} source={require('../../../assets/image/track/search.png')} />
+                                        <Image style={{ height: 25, width: 25 }} source={require('../../../assets/image/track/search.png')} />
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={{ alignItems: 'center', justifyContent: 'center', height: 35 }}>
@@ -380,16 +406,33 @@ export default class Checking extends Component {
                                         <Text style={{ fontSize: 12, color: '#333', marginTop: 15 }}>商品条码  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goodsInfo.barCode}</Text></Text>
                                         <Text style={{ fontSize: 12, color: '#333', marginTop: 3 }}>商品名称  <Text style={{ fontSize: 12, color: '#999' }}>{this.state.goodsInfo.goodsName}</Text></Text>
                                     </View>
-                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
-                                        <View style={{ flex: 2, flexDirection: 'column', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 10, color: '#333' }}>金重</Text>
-                                            <Text style={{ fontSize: 10, color: 'orange', marginTop: 3 }}>{this.state.showCheckInfo.hasCheckGoldWeight}g</Text>
-                                        </View>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginTop: 20, alignContent: 'space-between' }}>
+                                        {
+                                            this.state.showCheckInfo.showGoldWeightInput ?
+                                                <View style={{ flex: 2, flexDirection: 'column', alignItems: 'center' }}>
+                                                    <Text style={{ fontSize: 10, color: '#333' }}>金重</Text>
+                                                    <Text style={{ fontSize: 10, color: 'orange', marginTop: 3 }}>{this.state.showCheckInfo.hasCheckGoldWeight}g</Text>
+                                                </View>
+                                                : <View />
+                                        }
                                         <View style={{ flex: 1, borderLeftWidth: 1, borderColor: '#f3f3f1', height: 20, alignItems: 'center' }}></View>
-                                        <View style={{ flex: 2, flexDirection: 'column', alignItems: 'flex-start' }}>
-                                            <Text style={{ fontSize: 10, color: '#333' }}>数量</Text>
-                                            <Text style={{ fontSize: 10, color: 'orange', marginTop: 3, marginLeft: 5 }}>{this.state.showCheckInfo.hasCheckNum}</Text>
-                                        </View>
+                                        {
+                                            this.state.showCheckInfo.showNumInput ?
+                                                <View style={{ flex: 2, flexDirection: 'column', alignItems: 'flex-start' }}>
+                                                    <Text style={{ fontSize: 10, color: '#333' }}>数量</Text>
+                                                    <Text style={{ fontSize: 10, color: 'orange', marginTop: 3, marginLeft: 5 }}>{this.state.showCheckInfo.hasCheckNum}</Text>
+                                                </View>
+                                                : <View />
+                                        }
+                                        <View style={{ flex: 1, borderLeftWidth: 1, borderColor: '#f3f3f1', height: 20, alignItems: 'center' }}></View>
+                                        {
+                                            this.state.showCheckInfo.showStoneWeightInput ?
+                                                <View style={{ flex: 2, flexDirection: 'column', alignItems: 'flex-start' }}>
+                                                    <Text style={{ fontSize: 10, color: '#333' }}>石重</Text>
+                                                    <Text style={{ fontSize: 10, color: 'orange', marginTop: 3, marginLeft: 5 }}>{this.state.showCheckInfo.hasCheckStoneWeight}g</Text>
+                                                </View>
+                                                : <View />
+                                        }
                                     </View>
                                 </View>
                             </View >
@@ -402,6 +445,8 @@ export default class Checking extends Component {
                     <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.hasCheckGoldWeight4SubSheet}克</Text>
                     <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总数量：</Text>
                     <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.hasCheckNum4SubSheet}件</Text>
+                    <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总石重：</Text>
+                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.showStoneWeightInput}克</Text>
                 </View>
             </View>
         );
@@ -451,9 +496,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     cameraImg: {
-        height: 20,
-        width: 20,
-        marginLeft: 30
+        height: 25,
+        width: 25
     },
     view_title_container: {
         flexDirection: 'row',
@@ -463,7 +507,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     container: {
-        height: 180,
+        height: 280,
         backgroundColor: '#fff',
         alignItems: 'center'
     },
@@ -477,10 +521,10 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 14,
         height: 50,
-        width: Dimensions.get('window').width - 40,
+        width: Dimensions.get('window').width - 50,
         borderRadius: 20,
         backgroundColor: '#f3f3f1',
-        marginRight: 20,
+        margin: 10,
         padding: 0
     }
 });

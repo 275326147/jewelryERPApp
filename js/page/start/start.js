@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import Storage from '../../utils/storage';
 import { Constant, alert, forward } from '../../utils/common';
-import UpgradeDialog from '../upgrade/upgradeDialog';
-import Settings from '../user/settings';
 
 const splashImg = require('../../../assets/image/start/start.jpg');//加载图片
 
@@ -59,8 +57,6 @@ export default class Start extends Component {
                     }}
                     source={splashImg}
                 />
-                <UpgradeDialog navigation={this.props.navigation} />
-                <Settings navigation={this.props.navigation} />
             </View>
         );
     }

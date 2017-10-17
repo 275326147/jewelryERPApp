@@ -37,25 +37,23 @@ export default class Settings extends Component {
     }
 
     componentDidMount() {
-        //注意addListener的key和emit的key保持一致
         this.msgListener = DeviceEventEmitter.addListener('showSettings', (listenerMsg) => {
-            Storage.getCurrentAccount(this, function (accountInfo) {
-                this.setState({
-                    userInfo: accountInfo.currentUser,
-                    modalVisible: true
-                });
+            this.setState({
+                modalVisible: true
             });
         });
-
         Storage.getCurrentAccount(this, function (accountInfo) {
-            this.setState({
-                users: handleResult(accountInfo.users),
-                menuData: [
-                    { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
-                    { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
-                    { key: 3, text: '关于软件', handler: () => { } }
-                ]
-            });
+            if (accountInfo.users.length > 1) {
+                this.setState({
+                    userInfo: accountInfo.currentUser,
+                    users: handleResult(accountInfo.users),
+                    menuData: [
+                        { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
+                        { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
+                        { key: 3, text: '关于软件', handler: () => { } }
+                    ]
+                });
+            }
         });
     }
 
@@ -142,7 +140,7 @@ export default class Settings extends Component {
                     animationType={'slide'}
                     transparent={true}
                     onRequestClose={() => { this._onClose() }}>
-                    <View style={styles.container}>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
                         <View style={styles.innerContainer}>
                             <View style={styles.headContainer}>
                                 <TouchableWithoutFeedback onPress={() => { this._gotoUserInfo() }}>
@@ -181,10 +179,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    container: {
-        flex: 1,
-        flexDirection: 'row'
     },
     innerContainer: {
         width: 250,
