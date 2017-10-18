@@ -12,7 +12,6 @@ import {
     Dimensions,
     Image
 } from 'react-native';
-import Foot from '../home/foot';
 import messageData from './data';
 
 export default class Home extends Component {
@@ -43,7 +42,6 @@ export default class Home extends Component {
                         :
                         <FlatList style={{ marginTop: 10 }} data={messageData} renderItem={this._renderItem} />
                 }
-                <Foot navigation={this.props.navigation} />
             </View>
         );
     }

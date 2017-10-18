@@ -32,6 +32,7 @@ import NewCheck from '../page/check/newCheck';
 import QueryCheck from '../page/check/queryCheck';
 import Checking from '../page/check/checking';
 import Scanner from '../camera/scanner';
+import Todo from '../page/todo/todo';
 import RejectApprove from '../page/todo/rejectApprove';
 import RejectTransfer from '../page/todo/rejectTransfer';
 import WaitApprove from '../page/todo/waitApprove';
@@ -147,17 +148,7 @@ const SimpleStack = StackNavigator(
         Message: {
             screen: Message,
             navigationOptions: ({ navigation }) => ({
-                title: '通知消息',
-                headerRight: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner'); }}>
-                        <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
-                    </TouchableOpacity>
-                ),
-                headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('showSettings', '显示设置界面'); }}>
-                        <Image style={styles.img} source={require('../../assets/image/head/user.png')} />
-                    </TouchableOpacity>
-                )
+                title: '通知消息'
             })
         },
         UserInfo: {
@@ -166,28 +157,54 @@ const SimpleStack = StackNavigator(
                 title: '账户信息'
             })
         },
+        Todo: {
+            screen: Todo,
+            navigationOptions: ({ navigation }) => ({
+                title: '待办事项'
+            })
+        },
         RejectApprove: {
             screen: RejectApprove,
             navigationOptions: ({ navigation }) => ({
-                title: '待办事项'
+                title: '待办事项',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         RejectTransfer: {
             screen: RejectTransfer,
             navigationOptions: ({ navigation }) => ({
-                title: '待办事项'
+                title: '待办事项',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         WaitApprove: {
             screen: WaitApprove,
             navigationOptions: ({ navigation }) => ({
-                title: '待办事项'
+                title: '待办事项',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         WaitReceive: {
             screen: WaitReceive,
             navigationOptions: ({ navigation }) => ({
-                title: '待办事项'
+                title: '待办事项',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         Scanner: {

@@ -19,27 +19,19 @@ export default class Foot extends Component {
         super(props);
     }
 
-    _backHome() {
-        forward(this, 'Home');
-    }
-
-    _gotoMessage() {
-        forward(this, 'Message');
-    }
-
     render() {
         return (
             <View style={styles.container}>
 
-                <TouchableOpacity onPress={this._backHome.bind(this)}>
-                    <View style={styles.imgCcontainer}>
-                        <Image style={styles.img} source={require('../../../assets/image/foot/home.png')} />
-                        <Text style={styles.txt}>首页</Text>
+                <TouchableOpacity style={{ flex: 1 }} onPress={() => { forward(this, 'Todo') }}>
+                    <View style={styles.imgContainer}>
+                        <Image style={styles.img} source={require('../../../assets/image/foot/todo.png')} />
+                        <Text style={styles.txt}>我的待办</Text>
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this._gotoMessage.bind(this)}>
-                    <View style={styles.imgCcontainer}>
+                <TouchableOpacity style={{ flex: 1 }} onPress={() => { forward(this, 'Message') }}>
+                    <View style={styles.imgContainer}>
                         <Image style={styles.img} source={require('../../../assets/image/foot/msg.png')} />
                         <Text style={styles.txt}>消息</Text>
                     </View>
@@ -47,7 +39,6 @@ export default class Foot extends Component {
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -66,15 +57,12 @@ const styles = StyleSheet.create({
     },
     img: {
         height: 25,
-        width: 25,
-        marginLeft: 100,
-        marginRight: 100,
-        marginTop: 5,
+        width: 25
     },
     txt: {
         textAlign: 'center',
         fontSize: 12,
-        marginTop: 1,
+        marginTop: 3,
         marginBottom: 10
     }
 });
