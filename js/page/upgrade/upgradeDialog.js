@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import { callService } from '../../utils/service';
 import { Constant } from '../../utils/common';
+import Storage from '../../utils/storage';
 
 export default class UpgradeDialog extends Component {
 
@@ -29,16 +30,20 @@ export default class UpgradeDialog extends Component {
     }
 
     componentDidMount() {
-        let params = new FormData();
-        params.append("platformName", 'beta');
-        params.append("packageName", 'com.jewelryerpapp');
-        params.append("appType", Platform.OS === 'android' ? 1 : 2);
-        params.append("versionCode", Constant.VERSION);
-        callService(this, 'updataCheck.do', params, function (response) {
-            if (response.needUpdateFlag === 1) {
-                this.setState({
-                    appInfo: response.appInfo,
-                    modalVisible: true
+        Storage.getStorageAsync('currentAccount').then((currentAccount) => {
+            if (currentAccount) {
+                let params = new FormData();
+                params.append("platformName", 'beta');
+                params.append("packageName", 'com.jewelryerpapp');
+                params.append("appType", Platform.OS === 'android' ? 1 : 2);
+                params.append("versionCode", Constant.VERSION);
+                callService(this, 'updataCheck.do', params, function (response) {
+                    if (response.needUpdateFlag === 1) {
+                        this.setState({
+                            appInfo: response.appInfo,
+                            modalVisible: true
+                        });
+                    }
                 });
             }
         });

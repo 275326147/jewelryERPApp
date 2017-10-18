@@ -41,19 +41,19 @@ export default class Settings extends Component {
             this.setState({
                 modalVisible: true
             });
-        });
-        Storage.getCurrentAccount(this, function (accountInfo) {
-            if (accountInfo.users.length > 1) {
-                this.setState({
-                    userInfo: accountInfo.currentUser,
-                    users: handleResult(accountInfo.users),
-                    menuData: [
-                        { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
-                        { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
-                        { key: 3, text: '关于软件', handler: () => { } }
-                    ]
-                });
-            }
+            Storage.getCurrentAccount(this, function (accountInfo) {
+                if (accountInfo.users.length > 1) {
+                    this.setState({
+                        userInfo: accountInfo.currentUser,
+                        users: handleResult(accountInfo.users),
+                        menuData: [
+                            { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
+                            { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
+                            { key: 3, text: '关于软件', handler: () => { } }
+                        ]
+                    });
+                }
+            });
         });
     }
 
