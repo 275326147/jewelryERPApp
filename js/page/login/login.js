@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { Keyboard, View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import Storage from '../../utils/storage';
 import { callServiceWithoutToken } from '../../utils/service';
 import { forward } from '../../utils/common';
@@ -14,8 +14,43 @@ export default class Login extends Component {
             account: Platform.OS === 'android' ? '18682077880' : '18682077360',
             code: '',
             second: 60,
-            enable: true
+            enable: true,
+            keyboardHeight: 280
         };
+    }
+
+    componentWillMount() {
+        //监听键盘弹出事件
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',
+            this.keyboardDidShowHandler.bind(this));
+        //监听键盘隐藏事件
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide',
+            this.keyboardDidHideHandler.bind(this));
+    }
+
+    componentWillUnmount() {
+        //卸载键盘弹出事件监听
+        if (this.keyboardDidShowListener != null) {
+            this.keyboardDidShowListener.remove();
+        }
+        //卸载键盘隐藏事件监听
+        if (this.keyboardDidHideListener != null) {
+            this.keyboardDidHideListener.remove();
+        }
+    }
+
+    //键盘弹出事件响应
+    keyboardDidShowHandler(event) {
+        this.setState({
+            keyboardHeight: (230 + event.endCoordinates.height)
+        });
+    }
+
+    //键盘隐藏事件响应
+    keyboardDidHideHandler(event) {
+        this.setState({
+            keyboardHeight: 280
+        });
     }
 
     sendCode() {
@@ -66,14 +101,14 @@ export default class Login extends Component {
     render() {
         return (
             <Image source={require('../../../assets/image/login/login.jpg')} style={{ height: height, width: width }} >
-                <View style={styles.container}>
-                    <TextInput style={styles.input} placeholder='   请输入您的手机号码'
+                <View style={[styles.container, { marginTop: (height - this.state.keyboardHeight) }]}>
+                    <TextInput style={styles.input} placeholder='请输入您的手机号码'
                         onChangeText={(text) => this.setState({ account: text })}
                         value={this.state.account}
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <View style={styles.inputContainer}>
-                        <TextInput style={styles.codeInput} placeholder='   请输入验证码'
+                        <TextInput style={styles.codeInput} placeholder='请输入验证码'
                             onChangeText={(text) => this.setState({ code: text })}
                             value={this.state.code}
                             underlineColorAndroid="transparent">
@@ -119,7 +154,6 @@ const styles = StyleSheet.create({
     container: {
         height: 280,
         backgroundColor: 'transparent',
-        marginTop: (height - 280),
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -128,7 +162,8 @@ const styles = StyleSheet.create({
         height: 40,
         flex: 2,
         backgroundColor: '#fff',
-        padding: 0
+        padding: 0,
+        paddingLeft: 10
     },
     inputContainer: {
         height: 40,
@@ -146,7 +181,8 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginTop: 10,
-        padding: 0
+        padding: 0,
+        paddingLeft: 10
     },
     btn: {
         width: Dimensions.get('window').width - 40,

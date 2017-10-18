@@ -127,7 +127,7 @@ const SimpleStack = StackNavigator(
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack('Check'); }}>
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshSubCheck', '刷新未提交盘点'); navigation.goBack('Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )

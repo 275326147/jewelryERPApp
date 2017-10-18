@@ -16,23 +16,28 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
-import { forward } from '../../utils/common';
+import { forward, alert } from '../../utils/common';
 
 export default class NewCheck extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mainCheckData: [],
-            selected: 1
+            mainCheckData: []
         };
     }
 
     queryMainSheet() {
         callService(this, 'queryCanCheckMainSheetList.do', new FormData(), function (response) {
-            if (response.mainSheetList) {
+            let list = response.mainSheetList;
+            if (list) {
                 this.setState({
-                    mainCheckData: handleResult(response.mainSheetList)
+                    mainCheckData: handleResult(list)
                 });
+                if (!this.state.selected && list.length > 0) {
+                    this.setState({
+                        selected: list[0].id
+                    });
+                }
             }
         });
     }
@@ -58,11 +63,11 @@ export default class NewCheck extends Component {
     _renderItem = ({ item }) => {
         return (
             <TouchableWithoutFeedback onPress={() => { this._selectCheck(item) }}>
-                <View style={[styles.check, { backgroundColor: this.state.selected === item.key ? '#7A67EE' : '#fff', borderWidth: this.state.selected === item.key ? 0 : 1 }]}>
+                <View style={[styles.check, { backgroundColor: this.state.selected === item.id ? '#7A67EE' : '#fff', borderWidth: this.state.selected === item.id ? 0 : 1 }]}>
                     <View style={{ width: 40 }}></View>
-                    <Text style={[styles.item, { color: this.state.selected === item.key ? '#fff' : '#333' }]}>{item.sheetNo}</Text>
+                    <Text style={[styles.item, { color: this.state.selected === item.id ? '#fff' : '#333' }]}>{item.sheetNo}</Text>
                     <View style={{ width: 40, marginRight: 20 }}>
-                        {this.state.selected === item.key ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
+                        {this.state.selected === item.id ? <Text style={[styles.text, { color: '#fff' }]}>选中</Text> : <Text></Text>}
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -70,6 +75,10 @@ export default class NewCheck extends Component {
     };
 
     createSubSheet() {
+        if (!this.state.selected) {
+            alert(this, "info", "请选择主单");
+            return;
+        }
         let params = new FormData();
         params.append("mainSheetId", this.state.selected);
         callService(this, 'createSubSheetByMain.do', params, function (response) {

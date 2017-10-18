@@ -14,7 +14,8 @@ import {
     FlatList,
     Dimensions,
     TextInput,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
@@ -46,6 +47,7 @@ export default class Member extends Component {
         this.setState({
             keyword: ''
         });
+        Keyboard.dismiss();
     }
 
     _renderItem = ({ item }) => {
@@ -164,7 +166,7 @@ export default class Member extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.searchContainer}>
-                    <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入会员卡号／会员名／手机号'
+                    <TextInput style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
                         onChangeText={(text) => this.setState({ keyword: text })}
                         value={this.state.keyword}
                         underlineColorAndroid="transparent">
@@ -193,7 +195,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: '#f3f3f1',
         margin: 10,
-        padding: 0
+        padding: 0,
+        paddingLeft: 20
     },
     searchContainer: {
         height: 50,

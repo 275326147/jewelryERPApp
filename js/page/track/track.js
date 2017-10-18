@@ -17,6 +17,7 @@ import {
     DeviceEventEmitter,
     FlatList,
     Modal,
+    Keyboard,
     Platform
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
@@ -87,6 +88,7 @@ export default class Follow extends Component {
         this.setState({
             barCode: ''
         });
+        Keyboard.dismiss();
     }
 
     _renderProp = ({ item }) => {
@@ -237,7 +239,7 @@ export default class Follow extends Component {
                     <TouchableOpacity onPress={() => { forward(this, 'Scanner'); }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
-                    <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入商品条码'
+                    <TextInput style={styles.input} placeholder='请输入商品条码'
                         onChangeText={(text) => this.setState({ barCode: text })}
                         value={this.state.barCode}
                         underlineColorAndroid="transparent" />
@@ -381,9 +383,10 @@ const styles = StyleSheet.create({
         height: 30,
         margin: 10,
         width: (Dimensions.get('window').width - 80),
-        borderRadius: 15, 
+        borderRadius: 15,
         backgroundColor: '#f3f3f1',
-        padding: 0
+        padding: 0,
+        paddingLeft: 20
     },
     searchContainer: {
         height: 50,

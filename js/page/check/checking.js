@@ -15,7 +15,8 @@ import {
     TouchableOpacity,
     TextInput,
     TouchableWithoutFeedback,
-    Modal
+    Modal,
+    Keyboard
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import { alert, forward } from '../../utils/common';
@@ -180,7 +181,8 @@ export default class Checking extends Component {
                     break;
             }
         });
-        this.setState({ keyword: '' })
+        this.setState({ keyword: '' });
+        Keyboard.dismiss();
     }
 
     _onSelectClose() {
@@ -365,7 +367,7 @@ export default class Checking extends Component {
                                 </View>
                                 <View style={styles.searchContainer}>
                                     <View>
-                                        <TextInput style={styles.input} placeholder='&nbsp;&nbsp;请输入原条码号／条码号／证书号'
+                                        <TextInput style={styles.input} placeholder='请输入原条码号／条码号／证书号'
                                             onChangeText={(text) => this.setState({ keyword: text })}
                                             value={this.state.keyword}
                                             underlineColorAndroid="transparent">
@@ -525,6 +527,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: '#f3f3f1',
         margin: 10,
-        padding: 0
+        padding: 0,
+        paddingLeft: 20
     }
 });
