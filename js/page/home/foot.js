@@ -22,7 +22,6 @@ export default class Foot extends Component {
     render() {
         return (
             <View style={styles.container}>
-
                 <TouchableOpacity style={{ flex: 1 }} onPress={() => { forward(this, 'Todo') }}>
                     <View style={styles.imgContainer}>
                         <Image style={styles.img} source={require('../../../assets/image/foot/todo.png')} />
@@ -43,6 +42,8 @@ export default class Foot extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        borderTopWidth: 1,
+        borderColor: '#f3f3f1',
         height: 55,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -57,12 +58,13 @@ const styles = StyleSheet.create({
     },
     img: {
         height: 25,
-        width: 25
+        width: 25,
+        marginTop: 5
     },
     txt: {
         textAlign: 'center',
         fontSize: 12,
         marginTop: 3,
-        marginBottom: 10
+        marginBottom: 5
     }
 });

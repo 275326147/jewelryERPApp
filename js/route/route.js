@@ -37,6 +37,9 @@ import RejectApprove from '../page/todo/rejectApprove';
 import RejectTransfer from '../page/todo/rejectTransfer';
 import WaitApprove from '../page/todo/waitApprove';
 import WaitReceive from '../page/todo/waitReceive';
+import Price from '../page/price/price';
+import Sell from '../page/sell/sell';
+import Storage from '../page/storage/storage';
 
 const styles = StyleSheet.create({
     img: {
@@ -88,7 +91,12 @@ const SimpleStack = StackNavigator(
         Track: {
             screen: Track,
             navigationOptions: ({ navigation }) => ({
-                title: '商品跟踪'
+                title: '商品跟踪',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => { navigation.goBack('Home'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
+                    </TouchableOpacity>
+                )
             })
         },
         Check: {
@@ -253,7 +261,25 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 header: null
             })
-        }
+        },
+        Price: {
+            screen: Price,
+            navigationOptions: ({ navigation }) => ({
+                title: '今日牌价'
+            })
+        },
+        Sell: {
+            screen: Sell,
+            navigationOptions: ({ navigation }) => ({
+                title: '销售开单'
+            })
+        },
+        Storage: {
+            screen: Storage,
+            navigationOptions: ({ navigation }) => ({
+                title: '商品库存'
+            })
+        },
     },
     {
         initialRouteName: 'Start',

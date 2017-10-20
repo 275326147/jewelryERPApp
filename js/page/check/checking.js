@@ -116,7 +116,7 @@ export default class Checking extends Component {
                 lock: true
             });
             this._stopScan();
-            this.setState({ keyword: e.data }, () => {
+            this.setState({ keyword: e.nativeEvent.data.code }, () => {
                 this.queryGoods();
             });
         }

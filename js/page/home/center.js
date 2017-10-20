@@ -27,9 +27,9 @@ export default class Center extends Component {
     menuData = [{ key: 1, text: '会员查询', url: 'Member', img: require('../../../assets/image/home/mark.png') },
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
     { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') },
-    { key: 3, text: '今日牌价', url: '', img: require('../../../assets/image/home/price.png') },
-    { key: 3, text: '销售开单', url: '', img: require('../../../assets/image/home/sell.png') },
-    { key: 3, text: '商品库存', url: '', img: require('../../../assets/image/home/storage.png') }];
+    { key: 3, text: '今日牌价', url: 'Price', img: require('../../../assets/image/home/price.png') },
+    { key: 3, text: '销售开单', url: 'Sell', img: require('../../../assets/image/home/sell.png') },
+    { key: 3, text: '商品库存', url: 'Storage', img: require('../../../assets/image/home/storage.png') }];
 
     _renderItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>
