@@ -71,6 +71,18 @@ class DataTable extends React.Component {
 
         var style = row.index % 2 == 0 ? Style.row : Style.altRow
 
+        if (this.props.filter) {
+            return (
+                this.props.filter(row, rowId) ?
+                    <View
+                        style={style}
+                        accessible={true}>
+                        {this.renderCells(row)}
+                    </View>
+                    : <View />
+            )
+        }
+
         return (
             <View
                 style={style}
