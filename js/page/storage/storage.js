@@ -26,47 +26,48 @@ export default class Center extends Component {
             modalVisible: false,
             deptVisible: false,
             storeVisible: false,
+            detailVisible: false,
             data: data,
             list: [],
+            row: {},
             deptList: [{
                 key: 1,
-                name: '周百福梅州店',
+                label: '周百福梅州店',
                 hidden: false
             }, {
                 key: 2,
-                name: '梦金园',
+                label: '梦金园',
                 hidden: false
             }, {
                 key: 3,
-                name: '演示一店',
+                label: '演示一店',
                 hidden: false
             }],
             storeList: [{
                 key: 1,
-                name: 'K金柜台',
+                label: 'K金柜台',
                 hidden: false
             }, {
                 key: 2,
-                name: '玉器柜台',
+                label: '玉器柜台',
                 hidden: false
             }, {
                 key: 3,
-                name: '钻石柜台',
+                label: '钻石柜台',
                 hidden: false
             }, {
                 key: 4,
-                name: '黄金柜台',
+                label: '黄金柜台',
                 hidden: false
             }, {
                 key: 5,
-                name: '铂金柜台',
+                label: '铂金柜台',
                 hidden: false
             }],
             fields: [{
                 key: 1,
                 id: 'deptAreaName',
                 label: '门店',
-                width: 100,
                 sortable: true
             }, {
                 key: 2,
@@ -78,7 +79,6 @@ export default class Center extends Component {
                 key: 3,
                 id: 'goodsName',
                 label: '商品名称',
-                width: 100,
                 sortable: true,
                 hidden: true
             }, {
@@ -129,25 +129,53 @@ export default class Center extends Component {
         };
     }
 
-    itemClick(item) {
+    clickHandler(item, dataList) {
         let list = [];
-        let newData = [];
-        this.state.list.forEach(function (el) {
-            if (el.id === item.id) {
+        dataList.forEach(function (el) {
+            if (el.label === item.label) {
                 el.hidden = !el.hidden;
             }
-            if (el.id !== 'all' && item.id === 'all' && !item.hidden) {
+            if (el.label !== '全部' && item.label === '全部' && !item.hidden) {
                 el.hidden = false;
-            } else if (el.id !== 'all' && item.id === 'all' && item.hidden) {
+            } else if (el.label !== '全部' && item.label === '全部' && item.hidden) {
                 el.hidden = true;
             }
             list.push(el);
         });
+        return list;
+    }
+
+    itemClick(item) {
+        let list = this.clickHandler(item, this.state.list);
+        this.setState({
+            list: list
+        });
+        this.reloadTable();
+    }
+
+    deptClick(item) {
+        let deptList = this.clickHandler(item, this.state.deptList);
+        this.setState({
+            deptList: deptList
+        });
+        this.reloadTable();
+    }
+
+    storeClick(item) {
+        let storeList = this.clickHandler(item, this.state.storeList);
+        this.setState({
+            storeList: storeList
+        });
+        this.reloadTable();
+    }
+
+    reloadTable(data) {
+        if (!data) data = this.state.data;
+        let newData = [];
         data.forEach(function (item) {
             newData.push(item);
         });
         this.setState({
-            list: list,
             data: newData
         });
     }
@@ -161,19 +189,26 @@ export default class Center extends Component {
     );
 
     _renderStoreItem = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { this.itemClick(item); }}>
+        <TouchableWithoutFeedback onPress={() => { this.storeClick(item); }}>
             <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
-                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.name}</Text>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.label}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
 
     _renderDeptItem = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { this.itemClick(item); }}>
+        <TouchableWithoutFeedback onPress={() => { this.deptClick(item); }}>
             <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
-                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.name}</Text>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.label}</Text>
             </View>
         </TouchableWithoutFeedback>
+    );
+
+    _renderDetailItem = ({ item }) => (
+        <View style={{ width: (Dimensions.get('window').width - 40), height: 25, flexDirection: 'row' }}>
+            <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
+            <Text style={{ flex: 2, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
+        </View>
     );
 
     _onClose() {
@@ -191,6 +226,12 @@ export default class Center extends Component {
     _onDeptClose() {
         this.setState({
             deptVisible: false
+        });
+    }
+
+    _onDetailClose() {
+        this.setState({
+            detailVisible: false
         });
     }
 
@@ -213,25 +254,104 @@ export default class Center extends Component {
     }
 
     showDept() {
+        if (this.state.deptList[0].label !== '全部') {
+            this.setState({
+                deptList: [{
+                    key: 0,
+                    label: '全部',
+                    hidden: false
+                }].concat(this.state.deptList),
+                deptVisible: true
+            });
+            return;
+        }
         this.setState({
             deptVisible: true
         });
     }
 
     showStore() {
+        if (this.state.storeList[0].label !== '全部') {
+            this.setState({
+                storeList: [{
+                    key: 0,
+                    label: '全部',
+                    hidden: false
+                }].concat(this.state.storeList),
+                storeVisible: true
+            });
+            return;
+        }
         this.setState({
             storeVisible: true
         });
     }
 
     filter(row, rowId) {
+        let flag = true;
+        this.state.deptList.forEach(function (item) {
+            if (item.hidden && item.label === row.item.deptAreaName) {
+                flag = false;
+            }
+        });
+        this.state.storeList.forEach(function (item) {
+            if (item.hidden && item.label === row.item.store) {
+                flag = false;
+            }
+        });
+        return flag;
+    }
 
-        return true;
+    rowClick(row, rowId) {
+        this.setState({
+            row: row.item,
+            detailVisible: true
+        });
+    }
+
+    onSort(field, isAscending) {
+        let sortedData = this.state.data.sort((objA, objB) => this.compare(field, isAscending, objA, objB));
+        this.reloadTable(sortedData);
+    }
+
+    compare(field, isAscending, objA, objB) {
+        var key = field.id;
+
+        if (isAscending) {
+            if (objA[key] < objB[key])
+                return -1;
+            if (objA[key] > objB[key])
+                return 1;
+            return 0;
+        } else {
+            if (objA[key] > objB[key])
+                return -1;
+            if (objA[key] < objB[key])
+                return 1;
+            return 0;
+        }
     }
 
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Modal
+                    visible={this.state.detailVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onDetailClose()}>
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.modalContainer, { height: 360, width: (Dimensions.get('window').width - 40) }]}>
+                            <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>库存详情</Text></View>
+                            <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
+                            <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
+                                    <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
                 <Modal
                     visible={this.state.modalVisible}
                     animationType={'slide'}
@@ -298,7 +418,9 @@ export default class Center extends Component {
                     </TouchableOpacity>
                 </View>
                 <DataTable
-                    filter={this.filter}
+                    onSort={this.onSort.bind(this)}
+                    rowClick={this.rowClick.bind(this)}
+                    filter={this.filter.bind(this)}
                     dataSource={this.state.data}
                     fields={this.state.fields} />
             </View>

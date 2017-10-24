@@ -6,11 +6,13 @@ export default StyleSheet.create({
         padding: 5
     },
     cell: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         borderColor: '#f3f3f1',
         borderWidth: 0.5,
-        textAlign: 'center',
-        lineHeight: 35,
-        color: '#666'
+        height: 35
     },
     header: {
         flexDirection: 'row',
@@ -19,10 +21,8 @@ export default StyleSheet.create({
     },
     headerCell: {
         fontWeight: 'bold',
-        color: '#333',
         textAlign: 'center',
-        lineHeight: 35,
-        flex: 1
+        color: '#333'
     },
     row: {
         flex: 1,
@@ -35,11 +35,13 @@ export default StyleSheet.create({
         backgroundColor: '#f3f3f1'
     },
     contentCell: {
+        textAlign: 'center',
+        color: '#666'
     },
-    sortedCell: {
-        color: 'grey'
-    },
-    unsortedCell: {
-        color: 'grey'
+    sortImage: {
+        width: 14,
+        height: 14,
+        marginLeft: 5,
+        marginTop: 1
     }
 });

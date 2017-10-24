@@ -6,7 +6,7 @@ import {
     View,
     Text,
     Dimensions,
-    TouchableHighlight,
+    TouchableWithoutFeedback,
     Linking,
     LayoutAnimation
 } from 'react-native';
@@ -54,6 +54,7 @@ class DataTable extends React.Component {
     }
 
     renderTable() {
+        this.style = Style.altRow;
         this.uniqueKey(this.props.dataSource);
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -68,27 +69,40 @@ class DataTable extends React.Component {
     }
 
     renderRow(row, sectionId, rowId) {
-
-        var style = row.index % 2 == 0 ? Style.row : Style.altRow
-
         if (this.props.filter) {
+            let show = this.props.filter(row, rowId);
+            if (show) {
+                this.style = (this.style === Style.altRow ? Style.row : Style.altRow);
+            }
             return (
-                this.props.filter(row, rowId) ?
-                    <View
-                        style={style}
-                        accessible={true}>
-                        {this.renderCells(row)}
-                    </View>
+                show ?
+                    <TouchableWithoutFeedback onPress={() => {
+                        if (this.props.rowClick) {
+                            this.props.rowClick(row, rowId);
+                        }
+                    }}>
+                        <View
+                            style={this.style}
+                            accessible={true}>
+                            {this.renderCells(row)}
+                        </View>
+                    </TouchableWithoutFeedback>
                     : <View />
             )
         }
-
+        this.style = (this.style === Style.altRow ? Style.row : Style.altRow);
         return (
-            <View
-                style={style}
-                accessible={true}>
-                {this.renderCells(row)}
-            </View>
+            <TouchableWithoutFeedback onPress={() => {
+                if (this.props.rowClick) {
+                    this.props.rowClick(row, rowId);
+                }
+            }}>
+                <View
+                    style={style}
+                    accessible={true}>
+                    {this.renderCells(row)}
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 
@@ -99,7 +113,7 @@ class DataTable extends React.Component {
                 field.hidden ? <View key={index} /> :
                     <Cell
                         key={index}
-                        width={field.width || 80}
+                        width={field.width || 100}
                         style={this.props.cellStyle}
                         label={value} />
             );
@@ -110,7 +124,6 @@ class DataTable extends React.Component {
         if (!this.props.onSort) {
             return;
         }
-
         this.setState({
             sortedField: field
         });

@@ -13,44 +13,6 @@
         "price": 126300
     },
     {
-        "deptAreaName": "周百福梅州店1",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },
-    {
-        "deptAreaName": "周百福梅州店2",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },
-    {
-        "deptAreaName": "周百福梅州店3",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },{
         "deptAreaName": "周百福梅州店",
         "store": "玉器柜台",
         "goodsName": "A货翡翠戒指",
@@ -64,7 +26,58 @@
         "price": 126300
     },
     {
-        "deptAreaName": "周百福梅州店1",
+        "deptAreaName": "周百福梅州店",
+        "store": "钻石柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },
+    {
+        "deptAreaName": "周百福梅州店",
+        "store": "黄金柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },{
+        "deptAreaName": "周百福梅州店",
+        "store": "黄金柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },
+    {
+        "deptAreaName": "周百福梅州店",
+        "store": "K金柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },
+    {
+        "deptAreaName": "梦金园",
         "store": "玉器柜台",
         "goodsName": "A货翡翠戒指",
         "supplierName": "本单位",
@@ -77,7 +90,32 @@
         "price": 126300
     },
     {
-        "deptAreaName": "周百福梅州店2",
+        "deptAreaName": "梦金园",
+        "store": "铂金柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },{
+        "deptAreaName": "梦金园",
+        "store": "钻石柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },
+    {
+        "deptAreaName": "演示一店",
         "store": "玉器柜台",
         "goodsName": "A货翡翠戒指",
         "supplierName": "本单位",
@@ -90,7 +128,20 @@
         "price": 126300
     },
     {
-        "deptAreaName": "周百福梅州店3",
+        "deptAreaName": "演示一店",
+        "store": "钻石柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },
+    {
+        "deptAreaName": "演示一店",
         "store": "玉器柜台",
         "goodsName": "A货翡翠戒指",
         "supplierName": "本单位",
@@ -103,6 +154,19 @@
         "price": 126300
     },{
         "deptAreaName": "周百福梅州店",
+        "store": "K金柜台",
+        "goodsName": "A货翡翠戒指",
+        "supplierName": "本单位",
+        "goodsClassify": "翡翠",
+        "statisticsClassify": "玉器",
+        "model": "玉器",
+        "classify": "戒指",
+        "num": 211,
+        "goldWeight": 0,
+        "price": 126300
+    },
+    {
+        "deptAreaName": "演示一店",
         "store": "玉器柜台",
         "goodsName": "A货翡翠戒指",
         "supplierName": "本单位",
@@ -115,8 +179,8 @@
         "price": 126300
     },
     {
-        "deptAreaName": "周百福梅州店1",
-        "store": "玉器柜台",
+        "deptAreaName": "演示一店",
+        "store": "钻石柜台",
         "goodsName": "A货翡翠戒指",
         "supplierName": "本单位",
         "goodsClassify": "翡翠",
@@ -128,72 +192,8 @@
         "price": 126300
     },
     {
-        "deptAreaName": "周百福梅州店2",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },
-    {
-        "deptAreaName": "周百福梅州店3",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },{
-        "deptAreaName": "周百福梅州店",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },
-    {
-        "deptAreaName": "周百福梅州店1",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },
-    {
-        "deptAreaName": "周百福梅州店2",
-        "store": "玉器柜台",
-        "goodsName": "A货翡翠戒指",
-        "supplierName": "本单位",
-        "goodsClassify": "翡翠",
-        "statisticsClassify": "玉器",
-        "model": "玉器",
-        "classify": "戒指",
-        "num": 211,
-        "goldWeight": 0,
-        "price": 126300
-    },
-    {
-        "deptAreaName": "周百福梅州店3",
-        "store": "玉器柜台",
+        "deptAreaName": "演示一店",
+        "store": "K金柜台",
         "goodsName": "A货翡翠戒指",
         "supplierName": "本单位",
         "goodsClassify": "翡翠",

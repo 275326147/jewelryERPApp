@@ -3,7 +3,8 @@ import {
     View,
     Text,
     Dimensions,
-    TouchableHighlight
+    TouchableHighlight,
+    Image
 } from 'react-native';
 
 import Style from './style';
@@ -11,10 +12,9 @@ import Style from './style';
 class HeaderCell extends React.Component {
     constructor(props) {
         super(props);
-
-        this.isAscending = false;
-        this.hasSorted = false;
-
+        this.state = {
+            isAscending: false
+        };
         this.onPress = this.onPress.bind(this);
     }
 
@@ -24,10 +24,13 @@ class HeaderCell extends React.Component {
                 onPress={this.onPress}
                 disabled={!this.props.field.sortable}
                 underlayColor={this.props.highlightColor}
-                style={{ width: (this.props.field.width || 80), height: 40 }}>
-                <Text style={[Style.cell, Style.headerCell, this.props.style]}>
-                    {this.props.field.label}
-                </Text>
+                style={{ width: (this.props.field.width || 100), height: 40 }}>
+                <View style={[Style.cell, this.props.style]}>
+                    <Text style={Style.headerCell}>
+                        {this.props.field.label}
+                    </Text>
+                    {this.renderSortIcons()}
+                </View>
             </TouchableHighlight>
         );
     }
@@ -38,33 +41,26 @@ class HeaderCell extends React.Component {
         }
 
         if (!this.props.isSortedField) {
-            this.isAscending = false;
-            this.hasSorted = false;
+            return (
+                <Image style={Style.sortImage} source={require('../../assets/image/components/sort.png')} />
+            );
         }
 
-        return ([
-            <Text key='downArrow' style={this.getCellStyle(false)}>{'\u25BC'}</Text>,
-            <Text key='upArrow' style={this.getCellStyle(true)}>{'\u25b2'}</Text>
-        ]);
+        return (
+            this.state.isAscending ?
+                <Image style={Style.sortImage} source={require('../../assets/image/components/sort-asc.png')} />
+                :
+                <Image style={Style.sortImage} source={require('../../assets/image/components/sort-desc.png')} />
+        );
 
-    }
-
-    getCellStyle(isUp) {
-        if (!this.hasSorted) {
-            return Style.unsortedCell;
-        }
-
-        if (isUp) {
-            return !this.isAscending ? Style.sortedCell : null
-        } else {
-            return this.isAscending ? Style.sortedCell : null
-        }
     }
 
     onPress() {
-        this.hasSorted = true;
-        this.isAscending = !this.isAscending;
-        this.props.onSort && this.props.onSort(this.props.field, this.isAscending);
+        this.setState({
+            isAscending: !this.state.isAscending
+        }, function () {
+            this.props.onSort && this.props.onSort(this.props.field, this.state.isAscending);
+        });
     }
 }
 
