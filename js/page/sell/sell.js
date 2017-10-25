@@ -8,7 +8,7 @@ import {
     View,
     StyleSheet
 } from 'react-native';
-import DataTable from '../../components/dataTable';
+import Datatable from '../../components/datatable/datatable';
 import data from './data';
 
 export default class Center extends Component {
@@ -33,7 +33,7 @@ export default class Center extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <DataTable
+                <Datatable
                     dataSource={data}
                     fields={this.fields} />
             </View>

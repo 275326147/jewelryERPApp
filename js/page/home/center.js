@@ -27,9 +27,12 @@ export default class Center extends Component {
     menuData = [{ key: 1, text: '会员查询', url: 'Member', img: require('../../../assets/image/home/mark.png') },
     { key: 2, text: '盘点', url: 'Check', img: require('../../../assets/image/home/check.png') },
     { key: 3, text: '商品跟踪', url: 'Track', img: require('../../../assets/image/home/follow.png') },
-    { key: 3, text: '今日牌价', url: 'Price', img: require('../../../assets/image/home/price.png') },
-    { key: 3, text: '销售开单', url: 'Sell', img: require('../../../assets/image/home/sell.png') },
-    { key: 3, text: '商品库存', url: 'Storage', img: require('../../../assets/image/home/storage.png') }];
+    { key: 4, text: '今日牌价', url: 'Price', img: require('../../../assets/image/home/price.png') },
+    { key: 5, text: '销售开单', url: 'Sell', img: require('../../../assets/image/home/sell.png') },
+    { key: 6, text: '商品库存', url: 'Storage', img: require('../../../assets/image/home/storage.png') },
+    { key: 7, text: '日报表', url: '', img: require('../../../assets/image/home/dailyRpt.png') },
+    { key: 8, text: '商品销售排行', url: '', img: require('../../../assets/image/home/goodsRpt.png') },
+    { key: 9, text: '店员销售排行', url: '', img: require('../../../assets/image/home/empRpt.png') }];
 
     _renderItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>

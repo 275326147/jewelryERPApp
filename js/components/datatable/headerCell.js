@@ -42,15 +42,15 @@ class HeaderCell extends React.Component {
 
         if (!this.props.isSortedField) {
             return (
-                <Image style={Style.sortImage} source={require('../../assets/image/components/sort.png')} />
+                <Image style={Style.sortImage} source={require('./assets/sort.png')} />
             );
         }
 
         return (
             this.state.isAscending ?
-                <Image style={Style.sortImage} source={require('../../assets/image/components/sort-asc.png')} />
+                <Image style={Style.sortImage} source={require('./assets/sort-asc.png')} />
                 :
-                <Image style={Style.sortImage} source={require('../../assets/image/components/sort-desc.png')} />
+                <Image style={Style.sortImage} source={require('./assets/sort-desc.png')} />
         );
 
     }

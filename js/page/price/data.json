@@ -1,27 +1,83 @@
 [
     {
-        "name": "张三",
-        "sex": 0,
-        "age": 18
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
     },
     {
-        "name": "李四",
-        "sex": 1,
-        "age": 18
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
     },
     {
-        "name": "王五",
-        "sex": 0,
-        "age": 19
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
     },
     {
-        "name": "麻子",
-        "sex": 0,
-        "age": 18
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
     },
     {
-        "name": "尼玛",
-        "sex": 1,
-        "age": 19
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
+    },
+    {
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
+    },
+    {
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
+    },
+    {
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
+    },
+    {
+        "shopName": "梦金园",
+        "brandName": "默认品牌",
+        "goodsName": "千足金",
+        "minPrice": "300.0",
+        "minDiscount": "0.0",
+        "currentPrice": "300.0",
+        "currentDiscount": "0.0"
     }
 ]

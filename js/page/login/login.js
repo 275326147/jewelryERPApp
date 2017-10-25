@@ -103,7 +103,16 @@ export default class Login extends Component {
             <Image source={require('../../../assets/image/login/login.jpg')} style={{ height: height, width: width }} >
                 <View style={[styles.container, { marginTop: (height - this.state.keyboardHeight) }]}>
                     <TextInput style={styles.input} placeholder='请输入您的手机号码'
-                        onChangeText={(text) => this.setState({ account: text })}
+                        onChangeText={(text) => {
+                            if (this.state.account !== text) {
+                                this.setState({
+                                    account: text,
+                                    second: 60,
+                                    enable: true
+                                });
+                                clearInterval(this.timer);
+                            }
+                        }}
                         value={this.state.account}
                         underlineColorAndroid="transparent">
                     </TextInput>

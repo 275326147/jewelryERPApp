@@ -15,7 +15,7 @@ import {
     FlatList,
     TouchableWithoutFeedback
 } from 'react-native';
-import DataTable from '../../components/dataTable';
+import Datatable from '../../components/datatable/datatable';
 import data from './data';
 
 export default class Center extends Component {
@@ -417,7 +417,7 @@ export default class Center extends Component {
                         <Text style={styles.text}>分组设置</Text>
                     </TouchableOpacity>
                 </View>
-                <DataTable
+                <Datatable
                     onSort={this.onSort.bind(this)}
                     rowClick={this.rowClick.bind(this)}
                     filter={this.filter.bind(this)}

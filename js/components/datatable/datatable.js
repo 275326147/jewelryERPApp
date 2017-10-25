@@ -15,7 +15,7 @@ import Style from './style';
 import Cell from './cell';
 import HeaderCell from './headerCell';
 
-class DataTable extends React.Component {
+class Datatable extends React.Component {
     constructor(props) {
         super(props);
 
@@ -98,7 +98,7 @@ class DataTable extends React.Component {
                 }
             }}>
                 <View
-                    style={style}
+                    style={this.style}
                     accessible={true}>
                     {this.renderCells(row)}
                 </View>
@@ -143,7 +143,7 @@ class DataTable extends React.Component {
 }
 
 
-DataTable.propTypes = {
+Datatable.propTypes = {
     fields: React.PropTypes.arrayOf(React.PropTypes.shape({
         id: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
@@ -160,8 +160,8 @@ DataTable.propTypes = {
 
 }
 
-DataTable.defaultProps = {
+Datatable.defaultProps = {
     headerHighlightColor: 'gray'
 }
 
-export default DataTable;
+export default Datatable;
