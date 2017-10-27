@@ -40,6 +40,10 @@ import WaitReceive from '../page/todo/waitReceive';
 import Price from '../page/price/price';
 import Sell from '../page/sell/sell';
 import Storage from '../page/storage/storage';
+import DailyReport from '../page/report/dailyRpt';
+import GoodsReport from '../page/report/goodsRpt';
+import EmployeeReport from '../page/report/empRpt';
+
 
 const styles = StyleSheet.create({
     img: {
@@ -280,6 +284,24 @@ const SimpleStack = StackNavigator(
                 title: '商品库存'
             })
         },
+        DailyReport: {
+            screen: DailyReport,
+            navigationOptions: ({ navigation }) => ({
+                title: '日报表'
+            })
+        },
+        GoodsReport: {
+            screen: GoodsReport,
+            navigationOptions: ({ navigation }) => ({
+                title: '商品销售排行'
+            })
+        },
+        EmployeeReport: {
+            screen: EmployeeReport,
+            navigationOptions: ({ navigation }) => ({
+                title: '店员销售排行'
+            })
+        }
     },
     {
         initialRouteName: 'Start',

@@ -25,8 +25,8 @@ class HeaderCell extends React.Component {
                 disabled={!this.props.field.sortable}
                 underlayColor={this.props.highlightColor}
                 style={{ width: (this.props.field.width || 100), height: 40 }}>
-                <View style={[Style.cell, this.props.style]}>
-                    <Text style={Style.headerCell}>
+                <View style={[Style.cell, Style.headerCell, this.props.style]}>
+                    <Text style={Style.headerContent}>
                         {this.props.field.label}
                     </Text>
                     {this.renderSortIcons()}

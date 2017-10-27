@@ -28,7 +28,7 @@ export default class ModalDropdown extends Component {
         disabled: PropTypes.bool,
         defaultIndex: PropTypes.number,
         defaultValue: PropTypes.string,
-        options: PropTypes.array,
+        options: PropTypes.array.isRequired,
 
         accessible: PropTypes.bool,
         animated: PropTypes.bool,
@@ -73,8 +73,8 @@ export default class ModalDropdown extends Component {
             accessible: !!props.accessible,
             loading: props.options === null || props.options === undefined,
             showDropdown: false,
-            buttonText: props.defaultValue,
-            selectedIndex: props.defaultIndex
+            buttonText: props.options[0],
+            selectedIndex: 0
         };
     }
 
@@ -383,12 +383,17 @@ export default class ModalDropdown extends Component {
 
 const styles = StyleSheet.create({
     button: {
+        borderWidth: 1,
+        borderColor: '#f3f3f1',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
     },
     buttonText: {
-        fontSize: 13
+        fontSize: 14,
+        paddingLeft: 10,
+        paddingTop: 8,
+        paddingBottom: 8
     },
     modal: {
         flexGrow: 1

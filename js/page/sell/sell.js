@@ -11,7 +11,7 @@ import {
 import Datatable from '../../components/datatable/datatable';
 import data from './data';
 
-export default class Center extends Component {
+export default class Sell extends Component {
 
     constructor(props) {
         super(props);

@@ -25,7 +25,7 @@ class Cell extends React.Component {
 }
 
 Cell.propTypes = {
-    label: React.PropTypes.any.isRequired,
+    label: React.PropTypes.any,
     style: React.PropTypes.number,
 }
 

@@ -11,7 +11,8 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: '#f3f3f1',
-        borderWidth: 0.5,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
         height: 35
     },
     header: {
@@ -19,10 +20,14 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff'
     },
-    headerCell: {
+    headerContent: {
         fontWeight: 'bold',
         textAlign: 'center',
         color: '#333'
+    },
+    headerCell: {
+        borderTopWidth: 0,
+        borderBottomWidth: 0,
     },
     row: {
         flex: 1,
