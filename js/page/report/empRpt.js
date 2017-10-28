@@ -70,14 +70,14 @@ export default class Center extends Component {
                 label: '金重',
                 sortable: true
             }, {
-                key: 5,
+                key: 6,
                 id: 'labelPrice',
                 label: '标价',
                 editable: true,
                 width: 120,
                 sortable: true
             }, {
-                key: 6,
+                key: 7,
                 id: 'settleTotalMoney',
                 label: '售价',
                 width: 120,
@@ -100,16 +100,7 @@ export default class Center extends Component {
     _renderDetailItem = ({ item }) => (
         <View style={{ width: (Dimensions.get('window').width - 40), height: 35, flexDirection: 'row' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
-            {
-                item.editable ?
-                    <TextInput style={{ flex: 1, marginRight: 20, fontSize: 14, height: 30, padding: 0, paddingLeft: 10, width: 40, backgroundColor: '#f3f3f1' }}
-                        onChangeText={(text) => this.setState({ [item.id]: text })}
-                        value={this.state.row[item.id]}
-                        underlineColorAndroid="transparent">
-                    </TextInput>
-                    :
-                    <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
-            }
+            <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
         </View>
     );
 
@@ -245,8 +236,12 @@ export default class Center extends Component {
                     transparent={true}
                     onRequestClose={() => this._onDeptClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
-                            <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店</Text></View>
+                        <View style={[styles.modalContainer, { height: 450 }]}>
+                            <View style={{ height: 10, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店</Text></View>
+                            <View style={{ height: 140 }} >
+                                <FlatList data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
+                            </View>
+                            <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店下的店员</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDeptClose() }}>
@@ -266,9 +261,6 @@ export default class Center extends Component {
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>牌价详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
-                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
-                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>保存</Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
                                 </TouchableOpacity>
@@ -305,9 +297,10 @@ const styles = StyleSheet.create({
     itemContainer: {
         margin: 10,
         width: 80,
-        height: 40,
+        height: 30,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 5
     },
     item: {
         fontSize: 14,

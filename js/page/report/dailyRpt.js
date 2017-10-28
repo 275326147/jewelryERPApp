@@ -134,16 +134,7 @@ export default class Center extends Component {
     _renderDetailItem = ({ item }) => (
         <View style={{ width: (Dimensions.get('window').width - 40), height: 35, flexDirection: 'row' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
-            {
-                item.editable ?
-                    <TextInput style={{ flex: 1, marginRight: 20, fontSize: 14, height: 30, padding: 0, paddingLeft: 10, width: 40, backgroundColor: '#f3f3f1' }}
-                        onChangeText={(text) => this.setState({ [item.id]: text })}
-                        value={this.state.row[item.id]}
-                        underlineColorAndroid="transparent">
-                    </TextInput>
-                    :
-                    <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
-            }
+            <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
         </View>
     );
 
@@ -216,6 +207,9 @@ export default class Center extends Component {
     }
 
     rowClick(row, rowId) {
+        if (this.state.active === 3) {
+            return;
+        }
         this.setState({
             row: row.item,
             detailVisible: true
@@ -296,13 +290,10 @@ export default class Center extends Component {
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: 340, width: (Dimensions.get('window').width - 40) }]}>
-                            <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>牌价详情</Text></View>
-                            <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
+                        <View style={[styles.modalContainer, { height: 300, width: (Dimensions.get('window').width - 40) }]}>
+                            <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>日报详情</Text></View>
+                            <FlatList style={{ flex: 1 }} data={this.state.active === 1 ? this.state.fields : this.oldFields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
-                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
-                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>保存</Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
                                 </TouchableOpacity>
@@ -405,9 +396,10 @@ const styles = StyleSheet.create({
     itemContainer: {
         margin: 10,
         width: 80,
-        height: 40,
+        height: 30,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 5
     },
     item: {
         fontSize: 14,

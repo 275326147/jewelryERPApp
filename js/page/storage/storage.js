@@ -432,9 +432,10 @@ const styles = StyleSheet.create({
     itemContainer: {
         margin: 10,
         width: 80,
-        height: 40,
+        height: 30,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 5
     },
     item: {
         fontSize: 14,
