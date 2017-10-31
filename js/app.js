@@ -1,7 +1,6 @@
 /**
  * Created by Meiling.Zhou on 2017/9/10
  */
-
 'use strict';
 import React from 'react';
 import Route from './route/route';
@@ -9,6 +8,7 @@ import JPushModule from 'jpush-react-native';
 import { Platform, BackHandler } from 'react-native';
 
 export default class JewelryERPApp extends React.Component {
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', function () {
             this.exitApp();

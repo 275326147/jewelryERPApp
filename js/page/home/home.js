@@ -6,17 +6,12 @@
 import React, { Component } from 'react';
 import {
     View,
-    StyleSheet,
-    Platform
+    StyleSheet
 } from 'react-native';
 import Foot from './foot';
 import Center from './center';
 
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -25,7 +20,6 @@ export default class Home extends Component {
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({

@@ -37,6 +37,9 @@ export default class Login extends Component {
         if (this.keyboardDidHideListener != null) {
             this.keyboardDidHideListener.remove();
         }
+        if (this.timer != null) {
+            clearInterval(this.timer);
+        }
     }
 
     //键盘弹出事件响应
@@ -64,6 +67,7 @@ export default class Login extends Component {
                     enable: false
                 });
             });
+            this.timer && clearInterval(this.timer);
             this.timer = setInterval(() => {
                 if (this.state.second > 0) {
                     this.setState({

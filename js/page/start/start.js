@@ -1,6 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions, AppState } from 'react-native';
 import Storage from '../../utils/storage';
 import { Constant, alert, forward } from '../../utils/common';
 import UpgradeDialog from '../upgrade/upgradeDialog';
@@ -19,9 +19,23 @@ export default class Start extends Component {
     }
 
     componentDidMount() {
+        //监听状态改变事件
+        AppState.addEventListener('change', (state) => {
+            if (state === 'background') {
+                this.leaveTime = new Date();
+            } else if (state === 'active' && this.leaveTime) {
+                let now = new Date();
+                let time = now.getTime() - this.leaveTime.getTime();
+                this.leaveTime = null;
+                if (time > 30 * 60 * 1000) {
+                    forward(this, 'CheckPwd', { back: true });
+                }
+            }
+        });
         Animated.timing(
             this.state.bounceValue, { toValue: 1.2, duration: 1500 }
         ).start();
+        this.timer && clearTimeout(this.timer);
         this.timer = setTimeout(() => {
             Storage.getStorageAsync(Constant.VERSION).then((result) => {
                 if (!result) {
@@ -44,8 +58,8 @@ export default class Start extends Component {
         }, 1000);
     }
 
-    componentWillUpdate = () => {
-        clearTimeout(this.timer);
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     }
 
     render() {

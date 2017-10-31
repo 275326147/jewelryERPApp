@@ -30,6 +30,10 @@ export default class Password extends Component {
                     messageColor: '#00AAEF',
                     message: '密码验证成功'
                 });
+                if (this.props.navigation.state.params) {
+                    this.props.navigation.goBack(null);
+                    return;
+                }
                 forward(this, 'Home');
             } else {
                 this.setState({
