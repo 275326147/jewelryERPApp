@@ -9,6 +9,12 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString *appKey = @"802d48b9f065811226a4b54a";
+
+static NSString *channel = @"nil";
+
+static BOOL isProduction = false;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (nonatomic, strong) UIWindow *window;

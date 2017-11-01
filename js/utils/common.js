@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 
 export const Constant = {
     VERSION: 'v1.0.0',
-    baseURL: 'http://120.77.237.209:8888/AppPLatform/mobileApi/'
+    baseURL: 'http://192.168.0.122/AppPLatform/mobileApi/'
 }
 
 

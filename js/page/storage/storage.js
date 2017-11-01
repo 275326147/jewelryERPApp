@@ -16,6 +16,8 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
+import { clickHandler, getShopList, showDept } from '../report/common';
+import { callService, handleResult } from '../../utils/service';
 import data from './data';
 
 export default class Center extends Component {
@@ -30,40 +32,8 @@ export default class Center extends Component {
             data: data,
             list: [],
             row: {},
-            deptList: [{
-                key: 1,
-                label: '周百福梅州店',
-                hidden: false
-            }, {
-                key: 2,
-                label: '梦金园',
-                hidden: false
-            }, {
-                key: 3,
-                label: '演示一店',
-                hidden: false
-            }],
-            storeList: [{
-                key: 1,
-                label: 'K金柜台',
-                hidden: false
-            }, {
-                key: 2,
-                label: '玉器柜台',
-                hidden: false
-            }, {
-                key: 3,
-                label: '钻石柜台',
-                hidden: false
-            }, {
-                key: 4,
-                label: '黄金柜台',
-                hidden: false
-            }, {
-                key: 5,
-                label: '铂金柜台',
-                hidden: false
-            }],
+            deptList: [],
+            storeList: [],
             fields: [{
                 key: 1,
                 id: 'deptAreaName',
@@ -129,24 +99,19 @@ export default class Center extends Component {
         };
     }
 
-    clickHandler(item, dataList) {
-        let list = [];
-        dataList.forEach(function (el) {
-            if (el.label === item.label) {
-                el.hidden = !el.hidden;
+    componentDidMount() {
+        getShopList(this);
+        callService(this, 'getStoreList.do', new FormData(), function (response) {
+            if (response.storeList) {
+                this.setState({
+                    storeList: handleResult(response.storeList)
+                });
             }
-            if (el.label !== '全部' && item.label === '全部' && !item.hidden) {
-                el.hidden = false;
-            } else if (el.label !== '全部' && item.label === '全部' && item.hidden) {
-                el.hidden = true;
-            }
-            list.push(el);
         });
-        return list;
     }
 
     itemClick(item) {
-        let list = this.clickHandler(item, this.state.list);
+        let list = clickHandler(item, this.state.list);
         this.setState({
             list: list
         });
@@ -154,7 +119,7 @@ export default class Center extends Component {
     }
 
     deptClick(item) {
-        let deptList = this.clickHandler(item, this.state.deptList);
+        let deptList = clickHandler(item, this.state.deptList);
         this.setState({
             deptList: deptList
         });
@@ -162,7 +127,7 @@ export default class Center extends Component {
     }
 
     storeClick(item) {
-        let storeList = this.clickHandler(item, this.state.storeList);
+        let storeList = clickHandler(item, this.state.storeList, 'storeName');
         this.setState({
             storeList: storeList
         });
@@ -191,7 +156,7 @@ export default class Center extends Component {
     _renderStoreItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this.storeClick(item); }}>
             <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
-                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.label}</Text>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.storeName}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -199,7 +164,7 @@ export default class Center extends Component {
     _renderDeptItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this.deptClick(item); }}>
             <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
-                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.label}</Text>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.shopName}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -253,29 +218,12 @@ export default class Center extends Component {
         });
     }
 
-    showDept() {
-        if (this.state.deptList[0].label !== '全部') {
-            this.setState({
-                deptList: [{
-                    key: 0,
-                    label: '全部',
-                    hidden: false
-                }].concat(this.state.deptList),
-                deptVisible: true
-            });
-            return;
-        }
-        this.setState({
-            deptVisible: true
-        });
-    }
-
     showStore() {
-        if (this.state.storeList[0].label !== '全部') {
+        if (this.state.storeList[0].storeName !== '全部') {
             this.setState({
                 storeList: [{
                     key: 0,
-                    label: '全部',
+                    storeName: '全部',
                     hidden: false
                 }].concat(this.state.storeList),
                 storeVisible: true
@@ -404,7 +352,7 @@ export default class Center extends Component {
                     </View>
                 </Modal>
                 <View style={styles.toolbar}>
-                    <TouchableOpacity style={styles.button} onPress={() => { this.showDept() }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { showDept(this) }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>门店</Text>
                     </TouchableOpacity>

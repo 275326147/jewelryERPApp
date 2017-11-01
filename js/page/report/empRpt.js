@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
+import { clickHandler, getShopList, showDept } from './common';
 import data from './data';
 
 export default class Center extends Component {
@@ -31,19 +32,7 @@ export default class Center extends Component {
             deptVisible: false,
             data: data,
             row: {},
-            deptList: [{
-                key: 1,
-                label: '周百福梅州店',
-                hidden: false
-            }, {
-                key: 2,
-                label: '梦金园',
-                hidden: false
-            }, {
-                key: 3,
-                label: '演示一店',
-                hidden: false
-            }],
+            deptList: [],
             fields: [{
                 key: 1,
                 id: 'no',
@@ -86,6 +75,10 @@ export default class Center extends Component {
         };
     }
 
+    componentDidMount() {
+        getShopList(this);
+    }
+
     reloadTable(data) {
         if (!data) data = this.state.data;
         let newData = [];
@@ -107,7 +100,7 @@ export default class Center extends Component {
     _renderDeptItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this.deptClick(item); }}>
             <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
-                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.label}</Text>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.shopName}</Text>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -124,47 +117,12 @@ export default class Center extends Component {
         });
     }
 
-    clickHandler(item, dataList) {
-        let list = [];
-        dataList.forEach(function (el) {
-            if (el.label === item.label) {
-                el.hidden = !el.hidden;
-            }
-            if (el.label !== '全部' && item.label === '全部' && !item.hidden) {
-                el.hidden = false;
-            } else if (el.label !== '全部' && item.label === '全部' && item.hidden) {
-                el.hidden = true;
-            }
-            list.push(el);
-        });
-        return list;
-    }
-
     deptClick(item) {
-        let deptList = this.clickHandler(item, this.state.deptList);
+        let deptList = clickHandler(item, this.state.deptList);
         this.setState({
             deptList: deptList
         });
     }
-
-
-    showDept() {
-        if (this.state.deptList[0].label !== '全部') {
-            this.setState({
-                deptList: [{
-                    key: 0,
-                    label: '全部',
-                    hidden: false
-                }].concat(this.state.deptList),
-                deptVisible: true
-            });
-            return;
-        }
-        this.setState({
-            deptVisible: true
-        });
-    }
-
 
     filter(row, rowId) {
         let flag = true;
@@ -241,7 +199,7 @@ export default class Center extends Component {
                             <View style={{ height: 140 }} >
                                 <FlatList data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
                             </View>
-                            <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店下的店员</Text></View>
+                            <View style={{ height: 10, margin: 10, marginTop: 20 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店下的店员</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDeptClose() }}>
@@ -277,7 +235,7 @@ export default class Center extends Component {
                             this.setState({ date: this.getDate(rowID) });
                         }
                     } />
-                    <TouchableOpacity style={styles.button} onPress={() => { this.showDept() }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { showDept(this); }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>筛选</Text>
                     </TouchableOpacity>
