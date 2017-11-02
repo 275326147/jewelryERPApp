@@ -3,9 +3,6 @@ import { callService, handleResult } from '../../utils/service';
 export function clickHandler(item, dataList, field) {
     let list = [];
     let all = true;
-    if (!field) {
-        field = 'shopName';
-    }
     dataList.forEach(function (el) {
         if (el[field] === item[field]) {
             el.hidden = !el.hidden;
@@ -38,19 +35,30 @@ export function getShopList(master) {
     });
 }
 
-export function showDept(master) {
-    if (master.state.deptList[0].shopName !== '全部') {
-        master.setState({
-            deptList: [{
-                key: 0,
-                shopName: '全部',
-                hidden: false
-            }].concat(master.state.deptList),
-            deptVisible: true
-        });
+export function show(master, list, field, visible, flag) {
+    let state = {};
+    if (master.state[list][0][field] !== '全部') {
+        let all = {
+            key: 0,
+            hidden: flag ? true : false
+        };
+        all[field] = '全部';
+        state[list] = [all].concat(master.state[list]);
+        state[visible] = true;
+        master.setState(state);
         return;
     }
+    state[visible] = true;
+    master.setState(state);
+}
+
+export function reloadTable(master, data) {
+    if (!data) data = master.state.data;
+    let newData = [];
+    data.forEach(function (item) {
+        newData.push(item);
+    });
     master.setState({
-        deptVisible: true
+        data: newData
     });
 }

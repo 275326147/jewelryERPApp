@@ -19,7 +19,7 @@ import {
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { callService, handleResult } from '../../utils/service';
-import { clickHandler, getShopList, showDept } from './common';
+import { clickHandler, getShopList, show } from './common';
 import data from './data';
 
 export default class Center extends Component {
@@ -153,7 +153,7 @@ export default class Center extends Component {
     }
 
     deptClick(item) {
-        let deptList = clickHandler(item, this.state.deptList);
+        let deptList = clickHandler(item, this.state.deptList, 'shopName');
         this.setState({
             deptList: deptList
         });
@@ -269,7 +269,7 @@ export default class Center extends Component {
                             this.setState({ date: this.getDate(rowID) });
                         }
                     } />
-                    <TouchableOpacity style={styles.button} onPress={() => { showDept(this); }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>门店</Text>
                     </TouchableOpacity>

@@ -16,9 +16,8 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
-import { clickHandler, getShopList, showDept } from '../report/common';
+import { clickHandler, getShopList, show, reloadTable } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
-import data from './data';
 
 export default class Center extends Component {
 
@@ -29,7 +28,7 @@ export default class Center extends Component {
             deptVisible: false,
             storeVisible: false,
             detailVisible: false,
-            data: data,
+            data: [],
             list: [],
             row: {},
             deptList: [],
@@ -41,7 +40,7 @@ export default class Center extends Component {
                 sortable: true
             }, {
                 key: 2,
-                id: 'store',
+                id: 'storeName',
                 label: '柜台',
                 sortable: true,
                 hidden: true
@@ -64,19 +63,19 @@ export default class Center extends Component {
                 hidden: true
             }, {
                 key: 6,
-                id: 'statisticsClassify',
+                id: 'statsClassify',
                 label: '统计分类',
                 sortable: true,
                 hidden: true
             }, {
                 key: 7,
-                id: 'model',
+                id: 'mainType',
                 label: '核算模式',
                 sortable: true,
                 hidden: true
             }, {
                 key: 8,
-                id: 'classify',
+                id: 'archivesCategory',
                 label: '品类',
                 sortable: true,
                 hidden: true
@@ -87,61 +86,98 @@ export default class Center extends Component {
                 sortable: true
             }, {
                 key: 10,
-                id: 'goldWeight',
+                id: 'totalGoldWeight',
                 label: '金重',
                 sortable: true
             }, {
                 key: 11,
-                id: 'price',
+                id: 'labelMoney',
                 label: '标价',
                 sortable: true
             }]
         };
     }
 
+    queryGoodsList() {
+        let shopAreaCode = [];
+        this.state.deptList.forEach(function (item) {
+            if (!item.hidden && item.areaCode) {
+                shopAreaCode.push(item.areaCode);
+            }
+        });
+        let storeId = [];
+        this.state.storeList.forEach(function (item) {
+            if (!item.hidden && item.id) {
+                storeId.push(item.id);
+            }
+        });
+        let groupField = [];
+        this.state.list.forEach(function (item) {
+            if (!item.hidden && item.id) {
+                groupField.push(item.id);
+            }
+        });
+        let params = new FormData();
+        params.append("storeId", storeId.join(','));
+        params.append("groupField", groupField.join(','));
+        params.append("shopAreaCode", shopAreaCode.join(','));
+        callService(this, 'getGoodsStockSummary.do', params, function (response) {
+            if (response.stockList) {
+                this.setState({
+                    data: handleResult(response.stockList)
+                });
+            }
+        });
+    }
+
     componentDidMount() {
+        this.setState({
+            list: this.state.fields.slice(0, 8)
+        });
         getShopList(this);
         callService(this, 'getStoreList.do', new FormData(), function (response) {
             if (response.storeList) {
                 this.setState({
                     storeList: handleResult(response.storeList)
+                }, function () {
+                    this.queryGoodsList();
                 });
             }
         });
     }
 
     itemClick(item) {
-        let list = clickHandler(item, this.state.list);
+        let list = clickHandler(item, this.state.list, 'label');
         this.setState({
             list: list
+        }, function () {
+            this.queryGoodsList();
         });
-        this.reloadTable();
     }
 
     deptClick(item) {
-        let deptList = clickHandler(item, this.state.deptList);
-        this.setState({
-            deptList: deptList
+        let deptList = clickHandler(item, this.state.deptList, 'shopName');
+        let storeList = [];
+        this.state.storeList.forEach(function (el) {
+            if (el.areaCode === item.areaCode) {
+                el.hidden = !el.hidden;
+            }
+            storeList.push(el);
         });
-        this.reloadTable();
+        this.setState({
+            deptList: deptList,
+            storeList: storeList
+        }, function () {
+            this.queryGoodsList();
+        });
     }
 
     storeClick(item) {
         let storeList = clickHandler(item, this.state.storeList, 'storeName');
         this.setState({
             storeList: storeList
-        });
-        this.reloadTable();
-    }
-
-    reloadTable(data) {
-        if (!data) data = this.state.data;
-        let newData = [];
-        data.forEach(function (item) {
-            newData.push(item);
-        });
-        this.setState({
-            data: newData
+        }, function () {
+            this.queryGoodsList();
         });
     }
 
@@ -200,56 +236,6 @@ export default class Center extends Component {
         });
     }
 
-    showGroup() {
-        if (this.state.list.length === 0) {
-            this.setState({
-                list: [{
-                    key: 0,
-                    id: 'all',
-                    label: '全部',
-                    hidden: true
-                }].concat(this.state.fields.slice(0, 8)),
-                modalVisible: true
-            });
-            return;
-        }
-        this.setState({
-            modalVisible: true
-        });
-    }
-
-    showStore() {
-        if (this.state.storeList[0].storeName !== '全部') {
-            this.setState({
-                storeList: [{
-                    key: 0,
-                    storeName: '全部',
-                    hidden: false
-                }].concat(this.state.storeList),
-                storeVisible: true
-            });
-            return;
-        }
-        this.setState({
-            storeVisible: true
-        });
-    }
-
-    filter(row, rowId) {
-        let flag = true;
-        this.state.deptList.forEach(function (item) {
-            if (item.hidden && item.label === row.item.deptAreaName) {
-                flag = false;
-            }
-        });
-        this.state.storeList.forEach(function (item) {
-            if (item.hidden && item.label === row.item.store) {
-                flag = false;
-            }
-        });
-        return flag;
-    }
-
     rowClick(row, rowId) {
         this.setState({
             row: row.item,
@@ -259,7 +245,7 @@ export default class Center extends Component {
 
     onSort(field, isAscending) {
         let sortedData = this.state.data.sort((objA, objB) => this.compare(field, isAscending, objA, objB));
-        this.reloadTable(sortedData);
+        reloadTable(this, sortedData);
     }
 
     compare(field, isAscending, objA, objB) {
@@ -352,15 +338,15 @@ export default class Center extends Component {
                     </View>
                 </Modal>
                 <View style={styles.toolbar}>
-                    <TouchableOpacity style={styles.button} onPress={() => { showDept(this) }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible') }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>门店</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => { this.showStore() }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { show(this, 'storeList', 'storeName', 'storeVisible') }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>柜台</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => { this.showGroup() }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { show(this, 'list', 'label', 'modalVisible', true) }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>分组设置</Text>
                     </TouchableOpacity>
@@ -368,7 +354,6 @@ export default class Center extends Component {
                 <Datatable
                     onSort={this.onSort.bind(this)}
                     rowClick={this.rowClick.bind(this)}
-                    filter={this.filter.bind(this)}
                     dataSource={this.state.data}
                     fields={this.state.fields} />
             </View>

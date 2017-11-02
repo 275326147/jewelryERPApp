@@ -18,7 +18,8 @@ import {
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
-import { clickHandler, getShopList, showDept } from './common';
+import { clickHandler, getShopList, show } from './common';
+import { callService, handleResult } from '../../utils/service';
 import data from './data';
 
 export default class Center extends Component {
@@ -33,6 +34,7 @@ export default class Center extends Component {
             data: data,
             row: {},
             deptList: [],
+            empList: [],
             fields: [{
                 key: 1,
                 id: 'no',
@@ -63,13 +65,11 @@ export default class Center extends Component {
                 id: 'labelPrice',
                 label: '标价',
                 editable: true,
-                width: 120,
                 sortable: true
             }, {
                 key: 7,
                 id: 'settleTotalMoney',
                 label: '售价',
-                width: 120,
                 sortable: true
             }]
         };
@@ -77,6 +77,16 @@ export default class Center extends Component {
 
     componentDidMount() {
         getShopList(this);
+        callService(this, 'getEmployeeList.do', new FormData(), function (response) {
+            if (response.employeeList) {
+                this.setState({
+                    empList: handleResult([{
+                        name: '全部',
+                        hidden: false
+                    }].concat(response.employeeList))
+                });
+            }
+        });
     }
 
     reloadTable(data) {
@@ -105,6 +115,16 @@ export default class Center extends Component {
         </TouchableWithoutFeedback>
     );
 
+
+    _renderEmpItem = ({ item }) => (
+        <TouchableWithoutFeedback onPress={() => { this.empClick(item); }}>
+            <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.name}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+
+
     _onDetailClose() {
         this.setState({
             detailVisible: false
@@ -118,9 +138,24 @@ export default class Center extends Component {
     }
 
     deptClick(item) {
-        let deptList = clickHandler(item, this.state.deptList);
+        let deptList = clickHandler(item, this.state.deptList, 'shopName');
+        let empList = [];
+        this.state.empList.forEach(function (el) {
+            if (el.areaCode === item.areaCode) {
+                el.hidden = !el.hidden;
+            }
+            empList.push(el);
+        });
         this.setState({
-            deptList: deptList
+            deptList: deptList,
+            empList: empList
+        });
+    }
+
+    empClick(item) {
+        let empList = clickHandler(item, this.state.empList, 'name');
+        this.setState({
+            empList: empList
         });
     }
 
@@ -200,7 +235,7 @@ export default class Center extends Component {
                                 <FlatList data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
                             </View>
                             <View style={{ height: 10, margin: 10, marginTop: 20 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店下的店员</Text></View>
-                            <FlatList style={{ flex: 1 }} data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
+                            <FlatList style={{ flex: 1 }} data={this.state.empList} renderItem={this._renderEmpItem} horizontal={false} numColumns={2} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDeptClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
@@ -235,7 +270,7 @@ export default class Center extends Component {
                             this.setState({ date: this.getDate(rowID) });
                         }
                     } />
-                    <TouchableOpacity style={styles.button} onPress={() => { showDept(this); }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
                         <Text style={styles.text}>筛选</Text>
                     </TouchableOpacity>
