@@ -5,11 +5,23 @@
 import React from 'react';
 import Route from './route/route';
 import JPushModule from 'jpush-react-native';
-import { Platform, BackHandler } from 'react-native';
+import { View, Platform, BackHandler, Modal, ActivityIndicator, StyleSheet, DeviceEventEmitter } from 'react-native';
 
 export default class JewelryERPApp extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            animating: false
+        }
+    }
+
     componentDidMount() {
+        this.msgListener = DeviceEventEmitter.addListener('loading', (params) => {
+            this.setState({
+                animating: params.animating
+            });
+        });
         BackHandler.addEventListener('hardwareBackPress', function () {
             this.exitApp();
             return false;
@@ -39,11 +51,42 @@ export default class JewelryERPApp extends React.Component {
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress');
+        this.msgListener && this.msgListener.remove();
     }
 
     render() {
         return (
-            <Route />
+            <View style={{ flex: 1 }}>
+                <Modal
+                    visible={this.state.animating}
+                    transparent={true}
+                    onRequestClose={() => { this.setState({ animating: false }) }}>
+                    <View style={styles.modalBackground}>
+                        <ActivityIndicator
+                            animating={this.state.animating}
+                            style={styles.centering}
+                            color="white"
+                            size="large"
+                        />
+                    </View>
+                </Modal>
+                <Route />
+            </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    modalBackground: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    centering: {
+        height: 80,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 8,
+    }
+});

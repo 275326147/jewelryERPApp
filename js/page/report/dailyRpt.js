@@ -20,7 +20,6 @@ import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { callService, handleResult } from '../../utils/service';
 import { clickHandler, getShopList, show, getDate, setDate } from './common';
-import data from './data';
 
 export default class Center extends Component {
 
@@ -31,12 +30,14 @@ export default class Center extends Component {
             active: 1,
             detailVisible: false,
             deptVisible: false,
-            data: data,
+            data: [],
+            materialData: [],
+            paymentData: [],
             row: {},
             deptList: [],
             fields: [{
                 key: 1,
-                id: 'name',
+                id: 'goodsClassify',
                 label: '名称'
             }, {
                 key: 2,
@@ -62,7 +63,7 @@ export default class Center extends Component {
         };
     }
 
-    oldFields = [{
+    materialFields = [{
         key: 1,
         id: 'goodsName',
         label: '商品名称'
@@ -84,7 +85,7 @@ export default class Center extends Component {
         label: '回收金额'
     }]
 
-    payFields = [{
+    paymentFields = [{
         key: 1,
         id: 'settleType',
         label: '收款方式',
@@ -96,8 +97,33 @@ export default class Center extends Component {
         width: Dimensions.get('screen').width / 2
     }]
 
+    queryDailyData() {
+        let shopAreaCode = [];
+        this.state.deptList.forEach(function (item) {
+            if (!item.hidden && item.areaCode) {
+                shopAreaCode.push(item.areaCode);
+            }
+        });
+        let params = new FormData();
+        params.append("shopAreaCode", shopAreaCode.join(','));
+        params.append("groupField", this.state.groupField || 'goodsClassify');
+        params.append("beginDate", this.state.beginDate || this.state.date);
+        params.append("endDate", this.state.endDate || this.state.date);
+        callService(this, 'getDailyReportData.do', params, function (response) {
+            if (response) {
+                this.setState({
+                    data: handleResult(response.dailyReportData),
+                    materialData: handleResult(response.materialSummaryData),
+                    paymentData: handleResult(response.paymentMainData)
+                });
+            }
+        });
+    }
+
     componentDidMount() {
-        getShopList(this);
+        getShopList(this, function () {
+            this.queryDailyData();
+        });
     }
 
     _renderDetailItem = ({ item }) => (
@@ -172,7 +198,7 @@ export default class Center extends Component {
                     <View style={styles.modalBackground}>
                         <View style={[styles.modalContainer, { height: 300, width: (Dimensions.get('window').width - 40) }]}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>日报详情</Text></View>
-                            <FlatList style={{ flex: 1 }} data={this.state.active === 1 ? this.state.fields : this.oldFields} renderItem={this._renderDetailItem} />
+                            <FlatList style={{ flex: 1 }} data={this.state.active === 1 ? this.state.fields : this.materialFields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
@@ -187,7 +213,9 @@ export default class Center extends Component {
                 <View style={styles.toolbar}>
                     <ModalDropdown options={['今日', '昨日', '近7天', '近30天', '自定义']} onSelect={
                         (rowID, rowData) => {
-                            setDate(this, rowID);
+                            setDate(this, rowID, function () {
+                                this.queryDailyData();
+                            });
                         }
                     } />
                     <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
@@ -196,7 +224,30 @@ export default class Center extends Component {
                     </TouchableOpacity>
                     {
                         this.state.active === 1 ?
-                            <ModalDropdown options={['实际分类', '商品名称', '门店', '柜台']} />
+                            <ModalDropdown options={['实际分类', '商品名称', '门店', '柜台']} onSelect={
+                                (rowID, rowData) => {
+                                    let groupField = '';
+                                    switch (rowID) {
+                                        case '0':
+                                            groupField = 'goodsClassify';
+                                            break;
+                                        case '1':
+                                            groupField = 'goodsName';
+                                            break;
+                                        case '2':
+                                            groupField = 'deptAreaName';
+                                            break;
+                                        case '3':
+                                            groupField = 'storeName';
+                                            break;
+                                    }
+                                    this.setState({
+                                        groupField: groupField
+                                    }, function () {
+                                        this.queryDailyData();
+                                    });
+                                }
+                            } />
                             : <View />
                     }
                 </View>
@@ -229,16 +280,16 @@ export default class Center extends Component {
                     this.state.active === 2 ?
                         <Datatable
                             rowClick={this.rowClick.bind(this)}
-                            dataSource={this.state.data}
-                            fields={this.oldFields} />
+                            dataSource={this.state.materialData}
+                            fields={this.materialFields} />
                         : <View />
                 }
                 {
                     this.state.active === 3 ?
                         <Datatable
                             rowClick={this.rowClick.bind(this)}
-                            dataSource={this.state.data}
-                            fields={this.payFields} />
+                            dataSource={this.state.paymentData}
+                            fields={this.paymentFields} />
                         : <View />
                 }
             </View>

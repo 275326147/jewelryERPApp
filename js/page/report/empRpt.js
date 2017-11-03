@@ -14,7 +14,8 @@ import {
     Modal,
     FlatList,
     TouchableWithoutFeedback,
-    TextInput
+    TextInput,
+    DeviceEventEmitter
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
@@ -36,7 +37,7 @@ export default class Center extends Component {
             empList: [],
             fields: [{
                 key: 1,
-                id: 'no',
+                id: 'rowId',
                 label: '编号'
             }, {
                 key: 2,
@@ -44,7 +45,7 @@ export default class Center extends Component {
                 label: '门店'
             }, {
                 key: 3,
-                id: 'groupName',
+                id: 'employeeName',
                 label: '名称'
             }, {
                 key: 4,
@@ -73,22 +74,37 @@ export default class Center extends Component {
                 shopAreaCode.push(item.areaCode);
             }
         });
-        let statisticsType = 'all';
-        if (this.state.typeList[0].hidden && !this.state.typeList[1].hidden) {
-            statisticsType = 'notGold';
-        } else if (!this.state.typeList[0].hidden && this.state.typeList[1].hidden) {
-            statisticsType = 'gold';
-        }
+        let employeeId = [];
+        this.state.empList.forEach(function (item) {
+            if (!item.hidden && item.id) {
+                employeeId.push(item.id);
+            }
+        });
         let params = new FormData();
-        params.append("statisticsType", statisticsType);
-        params.append("groupField", this.state.groupField || 'goodsClassify');
         params.append("shopAreaCode", shopAreaCode.join(','));
+        params.append("employeeId", employeeId.join(','));
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
+        //DeviceEventEmitter.emit('loading', { animating: true });
         callService(this, 'getEmployeeTopData.do', params, function (response) {
-            if (response.saleTopData) {
+            if (response.employeeTopData) {
+                let data = [];
+                response.employeeTopData.forEach(function (item) {
+                    let deptAreaName = item[0].deptAreaName;
+                    data.push({ rowId: deptAreaName, disableClick: true });
+                    let rowId = 1;
+                    item.forEach(function (el) {
+                        if (el.employeeName === '小计') {
+                            el.disableClick = true;
+                            el.textStyle = { 'color': 'orange' };
+                            return;
+                        }
+                        el.rowId = rowId++;
+                    });
+                    data = data.concat(item);
+                });
                 this.setState({
-                    data: handleResult(response.saleTopData)
+                    data: handleResult(data)
                 });
             }
         });
@@ -170,12 +186,6 @@ export default class Center extends Component {
         });
     }
 
-    filter(row, rowId) {
-        let flag = true;
-
-        return flag;
-    }
-
     rowClick(row, rowId) {
         this.setState({
             row: row.item,
@@ -230,7 +240,9 @@ export default class Center extends Component {
                 <View style={styles.toolbar}>
                     <ModalDropdown options={['今日', '昨日', '近7天', '近30天', '自定义']} onSelect={
                         (rowID, rowData) => {
-                            setDate(this, rowID);
+                            setDate(this, rowID, function () {
+                                this.queryEmployeeTopData();
+                            });
                         }
                     } />
                     <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
@@ -239,8 +251,8 @@ export default class Center extends Component {
                     </TouchableOpacity>
                 </View>
                 <Datatable
+                    disableAltRow={true}
                     rowClick={this.rowClick.bind(this)}
-                    filter={this.filter.bind(this)}
                     dataSource={this.state.data}
                     fields={this.state.fields} />
             </View>

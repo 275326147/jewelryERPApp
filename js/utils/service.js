@@ -2,7 +2,7 @@
  * Created by Meiling.Zhou on 2017/9/29
  */
 'use strict';
-
+import { DeviceEventEmitter } from 'react-native';
 import { Constant, alert, forward } from './common';
 import Storage from './storage';
 
@@ -45,6 +45,7 @@ export function callService(master, url, params, successCallback, failCallback) 
                 headers: {},
                 body: params
             }).then((response) => {
+                DeviceEventEmitter.emit('loading', { animating: false });
                 return response.json();
             }).then((responseJson) => {
                 let code = responseJson.ret;
@@ -53,7 +54,7 @@ export function callService(master, url, params, successCallback, failCallback) 
                     alert(this, 'info', '会话已过期，请重新登录', () => {
                         Storage.getCurrentAccount(master, function (accountInfo) {
                             accountInfo.token = '';
-                            Storage.setAccountInfo(master, accountInfo, function(){
+                            Storage.setAccountInfo(master, accountInfo, function () {
                                 Storage.setStorageAsync('currentAccount', '');
                                 forward(master, 'Login');
                             });
