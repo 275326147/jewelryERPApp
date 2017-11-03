@@ -54,7 +54,7 @@ class Datatable extends React.Component {
     }
 
     renderTable() {
-        this.style = Style.altRow;
+        this.style = this.props.disableAltRow ? Style.row : Style.altRow;
         this.uniqueKey(this.props.dataSource);
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -71,13 +71,13 @@ class Datatable extends React.Component {
     renderRow(row, sectionId, rowId) {
         if (this.props.filter) {
             let show = this.props.filter(row, rowId);
-            if (show) {
+            if (show && !this.props.disableAltRow) {
                 this.style = (this.style === Style.altRow ? Style.row : Style.altRow);
             }
             return (
                 show ?
                     <TouchableWithoutFeedback onPress={() => {
-                        if (this.props.rowClick) {
+                        if (this.props.rowClick && !row.item.disableClick) {
                             this.props.rowClick(row, rowId);
                         }
                     }}>
@@ -90,10 +90,10 @@ class Datatable extends React.Component {
                     : <View />
             )
         }
-        this.style = (this.style === Style.altRow ? Style.row : Style.altRow);
+        if (!this.props.disableAltRow) this.style = (this.style === Style.altRow ? Style.row : Style.altRow);
         return (
             <TouchableWithoutFeedback onPress={() => {
-                if (this.props.rowClick) {
+                if (this.props.rowClick && !row.item.disableClick) {
                     this.props.rowClick(row, rowId);
                 }
             }}>
@@ -115,6 +115,7 @@ class Datatable extends React.Component {
                         key={index}
                         width={field.width || 100}
                         style={this.props.cellStyle}
+                        textStyle={row.item.textStyle}
                         label={value} />
             );
         });
@@ -157,7 +158,7 @@ Datatable.propTypes = {
     headerCellStyle: React.PropTypes.number,
     headerHighlightColor: React.PropTypes.string,
     cellStyle: React.PropTypes.number,
-
+    disableAltRow: React.PropTypes.bool
 }
 
 Datatable.defaultProps = {

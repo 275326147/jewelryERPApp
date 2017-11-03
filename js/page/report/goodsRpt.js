@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
-import { clickHandler, getShopList, show } from './common';
+import { clickHandler, getShopList, show, getDate, setDate } from './common';
 import { callService, handleResult } from '../../utils/service';
 
 export default class Center extends Component {
@@ -26,7 +26,7 @@ export default class Center extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: this.getDate(new Date()),
+            date: getDate(new Date()),
             active: 1,
             detailVisible: false,
             deptVisible: false,
@@ -44,40 +44,32 @@ export default class Center extends Component {
             deptList: [],
             fields: [{
                 key: 1,
-                id: 'id',
-                label: '编号',
-                sortable: true
+                id: 'rowId',
+                label: '编号'
             }, {
                 key: 2,
                 id: 'deptAreaName',
-                label: '门店',
-                sortable: true
+                label: '门店'
             }, {
                 key: 3,
                 id: 'showName',
-                label: '名称',
-                sortable: true
+                label: '名称'
             }, {
                 key: 4,
                 id: 'saleNum',
-                label: '数量',
-                sortable: true
+                label: '数量'
             }, {
                 key: 5,
                 id: 'saleGoldWeight',
-                label: '金重',
-                sortable: true
+                label: '金重'
             }, {
                 key: 6,
                 id: 'labelPrice',
-                label: '标价',
-                editable: true,
-                sortable: true
+                label: '标价'
             }, {
                 key: 7,
                 id: 'settleTotalMoney',
-                label: '售价',
-                sortable: true
+                label: '售价'
             }]
         };
     }
@@ -97,31 +89,37 @@ export default class Center extends Component {
         }
         let params = new FormData();
         params.append("statisticsType", statisticsType);
-        params.append("groupField", this.state.groupField);
+        params.append("groupField", this.state.groupField || 'goodsClassify');
         params.append("shopAreaCode", shopAreaCode.join(','));
-        params.append("beginDate", this.state.beginDate);
-        params.append("endDate", this.state.endDate);
+        params.append("beginDate", this.state.beginDate || this.state.date);
+        params.append("endDate", this.state.endDate || this.state.date);
         callService(this, 'getSaleTopData.do', params, function (response) {
             if (response.saleTopData) {
+                let data = [];
+                response.saleTopData.forEach(function (item) {
+                    let deptAreaName = item[0].deptAreaName;
+                    data.push({ rowId: deptAreaName, disableClick: true });
+                    let rowId = 1;
+                    item.forEach(function (el) {
+                        if (el.showName === '小计') {
+                            el.disableClick = true;
+                            el.textStyle = { 'color': 'orange' };
+                            return;
+                        }
+                        el.rowId = rowId++;
+                    });
+                    data = data.concat(item);
+                });
                 this.setState({
-                    data: handleResult(response.saleTopData)
+                    data: handleResult(data)
                 });
             }
         });
     }
 
     componentDidMount() {
-        getShopList(this);
-    }
-
-    reloadTable(data) {
-        if (!data) data = this.state.data;
-        let newData = [];
-        data.forEach(function (item) {
-            newData.push(item);
-        });
-        this.setState({
-            data: newData
+        getShopList(this, function () {
+            this.querySaleTopData();
         });
     }
 
@@ -159,83 +157,10 @@ export default class Center extends Component {
         });
     }
 
-    filter(row, rowId) {
-        let flag = true;
-
-        return flag;
-    }
-
     rowClick(row, rowId) {
         this.setState({
             row: row.item,
             detailVisible: true
-        });
-    }
-
-    onSort(field, isAscending) {
-        let sortedData = this.state.data.sort((objA, objB) => this.compare(field, isAscending, objA, objB));
-        this.reloadTable(sortedData);
-    }
-
-    compare(field, isAscending, objA, objB) {
-        var key = field.id;
-        if (isAscending) {
-            if (objA[key] < objB[key])
-                return -1;
-            if (objA[key] > objB[key])
-                return 1;
-            return 0;
-        } else {
-            if (objA[key] > objB[key])
-                return -1;
-            if (objA[key] < objB[key])
-                return 1;
-            return 0;
-        }
-    }
-
-    getDate(date) {
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        month = month < 10 ? "0".concat(month) : month;
-        let day = date.getDate();
-        day = day < 10 ? "0".concat(day) : day;
-        return `${year}-${month}-${day}`;
-    }
-
-    setDate(rowID) {
-        let date = new Date();
-        let fromDate = '';
-        let toDate = '';
-        switch (rowID) {
-            case '1':
-                date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
-                date = this.getDate(date);
-                fromDate = date;
-                toDate = date;
-                break;
-            case '2':
-                fromDate = this.getDate(new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000));
-                toDate = this.getDate(date);
-                date = `${fromDate}至${toDate}`;
-                break;
-            case '3':
-                fromDate = this.getDate(new Date(date.getTime() - 30 * 24 * 60 * 60 * 1000));
-                toDate = this.getDate(date);
-                date = `${fromDate}至${toDate}`;
-                break;
-            case '4':
-                break;
-            default:
-                date = this.getDate(date);
-                fromDate = date;
-                toDate = date;
-                break;
-        }
-        this.setState({
-            date: date,
-            fromDate: fromDate,
-            toDate: toDate
         });
     }
 
@@ -286,7 +211,9 @@ export default class Center extends Component {
                 <View style={styles.toolbar}>
                     <ModalDropdown options={['今日', '昨日', '近7天', '近30天', '自定义']} onSelect={
                         (rowID, rowData) => {
-                            this.setDate(rowID);
+                            setDate(this, rowID, function () {
+                                this.querySaleTopData();
+                            });
                         }
                     } />
                     <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible') }}>
@@ -297,29 +224,30 @@ export default class Center extends Component {
                         (rowID, rowData) => {
                             let groupField = '';
                             switch (rowID) {
-                                case '实际分类':
+                                case '0':
                                     groupField = 'goodsClassify';
                                     break;
-                                case '成本分类':
+                                case '1':
                                     groupField = 'costClassify';
                                     break;
-                                case '统计分类':
+                                case '2':
                                     groupField = 'statsClassify';
                                     break;
-                                case '核算模式':
+                                case '3':
                                     groupField = 'mainType';
                                     break;
                             }
                             this.setState({
                                 groupField: groupField
+                            }, function () {
+                                this.querySaleTopData();
                             });
                         }
                     } />
                 </View>
                 <Datatable
-                    onSort={this.onSort.bind(this)}
+                    disableAltRow={true}
                     rowClick={this.rowClick.bind(this)}
-                    filter={this.filter.bind(this)}
                     dataSource={this.state.data}
                     fields={this.state.fields} />
             </View>

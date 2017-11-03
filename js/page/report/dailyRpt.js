@@ -19,7 +19,7 @@ import {
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { callService, handleResult } from '../../utils/service';
-import { clickHandler, getShopList, show } from './common';
+import { clickHandler, getShopList, show, getDate, setDate } from './common';
 import data from './data';
 
 export default class Center extends Component {
@@ -27,7 +27,7 @@ export default class Center extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: this.getDate(),
+            date: getDate(new Date()),
             active: 1,
             detailVisible: false,
             deptVisible: false,
@@ -37,34 +37,27 @@ export default class Center extends Component {
             fields: [{
                 key: 1,
                 id: 'name',
-                label: '名称',
-                sortable: true
+                label: '名称'
             }, {
                 key: 2,
                 id: 'calculateType',
-                label: '方式',
-                sortable: true
+                label: '方式'
             }, {
                 key: 3,
                 id: 'saleNum',
-                label: '件数',
-                sortable: true
+                label: '件数'
             }, {
                 key: 4,
                 id: 'labelPrice',
-                label: '标价',
-                editable: true,
-                sortable: true
+                label: '标价'
             }, {
                 key: 5,
                 id: 'saleGoldWeight',
-                label: '金重',
-                sortable: true
+                label: '金重'
             }, {
                 key: 6,
                 id: 'settleTotalMoney',
-                label: '实收',
-                sortable: true
+                label: '实收'
             }]
         };
     }
@@ -72,57 +65,39 @@ export default class Center extends Component {
     oldFields = [{
         key: 1,
         id: 'goodsName',
-        label: '商品名称',
-        sortable: true
+        label: '商品名称'
     }, {
         key: 2,
         id: 'calculateType',
-        label: '类型',
-        sortable: true
+        label: '类型'
     }, {
         key: 3,
         id: 'netGoldWeight',
-        label: '净金重',
-        sortable: true
+        label: '净金重'
     }, {
         key: 4,
         id: 'worksFeeTotal',
-        label: '工费',
-        sortable: true
+        label: '工费'
     }, {
         key: 5,
         id: 'totalMoney',
-        label: '回收金额',
-        sortable: true
+        label: '回收金额'
     }]
 
     payFields = [{
         key: 1,
         id: 'settleType',
         label: '收款方式',
-        width: Dimensions.get('screen').width / 2,
-        sortable: true
+        width: Dimensions.get('screen').width / 2
     }, {
         key: 2,
         id: 'totalMoney',
         label: '金额',
-        width: Dimensions.get('screen').width / 2,
-        sortable: true
+        width: Dimensions.get('screen').width / 2
     }]
 
     componentDidMount() {
         getShopList(this);
-    }
-
-    reloadTable(data) {
-        if (!data) data = this.state.data;
-        let newData = [];
-        data.forEach(function (item) {
-            newData.push(item);
-        });
-        this.setState({
-            data: newData
-        });
     }
 
     _renderDetailItem = ({ item }) => (
@@ -159,12 +134,6 @@ export default class Center extends Component {
         });
     }
 
-    filter(row, rowId) {
-        let flag = true;
-
-        return flag;
-    }
-
     rowClick(row, rowId) {
         if (this.state.active === 3) {
             return;
@@ -173,54 +142,6 @@ export default class Center extends Component {
             row: row.item,
             detailVisible: true
         });
-    }
-
-    onSort(field, isAscending) {
-        let sortedData = this.state.data.sort((objA, objB) => this.compare(field, isAscending, objA, objB));
-        this.reloadTable(sortedData);
-    }
-
-    compare(field, isAscending, objA, objB) {
-        var key = field.id;
-
-        if (isAscending) {
-            if (objA[key] < objB[key])
-                return -1;
-            if (objA[key] > objB[key])
-                return 1;
-            return 0;
-        } else {
-            if (objA[key] > objB[key])
-                return -1;
-            if (objA[key] < objB[key])
-                return 1;
-            return 0;
-        }
-    }
-
-    getDate(rowID) {
-        let date = new Date();
-        let fromDate = '';
-        switch (rowID) {
-            case '1':
-                date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
-                date = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-            case '2':
-                fromDate = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
-                date = `${fromDate.getFullYear()}.${fromDate.getMonth() + 1}.${fromDate.getDate()}-${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-            case '3':
-                fromDate = new Date(date.getTime() - 30 * 24 * 60 * 60 * 1000);
-                date = `${fromDate.getFullYear()}.${fromDate.getMonth() + 1}.${fromDate.getDate()}-${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-            case '4':
-                break;
-            default:
-                date = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-        }
-        return date;
     }
 
     render() {
@@ -266,7 +187,7 @@ export default class Center extends Component {
                 <View style={styles.toolbar}>
                     <ModalDropdown options={['今日', '昨日', '近7天', '近30天', '自定义']} onSelect={
                         (rowID, rowData) => {
-                            this.setState({ date: this.getDate(rowID) });
+                            setDate(this, rowID);
                         }
                     } />
                     <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
@@ -299,9 +220,7 @@ export default class Center extends Component {
                 {
                     this.state.active === 1 ?
                         <Datatable
-                            onSort={this.onSort.bind(this)}
                             rowClick={this.rowClick.bind(this)}
-                            filter={this.filter.bind(this)}
                             dataSource={this.state.data}
                             fields={this.state.fields} />
                         : <View />
@@ -309,9 +228,7 @@ export default class Center extends Component {
                 {
                     this.state.active === 2 ?
                         <Datatable
-                            onSort={this.onSort.bind(this)}
                             rowClick={this.rowClick.bind(this)}
-                            filter={this.filter.bind(this)}
                             dataSource={this.state.data}
                             fields={this.oldFields} />
                         : <View />
@@ -319,9 +236,7 @@ export default class Center extends Component {
                 {
                     this.state.active === 3 ?
                         <Datatable
-                            onSort={this.onSort.bind(this)}
                             rowClick={this.rowClick.bind(this)}
-                            filter={this.filter.bind(this)}
                             dataSource={this.state.data}
                             fields={this.payFields} />
                         : <View />

@@ -139,11 +139,10 @@ export default class Center extends Component {
             if (response.storeList) {
                 this.setState({
                     storeList: handleResult(response.storeList)
-                }, function () {
-                    this.queryGoodsList();
                 });
             }
         });
+        this.queryGoodsList();
     }
 
     itemClick(item) {

@@ -25,11 +25,15 @@ export function clickHandler(item, dataList, field) {
     return list;
 }
 
-export function getShopList(master) {
+export function getShopList(master, callback) {
     callService(master, 'getShopList.do', new FormData(), function (response) {
         if (response.shopList) {
             master.setState({
                 deptList: handleResult(response.shopList)
+            }, function () {
+                if (callback) {
+                    callback.call(master);
+                }
             });
         }
     });
@@ -60,5 +64,54 @@ export function reloadTable(master, data) {
     });
     master.setState({
         data: newData
+    });
+}
+
+export function getDate(date) {
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    month = month < 10 ? "0".concat(month) : month;
+    let day = date.getDate();
+    day = day < 10 ? "0".concat(day) : day;
+    return `${year}-${month}-${day}`;
+}
+
+export function setDate(master, rowID, callback) {
+    let date = new Date();
+    let beginDate = '';
+    let endDate = '';
+    switch (rowID) {
+        case '1':
+            date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
+            date = getDate(date);
+            beginDate = date;
+            endDate = date;
+            break;
+        case '2':
+            beginDate = getDate(new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000));
+            endDate = getDate(date);
+            date = `${beginDate}至${endDate}`;
+            break;
+        case '3':
+            beginDate = getDate(new Date(date.getTime() - 30 * 24 * 60 * 60 * 1000));
+            endDate = getDate(date);
+            date = `${beginDate}至${endDate}`;
+            break;
+        case '4':
+            break;
+        default:
+            date = getDate(date);
+            beginDate = date;
+            endDate = date;
+            break;
+    }
+    master.setState({
+        date: date,
+        beginDate: beginDate,
+        endDate: endDate
+    }, function () {
+        if (callback) {
+            callback.call(master);
+        }
     });
 }

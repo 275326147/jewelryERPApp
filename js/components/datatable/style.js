@@ -37,7 +37,7 @@ export default StyleSheet.create({
     altRow: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: '#f3f3f1'
+        backgroundColor: '#f5f5f5'
     },
     contentCell: {
         textAlign: 'center',

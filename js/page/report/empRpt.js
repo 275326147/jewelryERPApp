@@ -18,85 +18,96 @@ import {
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
-import { clickHandler, getShopList, show } from './common';
+import { clickHandler, getShopList, show, getDate, setDate } from './common';
 import { callService, handleResult } from '../../utils/service';
-import data from './data';
 
 export default class Center extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            date: this.getDate(),
+            date: getDate(new Date()),
             active: 1,
             detailVisible: false,
             deptVisible: false,
-            data: data,
+            data: [],
             row: {},
             deptList: [],
             empList: [],
             fields: [{
                 key: 1,
                 id: 'no',
-                label: '编号',
-                sortable: true
+                label: '编号'
             }, {
                 key: 2,
                 id: 'deptAreaName',
-                label: '门店',
-                sortable: true
+                label: '门店'
             }, {
                 key: 3,
                 id: 'groupName',
-                label: '名称',
-                sortable: true
+                label: '名称'
             }, {
                 key: 4,
                 id: 'saleNum',
-                label: '数量',
-                sortable: true
+                label: '数量'
             }, {
                 key: 5,
                 id: 'saleGoldWeight',
-                label: '金重',
-                sortable: true
+                label: '金重'
             }, {
                 key: 6,
                 id: 'labelPrice',
-                label: '标价',
-                editable: true,
-                sortable: true
+                label: '标价'
             }, {
                 key: 7,
                 id: 'settleTotalMoney',
-                label: '售价',
-                sortable: true
+                label: '售价'
             }]
         };
     }
 
-    componentDidMount() {
-        getShopList(this);
-        callService(this, 'getEmployeeList.do', new FormData(), function (response) {
-            if (response.employeeList) {
+    queryEmployeeTopData() {
+        let shopAreaCode = [];
+        this.state.deptList.forEach(function (item) {
+            if (!item.hidden && item.areaCode) {
+                shopAreaCode.push(item.areaCode);
+            }
+        });
+        let statisticsType = 'all';
+        if (this.state.typeList[0].hidden && !this.state.typeList[1].hidden) {
+            statisticsType = 'notGold';
+        } else if (!this.state.typeList[0].hidden && this.state.typeList[1].hidden) {
+            statisticsType = 'gold';
+        }
+        let params = new FormData();
+        params.append("statisticsType", statisticsType);
+        params.append("groupField", this.state.groupField || 'goodsClassify');
+        params.append("shopAreaCode", shopAreaCode.join(','));
+        params.append("beginDate", this.state.beginDate || this.state.date);
+        params.append("endDate", this.state.endDate || this.state.date);
+        callService(this, 'getEmployeeTopData.do', params, function (response) {
+            if (response.saleTopData) {
                 this.setState({
-                    empList: handleResult([{
-                        name: '全部',
-                        hidden: false
-                    }].concat(response.employeeList))
+                    data: handleResult(response.saleTopData)
                 });
             }
         });
     }
 
-    reloadTable(data) {
-        if (!data) data = this.state.data;
-        let newData = [];
-        data.forEach(function (item) {
-            newData.push(item);
-        });
-        this.setState({
-            data: newData
+    componentDidMount() {
+        getShopList(this, function () {
+            callService(this, 'getEmployeeList.do', new FormData(), function (response) {
+                if (response.employeeList) {
+                    this.setState({
+                        empList: handleResult([{
+                            name: '全部',
+                            hidden: false
+                        }].concat(response.employeeList))
+                    }, function () {
+                        this.queryEmployeeTopData();
+                    });
+                }
+            });
         });
     }
 
@@ -172,54 +183,6 @@ export default class Center extends Component {
         });
     }
 
-    onSort(field, isAscending) {
-        let sortedData = this.state.data.sort((objA, objB) => this.compare(field, isAscending, objA, objB));
-        this.reloadTable(sortedData);
-    }
-
-    compare(field, isAscending, objA, objB) {
-        var key = field.id;
-
-        if (isAscending) {
-            if (objA[key] < objB[key])
-                return -1;
-            if (objA[key] > objB[key])
-                return 1;
-            return 0;
-        } else {
-            if (objA[key] > objB[key])
-                return -1;
-            if (objA[key] < objB[key])
-                return 1;
-            return 0;
-        }
-    }
-
-    getDate(rowID) {
-        let date = new Date();
-        let fromDate = '';
-        switch (rowID) {
-            case '1':
-                date = new Date(date.getTime() - 24 * 60 * 60 * 1000);
-                date = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-            case '2':
-                fromDate = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
-                date = `${fromDate.getFullYear()}.${fromDate.getMonth() + 1}.${fromDate.getDate()}-${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-            case '3':
-                fromDate = new Date(date.getTime() - 30 * 24 * 60 * 60 * 1000);
-                date = `${fromDate.getFullYear()}.${fromDate.getMonth() + 1}.${fromDate.getDate()}-${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-            case '4':
-                break;
-            default:
-                date = `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-                break;
-        }
-        return date;
-    }
-
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -267,7 +230,7 @@ export default class Center extends Component {
                 <View style={styles.toolbar}>
                     <ModalDropdown options={['今日', '昨日', '近7天', '近30天', '自定义']} onSelect={
                         (rowID, rowData) => {
-                            this.setState({ date: this.getDate(rowID) });
+                            setDate(this, rowID);
                         }
                     } />
                     <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
@@ -276,7 +239,6 @@ export default class Center extends Component {
                     </TouchableOpacity>
                 </View>
                 <Datatable
-                    onSort={this.onSort.bind(this)}
                     rowClick={this.rowClick.bind(this)}
                     filter={this.filter.bind(this)}
                     dataSource={this.state.data}

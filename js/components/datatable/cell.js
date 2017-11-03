@@ -16,7 +16,7 @@ class Cell extends React.Component {
     render() {
         return (
             <View style={[Style.cell, this.props.style, { width: this.props.width }]}>
-                <Text style={Style.contentCell}>
+                <Text style={[Style.contentCell, this.props.textStyle]}>
                     {this.props.label}
                 </Text>
             </View>
