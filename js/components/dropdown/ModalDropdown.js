@@ -73,7 +73,7 @@ export default class ModalDropdown extends Component {
             accessible: !!props.accessible,
             loading: props.options === null || props.options === undefined,
             showDropdown: false,
-            buttonText: props.options[0],
+            buttonText: props.field ? (props.options[0] ? props.options[0][props.field] : "") : props.options[0],
             selectedIndex: 0
         };
     }
@@ -137,7 +137,7 @@ export default class ModalDropdown extends Component {
         }
 
         if (idx >= 0) {
-            value = this.props.options[idx].toString();
+            value = this.props.field ? (this.props.options[idx] ? this.props.options[idx][this.props.field] : "") : this.props.options[idx].toString();
         }
 
         this._nextValue = value;
@@ -161,7 +161,7 @@ export default class ModalDropdown extends Component {
                         <View style={styles.button}>
                             <Text style={[styles.buttonText, this.props.textStyle]}
                                 numberOfLines={1}>
-                                {this.state.buttonText}
+                                {this.state.buttonText || (this.props.options[0] ? (this.props.field ? this.props.options[0][this.props.field] : this.props.options[0]) : '')}
                             </Text>
                             {
                                 this.state.showDropdown ?
@@ -294,7 +294,7 @@ export default class ModalDropdown extends Component {
                 highlighted && this.props.dropdownTextHighlightStyle
             ]}
             >
-                {rowData}
+                {this.props.field ? rowData[this.props.field] : rowData}
             </Text>) :
             this.props.renderRow(rowData, rowID, highlighted);
         let preservedProps = {
@@ -358,10 +358,10 @@ export default class ModalDropdown extends Component {
         if (!this.props.onSelect ||
             this.props.onSelect(rowID, rowData) !== false) {
             highlightRow(sectionID, rowID);
-            this._nextValue = rowData;
+            this._nextValue = this.props.field ? rowData[this.props.field] : rowData;
             this._nextIndex = rowID;
             this.setState({
-                buttonText: rowData.toString(),
+                buttonText: this.props.field ? rowData[this.props.field] : rowData.toString(),
                 selectedIndex: rowID
             });
         }

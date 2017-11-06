@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
-import { clickHandler, getShopList, show, getDate, setDate } from './common';
+import { clickHandler, getShopList, show, getDate, setDate, sort } from './common';
 import { callService, handleResult } from '../../utils/service';
 
 export default class Center extends Component {
@@ -85,11 +85,12 @@ export default class Center extends Component {
         params.append("employeeId", employeeId.join(','));
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
-        //DeviceEventEmitter.emit('loading', { animating: true });
         callService(this, 'getEmployeeTopData.do', params, function (response) {
-            if (response.employeeTopData) {
+            let employeeTopData = response.employeeTopData;
+            if (employeeTopData) {
                 let data = [];
-                response.employeeTopData.forEach(function (item) {
+                sort(employeeTopData, 'settleTotalMoney');
+                employeeTopData.forEach(function (item) {
                     let deptAreaName = item[0].deptAreaName;
                     data.push({ rowId: deptAreaName, disableClick: true });
                     let rowId = 1;

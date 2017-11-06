@@ -27,7 +27,7 @@ export function clickHandler(item, dataList, field) {
 
 export function getShopList(master, callback) {
     callService(master, 'getShopList.do', new FormData(), function (response) {
-        if (response.shopList) {
+        if (response.shopList && response.shopList.length > 0) {
             master.setState({
                 deptList: handleResult(response.shopList)
             }, function () {
@@ -114,4 +114,19 @@ export function setDate(master, rowID, callback) {
             callback.call(master);
         }
     });
+}
+
+export function sort(list, key) {
+    let temp;
+    for (let i = 0; i < list.length - 1; i++) {
+        for (let j = 0; j < list.length - 1 - i; j++) {
+            let front = list[j];
+            let back = list[j + 1];
+            if (front[front.length - 1][key] > back[back.length - 1][key]) {
+                temp = front;
+                front = back;
+                back = temp;
+            }
+        }
+    }
 }

@@ -18,7 +18,8 @@ import {
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
-import data from './data';
+import { reloadTable, getShopList } from '../report/common';
+import { callService, handleResult } from '../../utils/service';
 
 export default class Center extends Component {
 
@@ -26,7 +27,9 @@ export default class Center extends Component {
         super(props);
         this.state = {
             detailVisible: false,
-            data: data,
+            deptList: [],
+            brandList: [],
+            data: [],
             row: {},
             fields: [{
                 key: 1,
@@ -73,14 +76,34 @@ export default class Center extends Component {
         };
     }
 
-    reloadTable(data) {
-        if (!data) data = this.state.data;
-        let newData = [];
-        data.forEach(function (item) {
-            newData.push(item);
+    queryPriceList() {
+        let params = new FormData();
+        params.append("shopId", this.state.shopId);
+        params.append("brandId", this.state.brandId);
+        callService(this, 'getSalePriceList.do', params, function (response) {
+            if (response.salePriceList) {
+                this.setState({
+                    data: handleResult(response.salePriceList)
+                });
+            }
         });
-        this.setState({
-            data: newData
+    }
+
+    componentDidMount() {
+        getShopList(this, function () {
+            this.setState({
+                shopId: this.state.deptList[0].id
+            });
+            callService(this, 'getBrandList.do', new FormData(), function (response) {
+                if (response.brandList && response.brandList.length > 0) {
+                    this.setState({
+                        brandId: response.brandList[0].id,
+                        brandList: handleResult(response.brandList)
+                    }, function () {
+                        this.queryPriceList();
+                    });
+                }
+            });
         });
     }
 
@@ -90,8 +113,8 @@ export default class Center extends Component {
             {
                 item.editable ?
                     <TextInput style={{ flex: 1, marginRight: 20, fontSize: 14, height: 30, padding: 0, paddingLeft: 10, width: 40, backgroundColor: '#f3f3f1' }}
-                        onChangeText={(text) => this.setState({ [item.id]: text })}
-                        value={this.state.row[item.id]}
+                        onChangeText={(text) => this.state.row[item.id] = text}
+                        value={this.state.row[item.id].toString()}
                         underlineColorAndroid="transparent">
                     </TextInput>
                     :
@@ -100,16 +123,25 @@ export default class Center extends Component {
         </View>
     );
 
+    _onDetailSave() {
+        let params = new FormData();
+        params.append("id", this.state.row.id);
+        params.append("currentPrice", this.state.row.currentPrice);
+        params.append("currentDiscount", this.state.row.currentDiscount);
+        params.append("minPrice", this.state.row.minPrice);
+        params.append("minDiscount", this.state.row.minDiscount);
+        params.append("shopId", this.state.shopId);
+        params.append("brandId", this.state.brandId);
+        callService(this, 'updateSalePrice.do', new FormData(), function (response) {
+            this.queryPriceList();
+            this._onDetailClose();
+        });
+    }
+
     _onDetailClose() {
         this.setState({
             detailVisible: false
         });
-    }
-
-    filter(row, rowId) {
-        let flag = true;
-
-        return flag;
     }
 
     rowClick(row, rowId) {
@@ -121,12 +153,11 @@ export default class Center extends Component {
 
     onSort(field, isAscending) {
         let sortedData = this.state.data.sort((objA, objB) => this.compare(field, isAscending, objA, objB));
-        this.reloadTable(sortedData);
+        reloadTable(this, sortedData);
     }
 
     compare(field, isAscending, objA, objB) {
         var key = field.id;
-
         if (isAscending) {
             if (objA[key] < objB[key])
                 return -1;
@@ -155,7 +186,7 @@ export default class Center extends Component {
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>牌价详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
-                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailSave() }}>
                                     <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>保存</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailClose() }}>
@@ -167,14 +198,29 @@ export default class Center extends Component {
                 </Modal>
                 <View style={styles.toolbar}>
                     <Text style={{ fontSize: 14, color: '#333' }}>门店：</Text>
-                    <ModalDropdown options={['梦金园', '演示一店']} />
+                    <ModalDropdown options={this.state.deptList} field="shopName" onSelect={
+                        (rowID, rowData) => {
+                            this.setState({
+                                shopId: rowData.id
+                            }, function () {
+                                this.queryPriceList();
+                            });
+                        }
+                    } />
                     <Text style={{ fontSize: 14, color: '#333', marginLeft: 20 }}>品牌：</Text>
-                    <ModalDropdown options={['默认品牌']} />
+                    <ModalDropdown options={this.state.brandList} field="name" onSelect={
+                        (rowID, rowData) => {
+                            this.setState({
+                                brandId: rowData.id
+                            }, function () {
+                                this.queryPriceList();
+                            });
+                        }
+                    } />
                 </View>
                 <Datatable
                     onSort={this.onSort.bind(this)}
                     rowClick={this.rowClick.bind(this)}
-                    filter={this.filter.bind(this)}
                     dataSource={this.state.data}
                     fields={this.state.fields} />
             </View>
@@ -211,10 +257,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    text: {
-        color: '#333',
-        fontSize: 14,
-        textAlign: 'center'
     }
 });

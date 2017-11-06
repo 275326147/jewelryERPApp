@@ -2,7 +2,6 @@
  * Created by Meiling.Zhou on 2017/9/29
  */
 'use strict';
-import { DeviceEventEmitter } from 'react-native';
 import { Constant, alert, forward } from './common';
 import Storage from './storage';
 
@@ -45,7 +44,6 @@ export function callService(master, url, params, successCallback, failCallback) 
                 headers: {},
                 body: params
             }).then((response) => {
-                DeviceEventEmitter.emit('loading', { animating: false });
                 return response.json();
             }).then((responseJson) => {
                 let code = responseJson.ret;
