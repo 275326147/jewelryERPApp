@@ -94,7 +94,8 @@ export default class Settings extends Component {
 
     _renderUserItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._selectUser(item) }}>
-            <View style={styles.menuContainer}>
+            <View style={[styles.menuContainer, { alignItems: 'center', justifyContent: 'center' }]}>
+                <Image style={styles.img} source={require('../../../assets/image/head/user.png')} />
                 <Text style={styles.menuText}>{item.realName}</Text>
                 <Text style={styles.menuText}>{item.companyName}</Text>
                 <Text style={styles.menuText}>{item.shopName}</Text>
@@ -130,6 +131,14 @@ export default class Settings extends Component {
                     transparent={true}
                     onRequestClose={() => this._onUserClose()}>
                     <View style={styles.modalBackground}>
+                        <View style={styles.title}>
+                            <Text style={{ flex: 1, marginLeft: 15, color: '#999', fontSize: 15 }}>
+                                请选择用户
+                            </Text>
+                            <TouchableOpacity onPress={() => { this._onUserClose() }}>
+                                <Image style={{ height: 25, width: 25, marginRight: 10 }} source={require('../../../assets/image/head/close.png')} />
+                            </TouchableOpacity>
+                        </View>
                         <View style={[styles.modalContainer, { height: (this.state.users.length * 50) }]}>
                             <FlatList style={{ flex: 1 }} data={this.state.users} renderItem={this._renderUserItem} />
                         </View>
@@ -169,6 +178,17 @@ export default class Settings extends Component {
 }
 
 const styles = StyleSheet.create({
+    title: {
+        height: 30,
+        width: (Dimensions.get('window').width - 60),
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    img: {
+        height: 20,
+        width: 20
+    },
     modalContainer: {
         backgroundColor: '#fff',
         width: (Dimensions.get('window').width - 60),

@@ -140,7 +140,7 @@ const SimpleStack = StackNavigator(
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshSubCheck', '刷新未提交盘点'); navigation.goBack('Check'); }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack('Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -180,7 +180,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -191,7 +191,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -202,7 +202,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -213,7 +213,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Todo'); }}>
+                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -314,7 +314,7 @@ const SimpleStack = StackNavigator(
                 alignSelf: 'center'
             },
             headerLeft: (
-                <TouchableOpacity onPress={() => { navigation.goBack('Home'); }}>
+                <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshCount', '刷新消息数量'); navigation.goBack('Home'); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                 </TouchableOpacity>
             )

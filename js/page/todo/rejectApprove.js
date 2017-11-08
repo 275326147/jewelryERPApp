@@ -9,7 +9,7 @@ import {
     FlatList,
     TouchableOpacity
 } from 'react-native';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 
 export default class RejectApprove extends Component {
 
@@ -40,9 +40,9 @@ export default class RejectApprove extends Component {
         let params = new FormData();
         params.append("todoType", 2);
         callService(this, 'getMyTodoList.do', params, function (response) {
-            if (response.todoList) {
+            if (response.todo2List) {
                 this.setState({
-                    todoList: response.todoList
+                    todoList: handleResult(response.todo2List)
                 });
             }
         });
@@ -53,8 +53,9 @@ export default class RejectApprove extends Component {
     }
 
     _renderItem = ({ item }) => {
-        let color = this.typeMap[item.type] ? this.typeMap[item.type]['color'] : '#EBC77D';
-        let label = this.typeMap[item.type] ? this.typeMap[item.type]['label'] : '未知单';
+        let type = item.sheetType;
+        let color = this.typeMap[type] ? this.typeMap[type]['color'] : '#EBC77D';
+        let label = this.typeMap[type] ? this.typeMap[type]['label'] : '未知单';
         return (
             <View style={styles.itemContainer}>
                 <View style={{ height: 20, marginLeft: 10, marginTop: 5 }}>
@@ -86,7 +87,7 @@ export default class RejectApprove extends Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>标价金额</Text>
-                            <Text style={[styles.value, { color: 'orange' }]}>{item.price}</Text>
+                            <Text style={[styles.value, { color: 'orange' }]}>{item.salePrice}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>金重</Text>

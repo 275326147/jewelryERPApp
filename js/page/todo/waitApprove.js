@@ -11,7 +11,7 @@ import {
     Modal,
     TextInput
 } from 'react-native';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
 export default class WaitApprove extends Component {
@@ -44,9 +44,11 @@ export default class WaitApprove extends Component {
         let params = new FormData();
         params.append("todoType", 1);
         callService(this, 'getMyTodoList.do', params, function (response) {
-            this.setState({
-                todoList: response.todoList
-            });
+            if (response.todo1List) {
+                this.setState({
+                    todoList: handleResult(response.todo1List)
+                });
+            }
         });
     }
 
@@ -55,8 +57,9 @@ export default class WaitApprove extends Component {
     }
 
     _renderItem = ({ item }) => {
-        let color = this.typeMap[item.type] ? this.typeMap[item.type]['color'] : '#EBC77D';
-        let label = this.typeMap[item.type] ? this.typeMap[item.type]['label'] : '未知单';
+        let type = item.sheetType;
+        let color = this.typeMap[type] ? this.typeMap[type]['color'] : '#EBC77D';
+        let label = this.typeMap[type] ? this.typeMap[type]['label'] : '未知单';
         return (
             <View style={styles.itemContainer}>
                 <View style={{ height: 20, marginLeft: 10, marginTop: 5 }}>
@@ -91,7 +94,7 @@ export default class WaitApprove extends Component {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>标价金额</Text>
-                        <Text style={[styles.value, { color: 'orange' }]}>{item.price}</Text>
+                        <Text style={[styles.value, { color: 'orange' }]}>{item.salePrice}</Text>
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>金重</Text>
@@ -162,9 +165,9 @@ export default class WaitApprove extends Component {
                     <View style={styles.modalBackground}>
                         <View style={styles.modalContainer}>
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ flex: 3, height: 20, marginTop: 20, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
+                                <Text style={{ flex: 3, height: 20, marginTop: 10, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
                                 <TouchableOpacity onPress={() => this._onClose()}>
-                                    <Text style={{ flex: 1, textAlign: 'right', margin: 10, color: '#333', fontSize: 14 }}>X</Text>
+                                    <Image style={{ height: 25, width: 25, marginRight: 10, marginTop: 5 }} source={require('../../../assets/image/head/close.png')} />
                                 </TouchableOpacity>
                             </View>
                             <TextInput style={styles.input} multiline={true}

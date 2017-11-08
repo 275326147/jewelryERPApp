@@ -11,7 +11,8 @@ import {
     FlatList,
     Dimensions,
     StyleSheet,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    DeviceEventEmitter
 } from 'react-native';
 import { callService } from '../../utils/service';
 import { forward } from '../../utils/common';
@@ -28,7 +29,7 @@ export default class Center extends Component {
         }
     }
 
-    componentDidMount() {
+    queryMyTodo() {
         callService(this, 'getMyTodoNum.do', new FormData(), function (response) {
             if (response.myTodoNum) {
                 this.setState({
@@ -39,6 +40,18 @@ export default class Center extends Component {
                 });
             }
         });
+    }
+
+
+    componentDidMount() {
+        this.queryMyTodo();
+        this.msgListener = DeviceEventEmitter.addListener('refreshMyTodo', (listenerMsg) => {
+            this.queryMyTodo();
+        });
+    }
+
+    componentWillUnmount() {
+        this.msgListener && this.msgListener.remove();
     }
 
     _renderTodo = ({ item }) => (

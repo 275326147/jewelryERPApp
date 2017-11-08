@@ -43,3 +43,8 @@ export function forward(master, url, params) {
         master.props.navigation.navigate(url, params);
     }
 }
+
+export function deepClone(obj) {
+    var proto = Object.getPrototypeOf(obj);
+    return Object.assign({}, Object.create(proto), obj);
+}

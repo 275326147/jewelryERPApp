@@ -387,14 +387,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     toolbar: {
-        height: 50,
+        height: 40,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
     },
     button: {
         margin: 10,
-        height: 40,
+        height: 35,
         width: 85,
         borderWidth: 1,
         borderColor: '#f3f3f1',

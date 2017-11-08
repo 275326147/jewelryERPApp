@@ -20,6 +20,7 @@ import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { reloadTable, getShopList } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
+import { deepClone } from '../../utils/common';
 
 export default class Center extends Component {
 
@@ -113,8 +114,15 @@ export default class Center extends Component {
             {
                 item.editable ?
                     <TextInput style={{ flex: 1, marginRight: 20, fontSize: 14, height: 30, padding: 0, paddingLeft: 10, width: 40, backgroundColor: '#f3f3f1' }}
-                        onChangeText={(text) => this.state.row[item.id] = text}
+                        onChangeText={(text) => {
+                            let newRow = deepClone(this.state.row);
+                            newRow[item.id] = text;
+                            this.setState({
+                                row: newRow
+                            });
+                        }}
                         value={this.state.row[item.id].toString()}
+                        keyboardType='numeric'
                         underlineColorAndroid="transparent">
                     </TextInput>
                     :
@@ -125,14 +133,15 @@ export default class Center extends Component {
 
     _onDetailSave() {
         let params = new FormData();
-        params.append("id", this.state.row.id);
+        params.append("id", this.state.row.id || "");
         params.append("currentPrice", this.state.row.currentPrice);
         params.append("currentDiscount", this.state.row.currentDiscount);
         params.append("minPrice", this.state.row.minPrice);
         params.append("minDiscount", this.state.row.minDiscount);
-        params.append("shopId", this.state.shopId);
-        params.append("brandId", this.state.brandId);
-        callService(this, 'updateSalePrice.do', new FormData(), function (response) {
+        params.append("goodsId", this.state.row.goodsId);
+        params.append("shopId", this.state.row.shopId);
+        params.append("brandId", this.state.row.brandId);
+        callService(this, 'updateSalePrice.do', params, function (response) {
             this.queryPriceList();
             this._onDetailClose();
         });

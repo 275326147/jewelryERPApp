@@ -34,11 +34,11 @@ export default class Center extends Component {
             row: {},
             typeList: [{
                 key: 1,
-                shopName: '素金',
+                label: '素金',
                 hidden: false
             }, {
                 key: 2,
-                shopName: '非素',
+                label: '非素',
                 hidden: false
             }],
             deptList: [],
@@ -138,6 +138,14 @@ export default class Center extends Component {
         </TouchableWithoutFeedback>
     );
 
+    _renderTypeItem = ({ item }) => (
+        <TouchableWithoutFeedback onPress={() => { this.typeClick(item); }}>
+            <View style={[styles.itemContainer, { width: 120, backgroundColor: item.hidden ? '#f3f3f1' : '#6334E6' }]}>
+                <Text style={[styles.item, { color: item.hidden ? '#666' : '#fff' }]}>{item.label}</Text>
+            </View>
+        </TouchableWithoutFeedback>
+    );
+
     _onDetailClose() {
         this.setState({
             detailVisible: false
@@ -154,6 +162,17 @@ export default class Center extends Component {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
         this.setState({
             deptList: deptList
+        }, function () {
+            this.querySaleTopData();
+        });
+    }
+
+    typeClick(item) {
+        let typeList = clickHandler(item, this.state.typeList, 'label');
+        this.setState({
+            typeList: typeList
+        }, function () {
+            this.querySaleTopData();
         });
     }
 
@@ -176,7 +195,7 @@ export default class Center extends Component {
                         <View style={[styles.modalContainer, { height: 340 }]}>
                             <View style={{ height: 10, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择统计类型</Text></View>
                             <View style={{ height: 50 }}>
-                                <FlatList data={this.state.typeList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
+                                <FlatList data={this.state.typeList} renderItem={this._renderTypeItem} horizontal={false} numColumns={2} />
                             </View>
                             <View style={{ height: 10, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />

@@ -19,7 +19,7 @@ export function clickHandler(item, dataList, field) {
     });
     if (all) {
         list[0].hidden = false;
-    } else {
+    } else if (list[0][field] === '全部') {
         list[0].hidden = true;
     }
     return list;

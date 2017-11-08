@@ -25,11 +25,12 @@ export default class Foot extends Component {
         }
     }
 
-    querySubSheet() {
+    queryCount() {
         callService(this, 'getMyTodoNum.do', new FormData(), function (response) {
-            if (response.myTodoNum) {
-                let totalNum = response.needAuditSheetNum || 0 + response.auditRejectSheetNum || 0 +
-                    response.onWayNeedReceiveSheetNum || 0 + response.rejectMoveSheetNum || 0;
+            response = response.myTodoNum;
+            if (response) {
+                let totalNum = (response.needAuditSheetNum || 0) + (response.auditRejectSheetNum || 0) +
+                    (response.onWayNeedReceiveSheetNum || 0) + (response.rejectMoveSheetNum || 0);
                 this.setState({
                     todoNum: totalNum
                 });
@@ -38,7 +39,7 @@ export default class Foot extends Component {
     }
 
     componentDidMount() {
-        //this.queryCount();
+        this.queryCount();
         this.msgListener = DeviceEventEmitter.addListener('refreshCount', (listenerMsg) => {
             this.queryCount();
         });
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
         width: 20,
         height: 15,
         marginTop: -25,
-        marginLeft: 24
+        marginLeft: 28
     },
     num: {
         backgroundColor: 'transparent',

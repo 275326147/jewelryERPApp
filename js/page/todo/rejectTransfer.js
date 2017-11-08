@@ -9,7 +9,7 @@ import {
     FlatList,
     TouchableOpacity
 } from 'react-native';
-import { callService } from '../../utils/service';
+import { callService, handleResult } from '../../utils/service';
 
 export default class RejectReceive extends Component {
 
@@ -22,11 +22,11 @@ export default class RejectReceive extends Component {
 
     queryTodoList() {
         let params = new FormData();
-        params.append("todoType", 2);
+        params.append("todoType", 4);
         callService(this, 'getMyTodoList.do', params, function (response) {
-            if (response.todoList) {
+            if (response.todo4List) {
                 this.setState({
-                    todoList: response.todoList
+                    todoList: handleResult(response.todo4List)
                 });
             }
         });
@@ -64,7 +64,7 @@ export default class RejectReceive extends Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>标价金额</Text>
-                            <Text style={[styles.value, { color: 'orange' }]}>{item.price}</Text>
+                            <Text style={[styles.value, { color: 'orange' }]}>{item.salePrice}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>金重</Text>

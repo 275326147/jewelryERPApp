@@ -157,6 +157,8 @@ export default class Center extends Component {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
         this.setState({
             deptList: deptList
+        }, function () {
+            this.queryDailyData();
         });
     }
 

@@ -177,6 +177,8 @@ export default class Center extends Component {
         this.setState({
             deptList: deptList,
             empList: empList
+        }, function () {
+            this.queryEmployeeTopData();
         });
     }
 
@@ -184,6 +186,8 @@ export default class Center extends Component {
         let empList = clickHandler(item, this.state.empList, 'name');
         this.setState({
             empList: empList
+        }, function () {
+            this.queryEmployeeTopData();
         });
     }
 

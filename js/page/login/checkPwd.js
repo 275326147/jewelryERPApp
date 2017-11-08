@@ -31,7 +31,7 @@ export default class Password extends Component {
                     message: '密码验证成功'
                 });
                 if (this.props.navigation.state.params) {
-                    this.props.navigation.goBack(null);
+                    this.props.navigation.goBack(null);//30分钟锁屏，解锁后停留在当前页面
                     return;
                 }
                 forward(this, 'Home');

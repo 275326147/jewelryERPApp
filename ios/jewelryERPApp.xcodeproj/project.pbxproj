@@ -24,6 +24,7 @@
 		15B0C26D1F94703B00984E14 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508705B1F8F1E7A000BA27C /* libRCTJPushModule.a */; };
 		15B0C26E1F94704100984E14 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150870551F8F1E4E000BA27C /* libRCTJCoreModule.a */; };
 		15B0C26F1F94705200984E14 /* libRCTBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B0C2521F946FD000984E14 /* libRCTBarcode.a */; };
+		15B7B66B1FB299C00092D7B7 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B7B66A1FB299C00092D7B7 /* icon.png */; };
 		24C548D74F3042568036A58C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5345D5AC5496E8734765D /* Security.framework */; };
 		2B35C34B7EDD4C8DB4C25F1E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8457CF8CB4DC49DBA2D62343 /* CoreTelephony.framework */; };
 		39D8B70B3697411F85921925 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F90905F6FE424A9A9E03CB5B /* Foundation.framework */; };
@@ -255,7 +256,7 @@
 		00E356F21AD99517003FC87E /* jewelryERPAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = jewelryERPAppTests.m; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* jewelryERPApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jewelryERPApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* jewelryERPApp.temp_caseinsensitive_rename.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jewelryERPApp.temp_caseinsensitive_rename.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = jewelryERPApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = jewelryERPApp/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -268,6 +269,7 @@
 		150870561F8F1E7A000BA27C /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
 		15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBarCode.xcodeproj; path = "../node_modules/react-native-smart-barcode/ios/RCTBarcode/RCTBarCode.xcodeproj"; sourceTree = "<group>"; };
 		15B0C2701F947C9000984E14 /* raw */ = {isa = PBXFileReference; lastKnownFileType = folder; name = raw; path = "../node_modules/react-native-smart-barcode/ios/raw"; sourceTree = "<group>"; };
+		15B7B66A1FB299C00092D7B7 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		35E9A756123A423EBDA63E18 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3E9605401FEA4458BD80342B /* CoreFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		4C6285AE07B34ABDB1B69ED5 /* UserNotifications.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -403,6 +405,7 @@
 		13B07FAE1A68108700A75B9A /* jewelryERPApp */ = {
 			isa = PBXGroup;
 			children = (
+				15B7B66A1FB299C00092D7B7 /* icon.png */,
 				15B0C2701F947C9000984E14 /* raw */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -554,7 +557,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* jewelryERPApp.app */,
+				13B07F961A680F5B00A75B9A /* jewelryERPApp.temp_caseinsensitive_rename.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -577,7 +580,7 @@
 			);
 			name = jewelryERPApp;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* jewelryERPApp.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* jewelryERPApp.temp_caseinsensitive_rename.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -590,7 +593,7 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 8BKZ88U5GZ;
+						DevelopmentTeam = 3CJ7SB9BW2;
 					};
 				};
 			};
@@ -887,6 +890,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				15B7B66B1FB299C00092D7B7 /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,9 +942,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 8BKZ88U5GZ;
+				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
@@ -957,7 +962,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = jewelryERPApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.jewelryERPApp;
+				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -966,8 +972,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8BKZ88U5GZ;
+				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
@@ -984,7 +991,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = jewelryERPApp;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.jewelryERPApp;
+				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
