@@ -35,6 +35,7 @@ export default class Center extends Component {
             row: {},
             deptList: [],
             empList: [],
+            originEmpList: [],
             fields: [{
                 key: 1,
                 id: 'rowId',
@@ -115,12 +116,15 @@ export default class Center extends Component {
         let empList = [];
         data.forEach(function (emp) {
             deptList.forEach(function (dept) {
-                if (!dept.hidden && emp.areaCode.startsWith(dept.areaCode)) {
+                if (!dept.hidden && emp.areaCode && emp.areaCode.indexOf(dept.areaCode) > -1) {
                     empList.push(emp);
                 }
             });
         });
-        return handleResult(empList);
+        return handleResult([{
+            name: '全部',
+            hidden: false
+        }].concat(empList));
     }
 
     componentDidMount() {
@@ -136,10 +140,10 @@ export default class Center extends Component {
                 if (employeeList && employeeList.length > 0) {
                     this.setState({
                         empList: handleResult([{
-                            key: 0,
                             name: '全部',
                             hidden: false
-                        }].concat(employeeList))
+                        }].concat(employeeList)),
+                        originStoreList: employeeList
                     }, function () {
                         this.queryEmployeeTopData();
                     });
@@ -189,14 +193,14 @@ export default class Center extends Component {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
         this.setState({
             deptList: deptList,
-            empList: this.filterEmp(this.state.empList, deptList)
+            empList: this.filterEmp(this.state.originStoreList, deptList)
         }, function () {
             this.queryEmployeeTopData();
         });
     }
 
     empClick(item) {
-        let empList = clickHandler(item, this.state.empList, 'name');
+        let empList = clickHandler(item, this.state.originStoreList, 'name');
         this.setState({
             empList: empList
         }, function () {

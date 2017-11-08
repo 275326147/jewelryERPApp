@@ -33,6 +33,7 @@ export default class Center extends Component {
             row: {},
             deptList: [],
             storeList: [],
+            originStoreList: [],
             fields: [{
                 key: 1,
                 id: 'deptAreaName',
@@ -134,7 +135,7 @@ export default class Center extends Component {
         let storeList = [];
         data.forEach(function (store) {
             deptList.forEach(function (dept) {
-                if (!dept.hidden && store.areaCode.startsWith(dept.areaCode)) {
+                if (!dept.hidden && store.areaCode && store.areaCode.indexOf(dept.areaCode) > -1) {
                     storeList.push(store);
                 }
             });
@@ -151,9 +152,11 @@ export default class Center extends Component {
             });
             param.append('areaCode', areaCode.join(','));
             callService(this, 'getStoreList.do', param, function (response) {
+                let storeList = response.storeList;
                 if (response.storeList) {
                     this.setState({
-                        storeList: handleResult(response.storeList)
+                        storeList: handleResult(storeList),
+                        originStoreList: storeList
                     });
                 }
             });
@@ -178,14 +181,14 @@ export default class Center extends Component {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
         this.setState({
             deptList: deptList,
-            storeList: this.filterStore(this.state.storeList, deptList)
+            storeList: this.filterStore(this.state.originStoreList, deptList)
         }, function () {
             this.queryGoodsList();
         });
     }
 
     storeClick(item) {
-        let storeList = clickHandler(item, this.state.storeList, 'storeName');
+        let storeList = clickHandler(item, this.state.originStoreList, 'storeName');
         this.setState({
             storeList: storeList
         }, function () {
