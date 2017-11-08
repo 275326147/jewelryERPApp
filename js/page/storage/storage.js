@@ -130,19 +130,39 @@ export default class Center extends Component {
         });
     }
 
+    filterStore(data, deptList) {
+        let storeList = [];
+        data.forEach(function (store) {
+            deptList.forEach(function (dept) {
+                if (!dept.hidden && store.areaCode.startsWith(dept.areaCode)) {
+                    storeList.push(store);
+                }
+            });
+        });
+        return handleResult(storeList);
+    }
+
     componentDidMount() {
+        getShopList(this, function () {
+            let areaCode = [];
+            let param = new FormData();
+            this.state.deptList.forEach(function (item) {
+                areaCode.push(item.areaCode);
+            });
+            param.append('areaCode', areaCode.join(','));
+            callService(this, 'getStoreList.do', param, function (response) {
+                if (response.storeList) {
+                    this.setState({
+                        storeList: handleResult(response.storeList)
+                    });
+                }
+            });
+        });
         this.setState({
             list: this.state.fields.slice(0, 8)
+        }, function () {
+            this.queryGoodsList();
         });
-        getShopList(this);
-        callService(this, 'getStoreList.do', new FormData(), function (response) {
-            if (response.storeList) {
-                this.setState({
-                    storeList: handleResult(response.storeList)
-                });
-            }
-        });
-        this.queryGoodsList();
     }
 
     itemClick(item) {
@@ -156,16 +176,9 @@ export default class Center extends Component {
 
     deptClick(item) {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
-        let storeList = [];
-        this.state.storeList.forEach(function (el) {
-            if (el.areaCode === item.areaCode) {
-                el.hidden = !el.hidden;
-            }
-            storeList.push(el);
-        });
         this.setState({
             deptList: deptList,
-            storeList: storeList
+            storeList: this.filterStore(this.state.storeList, deptList)
         }, function () {
             this.queryGoodsList();
         });
@@ -249,7 +262,6 @@ export default class Center extends Component {
 
     compare(field, isAscending, objA, objB) {
         var key = field.id;
-
         if (isAscending) {
             if (objA[key] < objB[key])
                 return -1;

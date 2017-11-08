@@ -41,7 +41,8 @@ export function getShopList(master, callback) {
 
 export function show(master, list, field, visible, flag) {
     let state = {};
-    if (master.state[list][0][field] !== '全部') {
+    let first = master.state[list][0];
+    if (first && first[field] !== '全部') {
         let all = {
             key: 0,
             hidden: flag ? true : false

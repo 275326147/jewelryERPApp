@@ -111,15 +111,35 @@ export default class Center extends Component {
         });
     }
 
+    filterEmp(data, deptList) {
+        let empList = [];
+        data.forEach(function (emp) {
+            deptList.forEach(function (dept) {
+                if (!dept.hidden && emp.areaCode.startsWith(dept.areaCode)) {
+                    empList.push(emp);
+                }
+            });
+        });
+        return handleResult(empList);
+    }
+
     componentDidMount() {
         getShopList(this, function () {
-            callService(this, 'getEmployeeList.do', new FormData(), function (response) {
-                if (response.employeeList) {
+            let areaCode = [];
+            let param = new FormData();
+            this.state.deptList.forEach(function (item) {
+                areaCode.push(item.areaCode);
+            });
+            param.append('areaCode', areaCode.join(','));
+            callService(this, 'getEmployeeList.do', param, function (response) {
+                let employeeList = response.employeeList;
+                if (employeeList && employeeList.length > 0) {
                     this.setState({
                         empList: handleResult([{
+                            key: 0,
                             name: '全部',
                             hidden: false
-                        }].concat(response.employeeList))
+                        }].concat(employeeList))
                     }, function () {
                         this.queryEmployeeTopData();
                     });
@@ -167,16 +187,9 @@ export default class Center extends Component {
 
     deptClick(item) {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
-        let empList = [];
-        this.state.empList.forEach(function (el) {
-            if (el.areaCode === item.areaCode) {
-                el.hidden = !el.hidden;
-            }
-            empList.push(el);
-        });
         this.setState({
             deptList: deptList,
-            empList: empList
+            empList: this.filterEmp(this.state.empList, deptList)
         }, function () {
             this.queryEmployeeTopData();
         });

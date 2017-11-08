@@ -10,8 +10,18 @@ import {
 } from 'react-native';
 import Foot from './foot';
 import Center from './center';
+import Storage from '../../utils/storage';
+import JPushModule from 'jpush-react-native';
 
 export default class Home extends Component {
+    componentDidMount() {
+        Storage.getStorageAsync('currentAccount').then((currentAccount) => {
+            JPushModule.setAlias(currentAccount, function (args) {
+                console.info('设置成功：', args);
+            });
+        });
+    }
+
     render() {
         return (
             <View style={styles.container}>
