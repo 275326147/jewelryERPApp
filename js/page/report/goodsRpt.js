@@ -16,9 +16,10 @@ import {
     TouchableWithoutFeedback,
     TextInput
 } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
-import { clickHandler, getShopList, show, getDate, setDate } from './common';
+import { clickHandler, getShopList, show, getDate, setDate, sort } from './common';
 import { callService, handleResult } from '../../utils/service';
 
 export default class Center extends Component {
@@ -30,6 +31,7 @@ export default class Center extends Component {
             active: 1,
             detailVisible: false,
             deptVisible: false,
+            dateVisible: false,
             data: [],
             row: {},
             typeList: [{
@@ -94,9 +96,11 @@ export default class Center extends Component {
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
         callService(this, 'getSaleTopData.do', params, function (response) {
-            if (response.saleTopData) {
+            let saleTopData = response.saleTopData;
+            if (saleTopData) {
                 let data = [];
-                response.saleTopData.forEach(function (item) {
+                sort(saleTopData, 'settleTotalMoney');
+                saleTopData.forEach(function (item) {
                     let deptAreaName = item[0].deptAreaName;
                     data.push({ rowId: deptAreaName, disableClick: true });
                     let rowId = 1;
@@ -158,6 +162,21 @@ export default class Center extends Component {
         });
     }
 
+    _onDateClose() {
+        this.setState({
+            dateVisible: false
+        });
+    }
+
+    _onDateSave() {
+        if (!this.state.beginDate || !this.state.endDate) return;
+        this.setState({
+            date: `${this.state.beginDate}至${this.state.endDate}`
+        });
+        this.querySaleTopData();
+        this._onDateClose();
+    }
+
     deptClick(item) {
         let deptList = clickHandler(item, this.state.deptList, 'shopName');
         this.setState({
@@ -186,6 +205,50 @@ export default class Center extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Modal
+                    visible={this.state.dateVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => this._onDateClose()}>
+                    <View style={styles.modalBackground}>
+                        <View style={[styles.modalContainer, { width: 250, height: 200 }]}>
+                            <View style={styles.textContainer}>
+                                <Text style={styles.text}>请选择日期</Text>
+                            </View>
+                            <DatePicker
+                                style={{ width: 200, marginTop: 10 }}
+                                date={this.state.beginDate}
+                                mode="date"
+                                placeholder="请选择日期"
+                                format="YYYY-MM-DD"
+                                confirmBtnText="确定"
+                                cancelBtnText="取消"
+                                onDateChange={(date) => { this.setState({ beginDate: date }) }}
+                            />
+                            <View style={styles.textContainer}>
+                                <Text style={styles.text}>至</Text>
+                            </View>
+                            <DatePicker
+                                style={{ width: 200 }}
+                                date={this.state.endDate}
+                                mode="date"
+                                placeholder="请选择日期"
+                                format="YYYY-MM-DD"
+                                confirmBtnText="确定"
+                                cancelBtnText="取消"
+                                onDateChange={(date) => { this.setState({ endDate: date }) }}
+                            />
+                            <View style={{ height: 45, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5, marginTop: 5 }}>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 90 }]} onPress={() => { this._onDateSave() }}>
+                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>确定</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 90 }]} onPress={() => { this._onDateClose() }}>
+                                    <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
                 <Modal
                     visible={this.state.deptVisible}
                     animationType={'slide'}
@@ -335,6 +398,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    textContainer: {
+        width: 250,
+        height: 20,
+        backgroundColor: '#fff',
+        marginTop: 5
     },
     text: {
         color: '#333',

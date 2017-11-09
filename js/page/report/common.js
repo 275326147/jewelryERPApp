@@ -99,7 +99,10 @@ export function setDate(master, rowID, callback) {
             date = `${beginDate}至${endDate}`;
             break;
         case '4':
-            break;
+            master.setState({
+                dateVisible: true
+            });
+            return;
         default:
             date = getDate(date);
             beginDate = date;
@@ -118,15 +121,14 @@ export function setDate(master, rowID, callback) {
 }
 
 export function sort(list, key) {
-    let temp;
-    for (let i = 0; i < list.length - 1; i++) {
-        for (let j = 0; j < list.length - 1 - i; j++) {
+    for (let i = 0; i < list.length; i++) {
+        for (let j = list.length - 1; j > i; j--) {
             let front = list[j];
-            let back = list[j + 1];
+            let back = list[j - 1];
             if (front[front.length - 1][key] > back[back.length - 1][key]) {
-                temp = front;
-                front = back;
-                back = temp;
+                let tmp = list[j];
+                list[j] = list[j - 1];
+                list[j - 1] = tmp;
             }
         }
     }
