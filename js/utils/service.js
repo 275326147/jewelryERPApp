@@ -7,7 +7,10 @@ import Storage from './storage';
 
 export function callServiceWithoutToken(master, url, params, successCallback, failCallback) {
     try {
-        return fetch(Constant.baseURL + url, {
+        if (!url.startsWith("http")) {
+            url = Constant.baseURL + url;
+        }
+        return fetch(url, {
             method: 'POST',
             headers: {},
             body: params
@@ -39,7 +42,10 @@ export function callService(master, url, params, successCallback, failCallback) 
             if (!params) params = new FormData();
             params.append("token", accountInfo.token);
             params.append("userIndex", accountInfo.currentUser.index);
-            return fetch(Constant.baseURL + url, {
+            if (!url.startsWith("http")) {
+                url = Constant.baseURL + url;
+            }
+            return fetch(url, {
                 method: 'POST',
                 headers: {},
                 body: params
