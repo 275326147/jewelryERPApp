@@ -22,7 +22,7 @@ import {
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
-import { forward } from '../../utils/common';
+import { forward, alert } from '../../utils/common';
 
 export default class Follow extends Component {
     constructor(props) {
@@ -167,7 +167,11 @@ export default class Follow extends Component {
                         'info',
                         '上传成功',
                         () => {
-                            this.queryGoodsInfo();
+                            this.setState({
+                                barCode: this.state.data.barCode
+                            }, function () {
+                                this.queryGoodsInfo();
+                            });
                         }
                     );
                 });

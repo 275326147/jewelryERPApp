@@ -191,8 +191,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        width: (Dimensions.get('window').width - 60),
-        borderRadius: 4
+        width: (Dimensions.get('window').width - 60)
     },
     modalBackground: {
         flex: 1,

@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import Foot from './foot';
 import Center from './center';
+import UpgradeDialog from '../upgrade/upgradeDialog';
+import Settings from '../user/settings';
 import Storage from '../../utils/storage';
 import JPushModule from 'jpush-react-native';
 
@@ -27,6 +29,8 @@ export default class Home extends Component {
             <View style={styles.container}>
                 <Center navigation={this.props.navigation} />
                 <Foot navigation={this.props.navigation} />
+                <UpgradeDialog navigation={this.props.navigation} />
+                <Settings navigation={this.props.navigation} />
             </View>
         );
     }

@@ -44,6 +44,8 @@ import DailyReport from '../page/report/dailyRpt';
 import GoodsReport from '../page/report/goodsRpt';
 import EmployeeReport from '../page/report/empRpt';
 
+import { forward } from '../utils/common';
+
 
 const styles = StyleSheet.create({
     img: {
@@ -75,7 +77,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '首页',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { navigation.navigate('Scanner'); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Scanner'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),
@@ -95,12 +97,7 @@ const SimpleStack = StackNavigator(
         Track: {
             screen: Track,
             navigationOptions: ({ navigation }) => ({
-                title: '商品跟踪',
-                headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack('Home'); }}>
-                        <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
-                    </TouchableOpacity>
-                )
+                title: '商品跟踪'
             })
         },
         Check: {
@@ -124,7 +121,7 @@ const SimpleStack = StackNavigator(
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -140,7 +137,7 @@ const SimpleStack = StackNavigator(
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack('Check'); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -151,7 +148,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '盘点单查询',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -180,7 +177,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -191,7 +188,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -202,7 +199,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -213,7 +210,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshMyTodo', '刷新待办数量'); navigation.goBack('Todo'); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -224,7 +221,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '扫描',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { navigation.goBack(null); }}>
+                    <TouchableOpacity onPress={() => { forward(navigation, 'Track') }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -314,7 +311,7 @@ const SimpleStack = StackNavigator(
                 alignSelf: 'center'
             },
             headerLeft: (
-                <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('refreshCount', '刷新消息数量'); navigation.goBack('Home'); }}>
+                <TouchableOpacity onPress={() => { forward(navigation, 'Home'); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                 </TouchableOpacity>
             )

@@ -54,8 +54,7 @@ export default class Checking extends Component {
                     'info',
                     '提交成功',
                     () => {
-                        DeviceEventEmitter.emit('refreshSubCheck');
-                        this.props.navigation.goBack('Check');
+                        forward(this, 'Check');
                     }
                 );
             });

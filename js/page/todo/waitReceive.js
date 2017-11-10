@@ -96,7 +96,7 @@ export default class WaitReceive extends Component {
         let params = new FormData();
         params.append("sheetId", item.id);
         params.append("sheetType", item.sheetType);
-        params.append("auditFlag", 1);
+        params.append("receiveFlag", 1);
         callService(this, 'zaiTuReceiveOrReject.do', params, function (response) {
             alert(
                 this,
@@ -113,7 +113,7 @@ export default class WaitReceive extends Component {
         let params = new FormData();
         params.append("sheetId", item.id);
         params.append("sheetType", item.sheetType);
-        params.append("auditFlag", 2);
+        params.append("receiveFlag", 2);
         params.append("remarks", item.remarks);
         callService(this, 'zaiTuReceiveOrReject.do', params, function (response) {
             alert(
@@ -138,7 +138,7 @@ export default class WaitReceive extends Component {
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ flex: 3, height: 20, marginTop: 10, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
                                 <TouchableOpacity onPress={() => this._onClose()}>
-                                    <Image style={{ height: 25, width: 25, marginRight: 10, marginTop: 5}} source={require('../../../assets/image/head/close.png')} />
+                                    <Image style={{ height: 25, width: 25, marginRight: 10, marginTop: 5 }} source={require('../../../assets/image/head/close.png')} />
                                 </TouchableOpacity>
                             </View>
                             <TextInput style={styles.input} multiline={true}

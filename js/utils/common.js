@@ -2,6 +2,7 @@
  * Created by Meiling.Zhou on 2017/9/29
  */
 import { Alert } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 
 export const Constant = {
     VERSION: 'v1.0.0',
@@ -38,8 +39,15 @@ export function alert(master, type, message, okCallback, cancelCallback) {
 }
 
 export function forward(master, url, params) {
-    if (master.props.navigation.state.routeName !== url) {
-        master.props.navigation.navigate(url, params);
+    let navigation = master.props ? master.props.navigation : master;
+    if (navigation.state.routeName !== url) {
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: url, params: params })
+            ]
+        })
+        navigation.dispatch(resetAction)
     }
 }
 
