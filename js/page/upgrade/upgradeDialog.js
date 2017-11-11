@@ -13,11 +13,11 @@ import {
     StyleSheet,
     Dimensions,
     ScrollView,
-    Platform
+    Platform,
+    Linking
 } from 'react-native';
 import { callService } from '../../utils/service';
-import { Constant } from '../../utils/common';
-import Storage from '../../utils/storage';
+import { Constant, alert } from '../../utils/common';
 
 export default class UpgradeDialog extends Component {
 
@@ -30,20 +30,13 @@ export default class UpgradeDialog extends Component {
     }
 
     componentDidMount() {
-        Storage.getStorageAsync('currentAccount').then((currentAccount) => {
-            if (currentAccount) {
-                let params = new FormData();
-                params.append("platformName", 'beta');
-                params.append("packageName", 'com.jewelryerpapp');
-                params.append("appType", Platform.OS === 'android' ? 1 : 2);
-                params.append("versionCode", Constant.VERSION);
-                callService(this, 'updataCheck.do', params, function (response) {
-                    if (response.needUpdateFlag === 1) {
-                        this.setState({
-                            appInfo: response.appInfo,
-                            modalVisible: true
-                        });
-                    }
+        let params = new FormData();
+        params.append("versionCode", Constant.VERSION);
+        callService(this, 'updataCheck.do', params, function (response) {
+            if (response.needUpdateFlag === 1) {
+                this.setState({
+                    appInfo: response.appInfo,
+                    modalVisible: true
                 });
             }
         });
@@ -51,6 +44,17 @@ export default class UpgradeDialog extends Component {
 
     _onClose() {
         this.setState({ modalVisible: false });
+    }
+
+    _upgrade() {
+        let url = Platform.OS === 'android' ? 'market://details?id=6633' : 'itms-apps://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8';
+        Linking.canOpenURL(url).then(supported => {
+            if (!supported) {
+                alert(this, 'error', '无法前往应用商店，请联系管理员');
+            } else {
+                return Linking.openURL(url);
+            }
+        }).catch(err => alert(this, 'error', '无法前往应用商店，请联系管理员'));
     }
 
     render() {
@@ -63,12 +67,23 @@ export default class UpgradeDialog extends Component {
                 <View style={styles.container}>
                     <View style={styles.content}>
                         <Image style={styles.img} source={require('../../../assets/image/upgrade/upgrade.png')} />
-                        <ScrollView style={styles.scroll}>
-                            <Text style={styles.text}>发现新版本   {this.state.appInfo.versionName}                <Text style={styles.sizeText}>{this.state.appInfo.size}MB</Text></Text>
+                        <View style={{ height: 30, width: 250, flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={[styles.text, { marginLeft: 20 }]}>
+                                发现新版本
+                                </Text>
                             <Text style={styles.text}>
+                                {this.state.appInfo.versionCode}
+                            </Text>
+                            <Text style={styles.sizeText}>
+                                {this.state.appInfo.size / 1024}MB
+                                </Text>
+                        </View>
+                        <View style={{ height: 1, width: 250, marginLeft: 20, marginRight: 20, borderBottomWidth: 1, borderColor: '#f3f3f1' }} />
+                        <ScrollView style={styles.scroll}>
+                            <Text style={styles.contentText}>
                                 升级内容：
                             </Text>
-                            <Text style={styles.text}>
+                            <Text style={styles.contentText}>
                                 {this.state.appInfo.modify}
                             </Text>
                         </ScrollView>
@@ -79,7 +94,7 @@ export default class UpgradeDialog extends Component {
                         </View>
                     </View>
                 </View>
-            </Modal>
+            </Modal >
         );
     }
 }
@@ -92,8 +107,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     content: {
-        width: Dimensions.get('window').width - 60,
-        height: 300
+        width: 250,
+        height: 340,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5
     },
     button: {
         height: 30,
@@ -109,15 +128,22 @@ const styles = StyleSheet.create({
         flex: 1
     },
     img: {
-        width: Dimensions.get('window').width - 60,
+        width: 250,
         height: 80
     },
     text: {
-        color: '#666',
-        fontSize: 13
+        flex: 1,
+        color: '#757677',
+        fontSize: 14
     },
     sizeText: {
-        color: '#DCDCDC',
-        fontSize: 12
+        color: '#B6B7B8',
+        fontSize: 14,
+        marginRight: 20
+    },
+    contentText: {
+        color: '#757677',
+        fontSize: 14,
+        marginTop: 5
     }
 });

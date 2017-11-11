@@ -188,7 +188,7 @@ export default class Center extends Component {
     }
 
     storeClick(item) {
-        let storeList = clickHandler(item, this.state.originStoreList, 'storeName');
+        let storeList = clickHandler(item, this.state.storeList, 'storeName');
         this.setState({
             storeList: storeList
         }, function () {

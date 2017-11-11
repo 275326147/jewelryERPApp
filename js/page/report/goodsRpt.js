@@ -47,7 +47,7 @@ export default class Center extends Component {
             fields: [{
                 key: 1,
                 id: 'rowId',
-                label: '编号'
+                label: '排名'
             }, {
                 key: 2,
                 id: 'deptAreaName',
@@ -71,7 +71,7 @@ export default class Center extends Component {
             }, {
                 key: 7,
                 id: 'settleTotalMoney',
-                label: '售价'
+                label: '实收'
             }]
         };
     }
