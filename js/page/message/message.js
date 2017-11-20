@@ -12,35 +12,64 @@ import {
     Dimensions,
     Image
 } from 'react-native';
-import messageData from './data';
+import Swipeout from 'react-native-swipeout';
+import { callService, handleResult } from '../../utils/service';
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            messageData: []
+        }
     }
 
+    _deleteMsg = (item) => {
+        let params = new FormData();
+        params.append('id', item.id);
+        callService(this, 'deleteMessage.do', params, function (response) {
+            this.queryMsg();
+        });
+    }
+
+    queryMsg() {
+        callService(this, 'getMessageList.do', new FormData(), function (response) {
+            if (response.data) {
+                this.setState({
+                    messageData: handleResult(response.data)
+                });
+            }
+        });
+    }
+
+    componentDidMount() {
+        this.queryMsg();
+    }
+
+
     _renderItem = ({ item }) => (
-        <View style={styles.itemContainer}>
-            <View style={{ height: 20, flexDirection: 'row', margin: 5, marginLeft: 10 }}>
-                <Text style={styles.titleText}>{item.title}</Text>
-                <Text style={styles.timeText}>{item.time}</Text>
+        <Swipeout right={[{ text: '删除', backgroundColor: 'red', onPress: this._deleteMsg(item) }]}>
+            <View style={styles.itemContainer}>
+                <View style={{ height: 20, flexDirection: 'row', margin: 5, marginLeft: 10 }}>
+                    <Text style={styles.titleText}>{item.msgTypeStr}</Text>
+                    <Text style={styles.timeText}>{item.createTime}</Text>
+                </View>
+                <View style={{ flex: 1, marginLeft: 10 }}>
+                    <Text style={styles.contentText}>{item.msgDtl}</Text>
+                </View>
             </View>
-            <View style={{ flex: 1, marginLeft: 10 }}>
-                <Text style={styles.contentText}>{item.content}</Text>
-            </View>
-        </View>
+        </Swipeout>
     );
 
     render() {
         return (
             <View style={styles.container}>
                 {
-                    messageData.length === 0 ?
+                    this.state.messageData.length === 0 ?
                         <View style={{ flex: 1 }}>
                             <Image style={styles.resultImg} source={require('../../../assets/image/info/no_result.png')} />
                         </View>
                         :
-                        <FlatList style={{ marginTop: 10 }} data={messageData} renderItem={this._renderItem} />
+                        <FlatList style={{ marginTop: 10 }} data={this.state.messageData} renderItem={this._renderItem} />
                 }
             </View>
         );

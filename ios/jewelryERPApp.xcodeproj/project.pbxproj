@@ -266,6 +266,7 @@
 		1508704A1F8F1E2B000BA27C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		150870501F8F1E4D000BA27C /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
 		150870561F8F1E7A000BA27C /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
+		152E97D21FC2A7C80080A0B2 /* jewelryERPApp.temp_caseinsensitive_rename.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = jewelryERPApp.temp_caseinsensitive_rename.entitlements; path = jewelryERPApp/jewelryERPApp.temp_caseinsensitive_rename.entitlements; sourceTree = "<group>"; };
 		15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBarCode.xcodeproj; path = "../node_modules/react-native-smart-barcode/ios/RCTBarcode/RCTBarCode.xcodeproj"; sourceTree = "<group>"; };
 		15B0C2701F947C9000984E14 /* raw */ = {isa = PBXFileReference; lastKnownFileType = folder; name = raw; path = "../node_modules/react-native-smart-barcode/ios/raw"; sourceTree = "<group>"; };
 		35E9A756123A423EBDA63E18 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -403,6 +404,7 @@
 		13B07FAE1A68108700A75B9A /* jewelryERPApp */ = {
 			isa = PBXGroup;
 			children = (
+				152E97D21FC2A7C80080A0B2 /* jewelryERPApp.temp_caseinsensitive_rename.entitlements */,
 				15B0C2701F947C9000984E14 /* raw */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -591,6 +593,15 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 3CJ7SB9BW2;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -939,16 +950,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = jewelryERPApp/jewelryERPApp.temp_caseinsensitive_rename.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)..",
-					"node_modules/jcore-react-native/ios/RCTJCoreModule",
-					"$(SRCROOT)..",
-					"node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/**",
 				);
 				INFOPLIST_FILE = jewelryERPApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -958,8 +970,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.jewelryERPApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gainhon.jewelryERPApp;
 				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
+				PROVISIONING_PROFILE = "cc2c9b50-b191-4e2f-a7cb-d8de8dbbc7bb";
+				PROVISIONING_PROFILE_SPECIFIER = dev;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -969,15 +983,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = jewelryERPApp/jewelryERPApp.temp_caseinsensitive_rename.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)..",
-					"node_modules/jcore-react-native/ios/RCTJCoreModule",
-					"$(SRCROOT)..",
-					"node_modules/jpush-react-native/ios/RCTJPushModule",
+					"$(SRCROOT)/../node_modules/jcore-react-native/ios/RCTJCoreModule/**",
+					"$(SRCROOT)/../node_modules/jpush-react-native/ios/RCTJPushModule/**",
 				);
 				INFOPLIST_FILE = jewelryERPApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -987,8 +1002,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.jewelryERPApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gainhon.jewelryERPApp;
 				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
+				PROVISIONING_PROFILE = "93ad8464-8505-4710-829e-4b77fc8e5573";
+				PROVISIONING_PROFILE_SPECIFIER = release;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1010,8 +1027,11 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Xiaoyan Li (3CJ7SB9BW2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Xiaoyan Li (3CJ7SB9BW2)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1030,6 +1050,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "cc2c9b50-b191-4e2f-a7cb-d8de8dbbc7bb";
+				PROVISIONING_PROFILE_SPECIFIER = dev;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1051,8 +1073,11 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Xiaoyan Li (3CJ7SB9BW2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Xiaoyan Li (3CJ7SB9BW2)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1064,6 +1089,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "9b97a17b-db8f-462c-b738-4f6aedaa32df";
+				PROVISIONING_PROFILE_SPECIFIER = zeroTrouble;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1079,7 +1106,7 @@
 				13B07F951A680F5B00A75B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "jewelryERPApp" */ = {
 			isa = XCConfigurationList;
@@ -1088,7 +1115,7 @@
 				83CBBA211A601CBA00E9B192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
