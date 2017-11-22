@@ -9,4 +9,6 @@ dependencies: \
   /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTDefines.h \
   /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTBridgeModule.h \
   /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTFrameUpdate.h \
-  /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h
+  /Users/fuziyang/Desktop/react-native/code/jewelryERPApp/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTInvalidating.h \
+  ../node_modules/jpush-react-native/ios/RCTJPushModule/RCTJPushModule.h \
+  ../node_modules/jpush-react-native/ios/RCTJPushModule/JPUSHService.h

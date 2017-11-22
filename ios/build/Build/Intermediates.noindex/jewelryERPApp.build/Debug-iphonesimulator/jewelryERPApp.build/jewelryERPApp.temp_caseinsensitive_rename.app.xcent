@@ -3,10 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>3CJ7SB9BW2.org.reactjs.native.jewelryERPApp</string>
-	<key>keychain-access-groups</key>
-	<array>
-		<string>3CJ7SB9BW2.org.reactjs.native.jewelryERPApp</string>
-	</array>
+	<string>3CJ7SB9BW2.com.gainhon.jewelryERPApp</string>
+	<key>aps-environment</key>
+	<string>development</string>
 </dict>
 </plist>

@@ -75,7 +75,7 @@ export default class UpgradeDialog extends Component {
                                 {this.state.appInfo.versionCode}
                             </Text>
                             <Text style={styles.sizeText}>
-                                {this.state.appInfo.size / 1024}MB
+                                {parseInt(this.state.appInfo.size / 1024)}MB
                                 </Text>
                         </View>
                         <View style={{ height: 1, width: 250, marginLeft: 20, marginRight: 20, borderBottomWidth: 1, borderColor: '#f3f3f1' }} />
