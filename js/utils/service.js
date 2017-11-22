@@ -2,7 +2,7 @@
  * Created by Meiling.Zhou on 2017/9/29
  */
 'use strict';
-import { Constant, alert, forward } from './common';
+import { Constant, alert, forward, deleteAlias } from './common';
 import Storage from './storage';
 
 export function callServiceWithoutToken(master, url, params, successCallback, failCallback) {
@@ -60,6 +60,7 @@ export function callService(master, url, params, successCallback, failCallback) 
                             accountInfo.token = '';
                             Storage.setAccountInfo(master, accountInfo, function () {
                                 Storage.setStorageAsync('currentAccount', '');
+                                deleteAlias();
                                 forward(master, 'Login');
                             });
                         });

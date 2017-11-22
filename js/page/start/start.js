@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions, AppState } from 'react-native';
 import Storage from '../../utils/storage';
-import { Constant, alert, forward } from '../../utils/common';
+import { Constant, alert, forward, setAlias } from '../../utils/common';
 
 const splashImg = require('../../../assets/image/start/start.jpg');//加载图片
 
@@ -17,6 +17,7 @@ export default class Start extends Component {
     }
 
     componentDidMount() {
+        setAlias();
         //监听状态改变事件
         AppState.addEventListener('change', (state) => {
             if (state === 'background') {

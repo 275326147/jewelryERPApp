@@ -36,17 +36,21 @@ export default class Foot extends Component {
                 });
             }
         });
+
+        /**
+        callService(this, 'getMyTodoNum.do', new FormData(), function (response) {
+            response = response.msgNum;
+            if (response) {
+                this.setState({
+                    msgNum: response
+                });
+            }
+        });
+        */
     }
 
     componentDidMount() {
         this.queryCount();
-        this.msgListener = DeviceEventEmitter.addListener('refreshCount', (listenerMsg) => {
-            this.queryCount();
-        });
-    }
-
-    componentWillUnmount() {
-        this.msgListener && this.msgListener.remove();
     }
 
     render() {

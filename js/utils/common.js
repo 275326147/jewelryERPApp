@@ -1,8 +1,10 @@
 /**
  * Created by Meiling.Zhou on 2017/9/29
  */
-import { Alert } from 'react-native';
+import { Alert, NativeAppEventEmitter, Platform } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import JPushModule from 'jpush-react-native';
+import Storage from './storage';
 
 export const Constant = {
     VERSION: 'v1.1.2',
@@ -54,4 +56,39 @@ export function forward(master, url, params) {
 export function deepClone(obj) {
     var proto = Object.getPrototypeOf(obj);
     return Object.assign({}, Object.create(proto), obj);
+}
+
+export function setAlias() {
+    Storage.getStorageAsync('currentAccount').then((currentAccount) => {
+        if (currentAccount) {
+            JPushModule.setAlias(currentAccount, () => {
+                if (Platform.OS === 'ios') {
+                    NativeAppEventEmitter.addListener('ReceiveNotification', (message) => {
+                        JPushModule.setBadge(0, function () {
+                            // console.log(message)
+                        });
+                    });
+                } else {
+                    //---------------------------------android start---------------------------------
+                    JPushModule.notifyJSDidLoad((resultCode) => { });
+                    JPushModule.addReceiveOpenNotificationListener((map) => {
+                        console.log("Opening notification!");
+                        console.log("map.extra: " + map.key);
+                        JPushModule.jumpToPushActivity("jewelryERPApp");
+                    });
+                    //---------------------------------android end---------------------------------
+                }
+            });
+        }
+    });
+}
+
+export function deleteAlias() {
+    JPushModule.getAlias((alias) => {
+        if (alias) {
+            JPushModule.deleteAlias((args) => {
+                console.info(args);
+            });
+        }
+    });
 }

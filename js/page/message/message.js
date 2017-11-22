@@ -14,7 +14,8 @@ import {
     TouchableWithoutFeedback,
     TouchableOpacity,
     Modal,
-    ScrollView
+    ScrollView,
+    Platform
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import { callService, handleResult } from '../../utils/service';
@@ -96,12 +97,12 @@ export default class Home extends Component {
         <Swipeout right={[{ text: '删除', backgroundColor: 'red', onPress: () => { this._deleteMsg(item) } }]}>
             <TouchableWithoutFeedback onPress={() => this.setState({ item: item, detailVisible: true }, function () { this._setViewFlag() })}>
                 <View style={styles.itemContainer}>
-                    <View style={{ height: 20, flexDirection: 'row', margin: 5, marginLeft: 10 }}>
+                    <View style={{ height: 20, flexDirection: 'row', margin: 5, marginLeft: 10, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ height: 20, width: 20, borderRadius: 50, justifyContent: 'center', alignItems: 'center', marginRight: 5, backgroundColor: this.colorMap[item.msgType] }}>
                             <Text style={{ backgroundColor: 'transparent', color: '#fff', textAlign: 'center', fontSize: 13 }}>{this.textMap[item.msgType]}</Text>
                         </View>
-                        <Text style={{ flex: 1, fontSize: 14, marginTop: 3, color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.msgTypeStr}</Text>
-                        <Text style={{ fontSize: 14, marginTop: 3, width: 150, textAlign: 'right', color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.createTime}</Text>
+                        <Text style={{ flex: 1, fontSize: 14, color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.msgTypeStr}</Text>
+                        <Text style={{ fontSize: 14, width: 150, textAlign: 'right', color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.createTime}</Text>
                     </View>
                     <View style={{ flex: 1, marginLeft: 10 }}>
                         <Text style={[styles.contentText, { color: item.hasViewFlag == 0 ? '#666' : '#999' }]}>{item.msgDtl}</Text>

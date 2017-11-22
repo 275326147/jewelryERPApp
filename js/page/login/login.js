@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Keyboard, View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import Storage from '../../utils/storage';
 import { callServiceWithoutToken } from '../../utils/service';
-import { forward } from '../../utils/common';
+import { forward, setAlias } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
@@ -63,14 +63,14 @@ export default class Login extends Component {
             params.append("type", 1);
             callServiceWithoutToken(this, 'getSmsValidateCode.do', params, function (response) {
                 this.setState({
-                    code: response.msg,
-                    enable: false
+                    code: response.msg
                 });
             });
             this.timer && clearInterval(this.timer);
             this.timer = setInterval(() => {
                 if (this.state.second > 0) {
                     this.setState({
+                        enable: false,
                         second: (this.state.second - 1)
                     });
                 } else {
@@ -89,7 +89,9 @@ export default class Login extends Component {
         params.append("mobileNo", this.state.account);
         params.append("smsValiCode", this.state.code);
         callServiceWithoutToken(this, 'checkLogin.do', params, function (response) {
-            Storage.setStorageAsync('currentAccount', this.state.account);
+            Storage.setStorageAsync('currentAccount', this.state.account).then(() => {
+                setAlias();
+            });
             Storage.setAccountInfo(this, response, function () {
                 Storage.getCurrentAccount(this, function (accountInfo) {
                     if (!accountInfo.password) {

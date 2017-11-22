@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Image, Dimensions, Text, TouchableWithoutFeedback } from 'react-native';
 import PasswordGesture from 'react-native-smart-gesture-password';
 import Storage from '../../utils/storage';
-import { forward } from '../../utils/common';
+import { forward, deleteAlias } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
@@ -80,6 +80,7 @@ export default class Password extends Component {
             accountInfo.password = '';
             Storage.setAccountInfo(this, accountInfo, function () {
                 Storage.setStorageAsync('currentAccount', '');
+                deleteAlias();
                 forward(this, 'Login');
             });
         });

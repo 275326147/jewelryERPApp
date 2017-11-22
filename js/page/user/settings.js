@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import Storage from '../../utils/storage';
 import { callService, handleResult } from '../../utils/service';
-import { forward } from '../../utils/common';
+import { forward, deleteAlias } from '../../utils/common';
 
 export default class Settings extends Component {
 
@@ -86,6 +86,7 @@ export default class Settings extends Component {
                 accountInfo.token = '';
                 Storage.setAccountInfo(this, accountInfo, function () {
                     Storage.setStorageAsync('currentAccount', '');
+                    deleteAlias();
                     forward(this, 'Login');
                 });
             });

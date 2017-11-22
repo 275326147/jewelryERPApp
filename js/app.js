@@ -21,33 +21,6 @@ export default class JewelryERPApp extends React.Component {
             this.exitApp();
             return false;
         });
-        if (Platform.OS === 'android') {
-            // 在收到点击事件之前调用此接口
-            JPushModule.notifyJSDidLoad((resultCode) => { });
-
-            JPushModule.addReceiveNotificationListener((map) => {
-                console.log("alertContent: " + map.alertContent);
-                console.log("extras: " + map.extras);
-                // var extra = JSON.parse(map.extras);
-                // console.log(extra.key + ": " + extra.value);
-            });
-
-            JPushModule.addReceiveOpenNotificationListener((map) => {
-                console.log("Opening notification!");
-                console.log("map.extra: " + map.key);
-                JPushModule.jumpToPushActivity("jewelryERPApp");
-            });
-
-            JPushModule.addGetRegistrationIdListener((registrationId) => {
-                console.log("Device register succeed, registrationId " + registrationId);
-            });
-        } else {
-            NativeAppEventEmitter.addListener(
-                'ReceiveNotification',
-                (message) => {
-                    console.log("content: " + JSON.stringify(message));
-                });
-        }
     }
 
     componentWillUnmount() {
