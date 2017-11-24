@@ -37,16 +37,14 @@ export default class Foot extends Component {
             }
         });
 
-        /**
-        callService(this, 'getMyTodoNum.do', new FormData(), function (response) {
-            response = response.msgNum;
+        callService(this, 'getNoViewNum.do', new FormData(), function (response) {
+            response = response.data;
             if (response) {
                 this.setState({
-                    msgNum: response
+                    msgNum: response.pageCount
                 });
             }
         });
-        */
     }
 
     componentDidMount() {

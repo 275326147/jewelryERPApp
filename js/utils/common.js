@@ -7,8 +7,8 @@ import JPushModule from 'jpush-react-native';
 import Storage from './storage';
 
 export const Constant = {
-    VERSION: 'v1.1.2',
-    baseURL: 'http://192.168.0.122/AppPLatform/mobileApi/' //192.168.0.122  120.76.55.67:7777
+    VERSION: 'v1.0.0',
+    baseURL: 'http://app.zberp.net:7777/AppPLatform/mobileApi/'//192.168.0.122  120.76.55.67:7777 app.zberp.net:7777
 }
 
 export function alert(master, type, message, okCallback, cancelCallback) {

@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
 import { callService, handleResult } from '../../utils/service';
-import { forward } from '../../utils/common';
+import { forward, alert } from '../../utils/common';
 
 export default class Home extends Component {
     constructor(props) {
@@ -32,11 +32,19 @@ export default class Home extends Component {
     }
 
     _deleteMsg(item) {
-        let params = new FormData();
-        params.append('id', item.id);
-        callService(this, 'deleteMessage.do', params, function (response) {
-            this.queryMsg();
-        });
+        alert(
+            this,
+            'info',
+            '是否确定删除？',
+            () => {
+                let params = new FormData();
+                params.append('id', item.id);
+                callService(this, 'deleteMessage.do', params, function (response) {
+                    this.queryMsg();
+                });
+            },
+            () => { }
+        );
     }
 
     _setViewFlag() {

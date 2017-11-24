@@ -32,6 +32,7 @@ export default class UpgradeDialog extends Component {
     componentDidMount() {
         let params = new FormData();
         params.append("versionCode", Constant.VERSION);
+        params.append("appType", Platform.OS === 'android' ? 1 : 2);
         callService(this, 'updataCheck.do', params, function (response) {
             if (response.needUpdateFlag === 1) {
                 this.setState({
@@ -47,7 +48,9 @@ export default class UpgradeDialog extends Component {
     }
 
     _upgrade() {
-        let url = Platform.OS === 'android' ? 'market://details?id=6633' : 'itms-apps://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8';
+        let url = this.state.appInfo.url;
+        //android: 'market://details?id=6633' 
+        //ios: 'itms-apps://itunes.apple.com/cn/app/jie-zou-da-shi/id493901993?mt=8'
         Linking.canOpenURL(url).then(supported => {
             if (!supported) {
                 alert(this, 'error', '无法前往应用商店，请联系管理员');
@@ -78,7 +81,7 @@ export default class UpgradeDialog extends Component {
                                 {parseInt(this.state.appInfo.size / 1024)}MB
                                 </Text>
                         </View>
-                        <View style={{ height: 1, width: 250, marginLeft: 20, marginRight: 20, borderBottomWidth: 1, borderColor: '#f3f3f1' }} />
+                        <View style={{ height: 1, width: 210, marginLeft: 20, marginRight: 20, borderBottomWidth: 1, borderColor: '#f3f3f1' }} />
                         <ScrollView style={styles.scroll}>
                             <Text style={styles.contentText}>
                                 升级内容：
@@ -110,8 +113,6 @@ const styles = StyleSheet.create({
         width: 250,
         height: 340,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
         borderRadius: 5
     },
     button: {
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
     contentText: {
         color: '#757677',
         fontSize: 14,
-        marginTop: 5
+        marginTop: 5,
+        marginLeft: 20
     }
 });
