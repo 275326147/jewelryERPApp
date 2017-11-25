@@ -148,6 +148,7 @@ dependencies {
     compile project(':jcore-react-native')
     compile project(':react-native-image-picker')
     compile "com.facebook.react:react-native:+" 
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }
 
 // Run this once to be able to run the application with BUCK

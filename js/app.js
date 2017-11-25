@@ -5,7 +5,15 @@
 import React from 'react';
 import Route from './route/route';
 import JPushModule from 'jpush-react-native';
-import { View, Platform, BackHandler, Modal, ActivityIndicator, StyleSheet, NativeAppEventEmitter, DeviceEventEmitter } from 'react-native';
+import {
+    View,
+    Platform,
+    Modal,
+    ActivityIndicator,
+    StyleSheet,
+    NativeAppEventEmitter,
+    DeviceEventEmitter
+} from 'react-native';
 
 export default class JewelryERPApp extends React.Component {
 
@@ -16,17 +24,9 @@ export default class JewelryERPApp extends React.Component {
         }
     }
 
-    componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', function () {
-            this.exitApp();
-            return false;
-        });
-    }
-
     componentWillUnmount() {
         JPushModule.removeReceiveCustomMsgListener();
         JPushModule.removeReceiveNotificationListener();
-        BackHandler.removeEventListener('hardwareBackPress');
         NativeAppEventEmitter.removeAllListeners();
         DeviceEventEmitter.removeAllListeners();
     }

@@ -21,6 +21,9 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1508705C1F8F1EA6000BA27C /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508704F1F8F1E2B000BA27C /* libRNImagePicker.a */; };
+		158892361FC823A000C9D774 /* UMMobClick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158892351FC823A000C9D774 /* UMMobClick.framework */; };
+		158D94161FC81DCF003B964E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 158D94151FC81DCE003B964E /* libsqlite3.tbd */; };
+		158D94171FC8219F003B964E /* UMNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 158D94121FC81D67003B964E /* UMNative.m */; };
 		15B0C26D1F94703B00984E14 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508705B1F8F1E7A000BA27C /* libRCTJPushModule.a */; };
 		15B0C26E1F94704100984E14 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150870551F8F1E4E000BA27C /* libRCTJCoreModule.a */; };
 		15B0C26F1F94705200984E14 /* libRCTBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B0C2521F946FD000984E14 /* libRCTBarcode.a */; };
@@ -267,6 +270,10 @@
 		150870501F8F1E4D000BA27C /* RCTJCoreModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJCoreModule.xcodeproj; path = "../node_modules/jcore-react-native/ios/RCTJCoreModule.xcodeproj"; sourceTree = "<group>"; };
 		150870561F8F1E7A000BA27C /* RCTJPushModule.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTJPushModule.xcodeproj; path = "../node_modules/jpush-react-native/ios/RCTJPushModule.xcodeproj"; sourceTree = "<group>"; };
 		152E97D21FC2A7C80080A0B2 /* jewelryERPApp.temp_caseinsensitive_rename.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = jewelryERPApp.temp_caseinsensitive_rename.entitlements; path = jewelryERPApp/jewelryERPApp.temp_caseinsensitive_rename.entitlements; sourceTree = "<group>"; };
+		158892351FC823A000C9D774 /* UMMobClick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UMMobClick.framework; path = jewelryERPApp/UMMobClick.framework; sourceTree = "<group>"; };
+		158D94121FC81D67003B964E /* UMNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = UMNative.m; path = jewelryERPApp/UMNative.m; sourceTree = "<group>"; };
+		158D94141FC81D8D003B964E /* UMNative.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMNative.h; path = jewelryERPApp/UMNative.h; sourceTree = "<group>"; };
+		158D94151FC81DCE003B964E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBarCode.xcodeproj; path = "../node_modules/react-native-smart-barcode/ios/RCTBarcode/RCTBarCode.xcodeproj"; sourceTree = "<group>"; };
 		15B0C2701F947C9000984E14 /* raw */ = {isa = PBXFileReference; lastKnownFileType = folder; name = raw; path = "../node_modules/react-native-smart-barcode/ios/raw"; sourceTree = "<group>"; };
 		35E9A756123A423EBDA63E18 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -290,6 +297,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B35C34B7EDD4C8DB4C25F1E /* CoreTelephony.framework in Frameworks */,
+				158D94161FC81DCF003B964E /* libsqlite3.tbd in Frameworks */,
 				15B0C26F1F94705200984E14 /* libRCTBarcode.a in Frameworks */,
 				15B0C26E1F94704100984E14 /* libRCTJCoreModule.a in Frameworks */,
 				15B0C26D1F94703B00984E14 /* libRCTJPushModule.a in Frameworks */,
@@ -298,6 +307,7 @@
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				158892361FC823A000C9D774 /* UMMobClick.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
@@ -307,7 +317,6 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				671DC146612949E38B973FDE /* libz.tbd in Frameworks */,
 				ED9BF7285CB04BD1BDFC144B /* UserNotifications.framework in Frameworks */,
-				2B35C34B7EDD4C8DB4C25F1E /* CoreTelephony.framework in Frameworks */,
 				24C548D74F3042568036A58C /* Security.framework in Frameworks */,
 				950F7E92248E49AEB2863285 /* CFNetwork.framework in Frameworks */,
 				DA87D5AB98AD486C9301851F /* CoreFoundation.framework in Frameworks */,
@@ -402,6 +411,9 @@
 		13B07FAE1A68108700A75B9A /* jewelryERPApp */ = {
 			isa = PBXGroup;
 			children = (
+				158892351FC823A000C9D774 /* UMMobClick.framework */,
+				158D94141FC81D8D003B964E /* UMNative.h */,
+				158D94121FC81D67003B964E /* UMNative.m */,
 				152E97D21FC2A7C80080A0B2 /* jewelryERPApp.temp_caseinsensitive_rename.entitlements */,
 				15B0C2701F947C9000984E14 /* raw */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -489,6 +501,7 @@
 		818A59F4D79F47B2BE21D5A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				158D94151FC81DCE003B964E /* libsqlite3.tbd */,
 				666096237027428783223B45 /* libz.tbd */,
 				4C6285AE07B34ABDB1B69ED5 /* UserNotifications.framework */,
 				8457CF8CB4DC49DBA2D62343 /* CoreTelephony.framework */,
@@ -923,6 +936,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				158D94171FC8219F003B964E /* UMNative.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +966,10 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/jewelryERPApp",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
@@ -985,6 +1003,10 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3CJ7SB9BW2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/jewelryERPApp",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../../../React/**",
 					"$(SRCROOT)/../../react-native/React/**",
@@ -994,7 +1016,7 @@
 				INFOPLIST_FILE = jewelryERPApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1002,8 +1024,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gainhon.jewelryERPApp;
 				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
-				PROVISIONING_PROFILE = "3917ab52-bffd-4c76-b48f-071502ea10a6";
-				PROVISIONING_PROFILE_SPECIFIER = store;
+				PROVISIONING_PROFILE = "93ad8464-8505-4710-829e-4b77fc8e5573";
+				PROVISIONING_PROFILE_SPECIFIER = release;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

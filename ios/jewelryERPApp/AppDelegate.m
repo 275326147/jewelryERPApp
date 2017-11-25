@@ -17,6 +17,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "UMMobClick/MobClick.h"
+
 @interface AppDelegate ()<JPUSHRegisterDelegate>
 
 @end
@@ -63,6 +65,11 @@
   
   [JPUSHService setupWithOption:launchOptions appKey:@"802d48b9f065811226a4b54a"
                         channel:@"nil" apsForProduction:false];
+  
+  UMConfigInstance.appKey = @"5a17888f8f4a9d5cef00018a";
+  UMConfigInstance.ChannelId = @"App Store";
+  [MobClick startWithConfigure:UMConfigInstance];
+  
   return YES;
 }
 
