@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     StyleSheet,
@@ -19,10 +20,11 @@ import Datatable from '../../components/datatable/datatable';
 import { clickHandler, getShopList, show, reloadTable } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
 
-export default class Center extends Component {
+export default class Storage extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             modalVisible: false,
             deptVisible: false,
@@ -144,6 +146,7 @@ export default class Center extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         getShopList(this, function () {
             let areaCode = [];
             let param = new FormData();

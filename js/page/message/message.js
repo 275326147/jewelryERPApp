@@ -2,8 +2,8 @@
  * Created by Meiling.Zhou on 2017/9/10
  */
 'use strict';
-
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     StyleSheet,
@@ -21,9 +21,10 @@ import Swipeout from 'react-native-swipeout';
 import { callService, handleResult } from '../../utils/service';
 import { forward, alert } from '../../utils/common';
 
-export default class Home extends Component {
+export default class Message extends PageComponent {
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             messageData: [],
             item: {},
@@ -69,6 +70,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.queryMsg();
     }
 

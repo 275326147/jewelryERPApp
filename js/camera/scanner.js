@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../page/PageComponent';
 import {
     View,
     StyleSheet,
@@ -8,11 +9,12 @@ import {
 import Barcode from 'react-native-smart-barcode';
 import { forward } from '../utils/common';
 
-export default class Scanner extends Component {
+export default class Scanner extends PageComponent {
 
     // 构造
     constructor(props) {
         super(props);
+        this.backRoute = 'Track';
         this.state = {
             type: 1
         };

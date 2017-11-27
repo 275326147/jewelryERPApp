@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     StyleSheet,
@@ -22,10 +23,11 @@ import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { clickHandler, getShopList, show, getDate, setDate, sort } from './common';
 import { callService, handleResult } from '../../utils/service';
 
-export default class Center extends Component {
+export default class Center extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             date: getDate(new Date()),
             active: 1,
@@ -122,6 +124,7 @@ export default class Center extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         getShopList(this, function () {
             this.querySaleTopData();
         });

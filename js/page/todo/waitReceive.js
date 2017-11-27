@@ -1,5 +1,6 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     Text,
@@ -14,10 +15,11 @@ import {
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
-export default class WaitReceive extends Component {
+export default class WaitReceive extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Todo';
         this.state = {
             modalVisible: false,
             todoList: [],
@@ -38,6 +40,7 @@ export default class WaitReceive extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.queryTodoList();
     }
 

@@ -1,5 +1,6 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     Text,
@@ -11,10 +12,11 @@ import {
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 
-export default class RejectReceive extends Component {
+export default class RejectReceive extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Todo';
         this.state = {
             todoList: []
         };
@@ -33,6 +35,7 @@ export default class RejectReceive extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.queryTodoList();
     }
 

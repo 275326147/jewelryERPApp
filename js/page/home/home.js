@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     StyleSheet
@@ -13,7 +14,7 @@ import Center from './center';
 import UpgradeDialog from '../upgrade/upgradeDialog';
 import Settings from '../user/settings';
 
-export default class Home extends Component {
+export default class Home extends PageComponent {
     render() {
         return (
             <View style={styles.container}>

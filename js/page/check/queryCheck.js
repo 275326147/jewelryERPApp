@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     Text,
@@ -14,7 +15,12 @@ import {
 } from 'react-native';
 import data from './data';
 
-export default class QueryCheck extends Component {
+export default class QueryCheck extends PageComponent {
+    constructor(props) {
+        super(props);
+        this.backRoute = 'Check';
+    }
+
     _getData = () => {
         let filterData = [];
         data.forEach(function (item) {

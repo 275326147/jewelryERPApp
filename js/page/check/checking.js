@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     Text,
@@ -22,9 +23,10 @@ import { callService, handleResult } from '../../utils/service';
 import { alert, forward } from '../../utils/common';
 import Barcode from 'react-native-smart-barcode';
 
-export default class Checking extends Component {
+export default class Checking extends PageComponent {
     constructor(props) {
         super(props);
+        this.backRoute = 'Check';
         this.state = {
             lock: false,
             type: 1,
@@ -45,6 +47,7 @@ export default class Checking extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.msgListener = DeviceEventEmitter.addListener('commitCheck', (listenerMsg) => {
             let params = new FormData();
             params.append("subSheetId", this.state.item.id);
@@ -369,6 +372,11 @@ export default class Checking extends Component {
                                         <TextInput style={styles.input} placeholder='请输入原条码号／条码号／证书号'
                                             onChangeText={(text) => this.setState({ keyword: text })}
                                             value={this.state.keyword}
+                                            onSubmitEditing={(event) => {
+                                                this.setState({ keyword: event.nativeEvent.text }, function () {
+                                                    this.queryGoods();
+                                                });
+                                            }}
                                             underlineColorAndroid="transparent">
                                         </TextInput>
                                     </View>

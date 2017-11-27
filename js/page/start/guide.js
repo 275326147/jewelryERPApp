@@ -1,5 +1,6 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import { Image, ScrollView, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { forward } from '../../utils/common';
 
@@ -8,7 +9,7 @@ let image2 = require('../../../assets/image/start/guide2.jpg');
 let image3 = require('../../../assets/image/start/guide3.png');
 
 const { width, height } = Dimensions.get('window');
-export default class Guide extends Component {
+export default class Guide extends PageComponent {
     render() {
         return (
             <ScrollView

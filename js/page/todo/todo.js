@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     Platform,
     View,
@@ -17,10 +18,11 @@ import {
 import { callService } from '../../utils/service';
 import { forward } from '../../utils/common';
 
-export default class Center extends Component {
+export default class Center extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             todoData: [{ key: 1, text: '待审核', url: 'WaitApprove', num: 0, split: true },
             { key: 2, text: '审核驳回', url: 'RejectApprove', num: 0 },
@@ -44,6 +46,7 @@ export default class Center extends Component {
 
 
     componentDidMount() {
+        super.componentDidMount();
         this.queryMyTodo();
         this.msgListener = DeviceEventEmitter.addListener('refreshMyTodo', (listenerMsg) => {
             this.queryMyTodo();

@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     ScrollView,
@@ -13,10 +14,11 @@ import {
 } from 'react-native';
 import Storage from '../../utils/storage';
 
-export default class Member extends Component {
+export default class UserInfo extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             modalVisible: false,
             userInfo: {}
@@ -24,6 +26,7 @@ export default class Member extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         Storage.getCurrentAccount(this, function (accountInfo) {
             this.setState({
                 userInfo: accountInfo.currentUser

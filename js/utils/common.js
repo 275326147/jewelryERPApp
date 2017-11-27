@@ -48,7 +48,7 @@ export function forward(master, url, params) {
             actions: [
                 NavigationActions.navigate({ routeName: url, params: params })
             ]
-        })
+        });
         navigation.dispatch(resetAction)
     }
 }

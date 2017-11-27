@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     Platform,
     View,
@@ -20,9 +21,10 @@ import {
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
-export default class Member extends Component {
+export default class Member extends PageComponent {
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             keyword: '',
             memberList: []
@@ -169,6 +171,11 @@ export default class Member extends Component {
                     <TextInput style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
                         onChangeText={(text) => this.setState({ keyword: text })}
                         value={this.state.keyword}
+                        onSubmitEditing={(event) => {
+                            this.setState({ keyword: event.nativeEvent.text }, function () {
+                                this.queryMemberList();
+                            });
+                        }}
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <TouchableWithoutFeedback onPress={() => { this.queryMemberList() }}>

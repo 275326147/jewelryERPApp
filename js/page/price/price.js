@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     StyleSheet,
@@ -22,17 +23,18 @@ import { reloadTable, getShopList } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
 import { deepClone } from '../../utils/common';
 
-export default class Center extends Component {
+export default class Price extends PageComponent {
 
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             detailVisible: false,
             deptList: [],
             brandList: [],
             data: [],
             row: {},
-            fields: [{
+            fields: [/*{
                 key: 1,
                 id: 'shopName',
                 label: '门店名称',
@@ -42,7 +44,7 @@ export default class Center extends Component {
                 id: 'brandName',
                 label: '品牌名称',
                 sortable: true
-            }, {
+            },*/ {
                 key: 3,
                 id: 'goodsName',
                 label: '商品分类',
@@ -91,6 +93,7 @@ export default class Center extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         getShopList(this, function () {
             this.setState({
                 shopId: this.state.deptList[0].id

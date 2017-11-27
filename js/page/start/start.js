@@ -1,5 +1,6 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import { View, Text, StyleSheet, Animated, Dimensions, AppState } from 'react-native';
 import Storage from '../../utils/storage';
 import { Constant, alert, forward, setAlias } from '../../utils/common';
@@ -8,7 +9,7 @@ const splashImg = require('../../../assets/image/start/start.jpg');//加载图�
 
 const { width, height } = Dimensions.get('window');
 
-export default class Start extends Component {
+export default class Start extends PageComponent {
     constructor(props) {
         super(props);
         this.state = {  //这是动画效果
@@ -17,6 +18,7 @@ export default class Start extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         setAlias();
         //监听状态改变事件
         AppState.addEventListener('change', (state) => {
@@ -26,7 +28,7 @@ export default class Start extends Component {
                 let now = new Date();
                 let time = now.getTime() - this.leaveTime.getTime();
                 this.leaveTime = null;
-                if (time > 30 * 60 * 1000) {
+                if (time > 3 * 1000) {
                     this.props.navigation.navigate('CheckPwd', { back: true });
                 }
             }

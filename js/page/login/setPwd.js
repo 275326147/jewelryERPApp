@@ -1,5 +1,6 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import { View, Image, Dimensions, Text } from 'react-native';
 import PasswordGesture from 'react-native-smart-gesture-password';
 import Storage from '../../utils/storage';
@@ -7,7 +8,7 @@ import { forward } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
-export default class SetPwd extends Component {
+export default class SetPwd extends PageComponent {
     constructor(props) {
         super(props);
         this.state = {

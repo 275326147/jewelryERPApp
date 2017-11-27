@@ -1,5 +1,6 @@
 'use strict';
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import { Keyboard, View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import Storage from '../../utils/storage';
 import { callServiceWithoutToken } from '../../utils/service';
@@ -7,7 +8,7 @@ import { forward, setAlias } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
-export default class Login extends Component {
+export default class Login extends PageComponent {
     constructor(props) {
         super(props);
         this.state = {

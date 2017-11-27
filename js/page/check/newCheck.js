@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     View,
     Text,
@@ -18,9 +19,10 @@ import {
 import { callService, handleResult } from '../../utils/service';
 import { forward, alert } from '../../utils/common';
 
-export default class NewCheck extends Component {
+export default class NewCheck extends PageComponent {
     constructor(props) {
         super(props);
+        this.backRoute = 'Check';
         this.state = {
             mainCheckData: []
         };
@@ -43,6 +45,7 @@ export default class NewCheck extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.msgListener = DeviceEventEmitter.addListener('refreshCheck', (listenerMsg) => {
             this.queryMainSheet();
         });

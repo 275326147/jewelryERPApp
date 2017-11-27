@@ -3,7 +3,8 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
+import PageComponent from '../PageComponent';
 import {
     ScrollView,
     View,
@@ -24,9 +25,10 @@ import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
 import { forward, alert } from '../../utils/common';
 
-export default class Follow extends Component {
+export default class Track extends PageComponent {
     constructor(props) {
         super(props);
+        this.backRoute = 'Home';
         this.state = {
             modalVisible: false,
             barCode: '',
@@ -37,6 +39,7 @@ export default class Follow extends Component {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         let params = this.props.navigation.state.params;
         if (!params) return;
         let paramType = params.type;
@@ -239,6 +242,11 @@ export default class Follow extends Component {
                     <TextInput style={styles.input} placeholder='请输入商品条码'
                         onChangeText={(text) => this.setState({ barCode: text })}
                         value={this.state.barCode}
+                        onSubmitEditing={(event) => {
+                            this.setState({ barCode: event.nativeEvent.text }, function () {
+                                this.queryGoodsInfo();
+                            });
+                        }}
                         underlineColorAndroid="transparent" />
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/track/search.png')} />
