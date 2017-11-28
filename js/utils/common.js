@@ -63,6 +63,7 @@ export function setAlias() {
         if (currentAccount) {
             JPushModule.setAlias(currentAccount, () => {
                 if (Platform.OS === 'ios') {
+                    NativeAppEventEmitter.removeAllListeners();
                     NativeAppEventEmitter.addListener('ReceiveNotification', (message) => {
                         JPushModule.setBadge(0, function () {
                             // console.log(message)
@@ -70,6 +71,7 @@ export function setAlias() {
                     });
                 } else {
                     //---------------------------------android start---------------------------------
+                    JPushModule.removeReceiveOpenNotificationListener();
                     JPushModule.notifyJSDidLoad((resultCode) => { });
                     JPushModule.addReceiveOpenNotificationListener((map) => {
                         console.log("Opening notification!");

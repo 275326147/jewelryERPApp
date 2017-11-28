@@ -4,15 +4,12 @@
 'use strict';
 import React from 'react';
 import Route from './route/route';
-import JPushModule from 'jpush-react-native';
 import {
     View,
     Platform,
     Modal,
     ActivityIndicator,
-    StyleSheet,
-    NativeAppEventEmitter,
-    DeviceEventEmitter
+    StyleSheet
 } from 'react-native';
 
 export default class JewelryERPApp extends React.Component {
@@ -22,13 +19,6 @@ export default class JewelryERPApp extends React.Component {
         this.state = {
             animating: false
         }
-    }
-
-    componentWillUnmount() {
-        JPushModule.removeReceiveCustomMsgListener();
-        JPushModule.removeReceiveNotificationListener();
-        NativeAppEventEmitter.removeAllListeners();
-        DeviceEventEmitter.removeAllListeners();
     }
 
     render() {

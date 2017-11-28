@@ -3,6 +3,7 @@ import {
     BackHandler,
     ToastAndroid
 } from 'react-native';
+import JPushModule from 'jpush-react-native';
 import { forward } from '../utils/common';
 
 let master = this;
