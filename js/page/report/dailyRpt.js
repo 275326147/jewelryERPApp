@@ -132,7 +132,7 @@ export default class DailyReport extends PageComponent {
     }
 
     _renderDetailItem = ({ item }) => (
-        <View style={{ width: (Dimensions.get('window').width - 40), height: 35, flexDirection: 'row' }}>
+        <View style={{ width: 280, height: 35, flexDirection: 'row' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
         </View>
@@ -262,7 +262,7 @@ export default class DailyReport extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: 300, width: (Dimensions.get('window').width - 40) }]}>
+                        <View style={[styles.modalContainer, { height: 300, width: 280 }]}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>日报详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.active === 1 ? this.state.fields : this.materialFields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
@@ -398,8 +398,8 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        width: (Dimensions.get('window').width - 20),
-        height: 280,
+        width: 300,
+        height: 360,
         borderRadius: 4,
         alignItems: 'center'
     },

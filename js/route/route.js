@@ -48,9 +48,15 @@ import { forward } from '../utils/common';
 
 
 const styles = StyleSheet.create({
+    imgContainer: {
+        height: 25,
+        width: 60,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     img: {
-        height: 20,
-        width: 20,
+        height: 22,
+        width: 22,
         marginLeft: 15,
         marginRight: 15
     },
@@ -77,12 +83,12 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '首页',
                 headerRight: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Scanner'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Scanner'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { DeviceEventEmitter.emit('showSettings', '显示设置界面'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { DeviceEventEmitter.emit('showSettings', '显示设置界面'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/user.png')} />
                     </TouchableOpacity>
                 )
@@ -121,7 +127,7 @@ const SimpleStack = StackNavigator(
                     </TouchableOpacity>
                 ),
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Check'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -148,7 +154,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '盘点单查询',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Check'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Check'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -177,7 +183,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -199,7 +205,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -210,7 +216,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '待办事项',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Todo'); }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Todo'); }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -221,7 +227,7 @@ const SimpleStack = StackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: '扫描',
                 headerLeft: (
-                    <TouchableOpacity onPress={() => { forward(navigation, 'Track') }}>
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Track') }}>
                         <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                     </TouchableOpacity>
                 )
@@ -311,7 +317,7 @@ const SimpleStack = StackNavigator(
                 alignSelf: 'center'
             },
             headerLeft: (
-                <TouchableOpacity onPress={() => { forward(navigation, 'Home'); }}>
+                <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'Home'); }}>
                     <Image style={styles.img} source={require('../../assets/image/head/arrow.png')} />
                 </TouchableOpacity>
             )

@@ -226,13 +226,13 @@ export default class Track extends PageComponent {
                 </Modal>
                 <View style={styles.view_title_container}>
                     <TouchableOpacity onPress={() => { this.setState({ type: 1 }) }}>
-                        <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#999', fontSize: 14, marginRight: 60 }}>原条码</Text>
+                        <Text style={{ color: this.state.type === 1 ? '#7A67EE' : '#999', fontSize: 18, marginRight: 60 }}>原条码</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { this.setState({ type: 2 }) }}>
-                        <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#999', fontSize: 14, marginRight: 60 }}>条码</Text>
+                        <Text style={{ color: this.state.type === 2 ? '#7A67EE' : '#999', fontSize: 18, marginRight: 60 }}>条码</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => { this.setState({ type: 3 }) }}>
-                        <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#999', fontSize: 14 }}>证书号</Text>
+                        <Text style={{ color: this.state.type === 3 ? '#7A67EE' : '#999', fontSize: 18 }}>证书号</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.searchContainer}>
@@ -249,7 +249,7 @@ export default class Track extends PageComponent {
                         }}
                         underlineColorAndroid="transparent" />
                     <TouchableWithoutFeedback onPress={() => { this.queryGoodsInfo() }}>
-                        <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/track/search.png')} />
+                        <Image style={{ height: 25, width: 25 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
                 </View>
                 {
@@ -384,17 +384,17 @@ const styles = StyleSheet.create({
         flex: 1
     },
     input: {
-        fontSize: 12,
-        height: 30,
+        fontSize: 16,
+        height: 40,
         margin: 10,
         width: (Dimensions.get('window').width - 80),
-        borderRadius: 15,
+        borderRadius: 20,
         backgroundColor: '#f3f3f1',
         padding: 0,
         paddingLeft: 20
     },
     searchContainer: {
-        height: 50,
+        height: 60,
         backgroundColor: '#fff',
         flexDirection: 'row',
         alignItems: 'center'
@@ -406,8 +406,8 @@ const styles = StyleSheet.create({
         width: 200
     },
     cameraImg: {
-        height: 20,
-        width: 20,
+        height: 25,
+        width: 25,
         marginLeft: 10
     },
     arrowImg: {

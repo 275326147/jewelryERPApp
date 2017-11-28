@@ -11,7 +11,6 @@ import {
     TouchableOpacity,
     Image,
     Text,
-    Dimensions,
     Modal,
     FlatList,
     TouchableWithoutFeedback,
@@ -158,7 +157,7 @@ export default class EmpReport extends PageComponent {
     }
 
     _renderDetailItem = ({ item }) => (
-        <View style={{ width: (Dimensions.get('window').width - 40), height: 35, flexDirection: 'row' }}>
+        <View style={{ width: 280, height: 35, flexDirection: 'row' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
         </View>
@@ -309,7 +308,7 @@ export default class EmpReport extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: 340, width: (Dimensions.get('window').width - 40) }]}>
+                        <View style={styles.modalContainer}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>牌价详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
@@ -361,8 +360,8 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        width: (Dimensions.get('window').width - 20),
-        height: 280,
+        width: 280,
+        height: 340,
         borderRadius: 4,
         alignItems: 'center'
     },

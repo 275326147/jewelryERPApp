@@ -179,7 +179,7 @@ export default class Member extends PageComponent {
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <TouchableWithoutFeedback onPress={() => { this.queryMemberList() }}>
-                        <Image style={{ height: 25, width: 25 }} source={require('../../../assets/image/track/search.png')} />
+                        <Image style={{ height: 28, width: 28 }} source={require('../../../assets/image/track/search.png')} />
                     </TouchableWithoutFeedback>
                 </View>
                 {
@@ -196,17 +196,17 @@ export default class Member extends PageComponent {
 
 const styles = StyleSheet.create({
     input: {
-        fontSize: 12,
-        height: 30,
+        fontSize: 16,
+        height: 40,
         width: Dimensions.get('window').width - 50,
-        borderRadius: 15,
+        borderRadius: 20,
         backgroundColor: '#f3f3f1',
         margin: 10,
         padding: 0,
         paddingLeft: 20
     },
     searchContainer: {
-        height: 50,
+        height: 60,
         backgroundColor: '#fff',
         alignItems: 'center',
         flexDirection: 'row'

@@ -11,7 +11,6 @@ import {
     TouchableOpacity,
     Image,
     Text,
-    Dimensions,
     Modal,
     FlatList,
     TouchableWithoutFeedback,
@@ -45,37 +44,37 @@ export default class Price extends PageComponent {
                 label: '品牌名称',
                 sortable: true
             },*/ {
-                key: 3,
-                id: 'goodsName',
-                label: '商品分类',
-                sortable: true
-            }, {
-                key: 4,
-                id: 'minPrice',
-                label: '最低价格(克)',
-                editable: true,
-                width: 120,
-                sortable: true
-            }, {
-                key: 5,
-                id: 'minDiscount',
-                label: '最低折扣',
-                editable: true,
-                sortable: true
-            }, {
-                key: 6,
-                id: 'currentPrice',
-                label: '今日价格(克)',
-                editable: true,
-                width: 120,
-                sortable: true
-            }, {
-                key: 7,
-                id: 'currentDiscount',
-                editable: true,
-                label: '今日折扣',
-                sortable: true
-            }]
+                    key: 3,
+                    id: 'goodsName',
+                    label: '商品分类',
+                    sortable: true
+                }, {
+                    key: 4,
+                    id: 'minPrice',
+                    label: '最低价格(克)',
+                    editable: true,
+                    width: 120,
+                    sortable: true
+                }, {
+                    key: 5,
+                    id: 'minDiscount',
+                    label: '最低折扣',
+                    editable: true,
+                    sortable: true
+                }, {
+                    key: 6,
+                    id: 'currentPrice',
+                    label: '今日价格(克)',
+                    editable: true,
+                    width: 120,
+                    sortable: true
+                }, {
+                    key: 7,
+                    id: 'currentDiscount',
+                    editable: true,
+                    label: '今日折扣',
+                    sortable: true
+                }]
         };
     }
 
@@ -112,7 +111,7 @@ export default class Price extends PageComponent {
     }
 
     _renderDetailItem = ({ item }) => (
-        <View style={{ width: (Dimensions.get('window').width - 40), height: 35, flexDirection: 'row' }}>
+        <View style={{ width: 280, height: 35, flexDirection: 'row' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
             {
                 item.editable ?
@@ -194,7 +193,7 @@ export default class Price extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: 340, width: (Dimensions.get('window').width - 40) }]}>
+                        <View style={styles.modalContainer}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>牌价详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
@@ -243,7 +242,7 @@ export default class Price extends PageComponent {
 const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: '#fff',
-        width: (Dimensions.get('window').width - 20),
+        width: 280,
         height: 280,
         borderRadius: 4,
         alignItems: 'center'

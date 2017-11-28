@@ -32,22 +32,26 @@ export default class Center extends Component {
     { key: 6, text: '商品库存', url: 'Storage', img: require('../../../assets/image/home/storage.png') },
     { key: 7, text: '日报表', url: 'DailyReport', img: require('../../../assets/image/home/dailyRpt.png') },
     { key: 8, text: '商品销售排行', url: 'GoodsReport', img: require('../../../assets/image/home/goodsRpt.png') },
-    { key: 9, text: '店员销售排行', url: 'EmployeeReport', img: require('../../../assets/image/home/empRpt.png') }];
+    { key: 9, text: '店员销售排行', url: 'EmployeeReport', img: require('../../../assets/image/home/empRpt.png') },
+    { key: 10, text: '', url: '', img: '' }];
 
     _renderItem = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>
-            <View style={styles.menuContainer}>
-                <Image style={styles.menuImg} source={item.img} />
-                <Text style={styles.menuText}>{item.text}</Text>
-            </View>
-        </TouchableWithoutFeedback>
+        item.img ?
+            <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>
+
+                <View style={styles.menuContainer}>
+                    <Image style={styles.menuImg} source={item.img} />
+                    <Text style={styles.menuText}>{item.text}</Text>
+                </View>
+            </TouchableWithoutFeedback>
+            : <View style={styles.menuContainer} />
     );
 
     render() {
         return (
             <ScrollView style={{ flex: 1 }}>
                 <Image style={styles.img} source={require('../../../assets/image/home/banner.jpg')} />
-                <FlatList style={styles.list} data={this.menuData} renderItem={this._renderItem} horizontal={false} numColumns={4} />
+                <FlatList style={styles.list} data={this.menuData} renderItem={this._renderItem} horizontal={false} numColumns={3} />
             </ScrollView>
         );
     }
@@ -71,13 +75,13 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     menuImg: {
-        height: 45,
-        width: 45,
+        height: 50,
+        width: 50,
         marginTop: 11
     },
     menuText: {
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: 14,
         marginTop: 10,
         marginBottom: 15
     }

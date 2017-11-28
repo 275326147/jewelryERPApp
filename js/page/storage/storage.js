@@ -11,7 +11,6 @@ import {
     TouchableOpacity,
     Image,
     Text,
-    Dimensions,
     Modal,
     FlatList,
     TouchableWithoutFeedback
@@ -224,7 +223,7 @@ export default class Storage extends PageComponent {
     );
 
     _renderDetailItem = ({ item }) => (
-        <View style={{ width: (Dimensions.get('window').width - 40), height: 25, flexDirection: 'row' }}>
+        <View style={{ width: 280, height: 25, flexDirection: 'row' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
             <Text style={{ flex: 2, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
         </View>
@@ -292,7 +291,7 @@ export default class Storage extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: 360, width: (Dimensions.get('window').width - 40) }]}>
+                        <View style={styles.modalContainer}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>库存详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
@@ -309,7 +308,7 @@ export default class Storage extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
+                        <View style={[styles.modalContainer, { height: 260 }]}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择分组设置</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.list} renderItem={this._renderItem} horizontal={false} numColumns={3} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
@@ -393,8 +392,8 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        width: (Dimensions.get('window').width - 20),
-        height: 280,
+        width: 300,
+        height: 360,
         borderRadius: 4,
         alignItems: 'center'
     },
