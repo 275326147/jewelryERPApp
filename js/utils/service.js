@@ -28,11 +28,15 @@ export function callServiceWithoutToken(master, url, params, successCallback, fa
             if (typeof successCallback === 'function') successCallback.call(master, responseJson);
         }, (e) => {
             console.error(e);
-            alert(this, 'error', '网络异常，请联系管理员');
+            alert(this, 'error', '网络异常，请联系管理员', () => {
+                if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+            });
         });
     } catch (e) {
         console.error(e);
-        alert(this, 'error', '系统异常，请联系管理员处理');
+        alert(this, 'error', '系统异常，请联系管理员处理', () => {
+            if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+        });
     }
 }
 
@@ -68,19 +72,24 @@ export function callService(master, url, params, successCallback, failCallback) 
                     return;
                 }
                 if (code < 0) {
-                    alert(this, 'error', message);
-                    if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+                    alert(this, 'error', message, () => {
+                        if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+                    });
                     return;
                 }
                 if (typeof successCallback === 'function') successCallback.call(master, responseJson);
             }, (e) => {
                 console.error(e);
-                alert(this, 'error', '系统异常，请联系管理员处理');
+                alert(this, 'error', '系统异常，请联系管理员处理', () => {
+                    if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+                });
             });
         });
     } catch (e) {
         console.error(e);
-        alert(this, 'error', '系统异常，请联系管理员处理');
+        alert(this, 'error', '系统异常，请联系管理员处理', () => {
+            if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+        });
     }
 }
 

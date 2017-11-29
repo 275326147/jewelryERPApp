@@ -21,6 +21,7 @@ import {
     Keyboard,
     Platform
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
 import { forward, alert } from '../../utils/common';
@@ -30,6 +31,7 @@ export default class Track extends PageComponent {
         super(props);
         this.backRoute = 'Home';
         this.state = {
+            loading: false,
             modalVisible: false,
             barCode: '',
             selectGoodsVisible: false,
@@ -66,7 +68,7 @@ export default class Track extends PageComponent {
         7: '#EBC77D'
     }
 
-    queryGoodsInfo() {
+    queryGoodsInfo(refresh) {
         let params = new FormData();
         let field = "oldBarCode";
         if (this.state.type === 2) {
@@ -74,8 +76,27 @@ export default class Track extends PageComponent {
         } else if (this.state.type === 3) {
             field = "certificateNo";
         }
-        params.append(field, this.state.barCode);
+        let barCode = refresh ? this.state.data[field] : this.state.barCode;
+        if (!barCode || !barCode.trim()) {
+            alert(this,
+                'info',
+                '请输入查询条件');
+            return;
+        }
+        params.append(field, barCode);
+        if (!refresh) {
+            this.setState({
+                loading: true,
+                barCode: ''
+            });
+        }
         callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
+            if (refresh) {
+                alert(this, 'info', '上传成功');
+            }
+            this.setState({
+                loading: false
+            });
             if (response.goodsInfoList && response.goodsInfoList.length > 1) {
                 this.setState({
                     selectGoodsVisible: true,
@@ -87,9 +108,10 @@ export default class Track extends PageComponent {
                     steps: handleResult(response.goodsTrackingList)
                 });
             }
-        });
-        this.setState({
-            barCode: ''
+        }, function () {
+            this.setState({
+                loading: false
+            });
         });
         Keyboard.dismiss();
     }
@@ -164,19 +186,19 @@ export default class Track extends PageComponent {
                 params.append('fileFixName', response.fileName || `${this.state.data.barCode}.jpg`);
                 params.append('barCode', this.state.data.barCode);
                 params.append('module', 'goods');
+                this.setState({
+                    loading: true
+                });
                 callService(this, 'ajaxUpImg.do', params, function (response) {
-                    alert(
-                        this,
-                        'info',
-                        '上传成功',
-                        () => {
-                            this.setState({
-                                barCode: this.state.data.barCode
-                            }, function () {
-                                this.queryGoodsInfo();
-                            });
-                        }
-                    );
+                    this.setState({
+                        loading: false
+                    }, function () {
+                        this.queryGoodsInfo(true);
+                    });
+                }, function () {
+                    this.setState({
+                        loading: false
+                    });
                 });
             }
         });
@@ -191,10 +213,18 @@ export default class Track extends PageComponent {
     _selectGoods(item) {
         let params = new FormData();
         params.append("barCode", item.barCode);
+        this.setState({
+            loading: true
+        });
         callService(this, 'queryGoodsTrackList.do', params, function (response) {
             this.setState({
+                loading: false,
                 data: item,
                 steps: handleResult(response.goodsTrackingList)
+            });
+        }, function () {
+            this.setState({
+                loading: false
             });
         });
         this._onClose();
@@ -213,6 +243,7 @@ export default class Track extends PageComponent {
     render() {
         return (
             <ScrollView style={styles.container}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <Modal
                     visible={this.state.selectGoodsVisible}
                     animationType={'slide'}
@@ -268,7 +299,6 @@ export default class Track extends PageComponent {
                                     <Text style={[styles.label, { marginTop: 15 }]}>商品代码      <Text style={styles.value}>{this.state.data.archivesNo}</Text></Text>
                                     <Text style={styles.label}>商品名称      <Text style={styles.value}>{this.state.data.goodsName}</Text></Text>
                                     <Text style={styles.label}>子名称          <Text style={styles.value}>{this.state.data.subGoodsName}</Text></Text>
-                                    <Text style={styles.label}>供应商          <Text style={styles.value}>{this.state.data.supplierName}</Text></Text>
                                     <View style={{ flex: 1, justifyContent: 'center' }}>
                                         {
                                             this.state.modalVisible ?
@@ -296,7 +326,7 @@ export default class Track extends PageComponent {
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>证书号</Text>
                                             <Text style={styles.detailValue}>{this.state.data.certificateNo}</Text>
-                                            <Text style={styles.detailLabel}>GIA证书</Text>
+                                            <Text style={styles.detailLabel}>CIA证书</Text>
                                             <Text style={styles.detailValue}>{this.state.data.giaCertificateNo}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
@@ -313,9 +343,9 @@ export default class Track extends PageComponent {
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>主石重</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.mainStoneWeight}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.mainStoneWeight || 0}</Text>
                                             <Text style={styles.detailLabel}>主石数</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.mainStoneNum}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.mainStoneNum || 0}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>颜色</Text>
@@ -325,15 +355,15 @@ export default class Track extends PageComponent {
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>副石重</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.subStone1Weight}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone1Weight || 0}</Text>
                                             <Text style={styles.detailLabel}>副石数</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.subStone1Num}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone1Num || 0}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
-                                            <Text style={styles.detailLabel}>副石2数重</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.subStone2Weight}</Text>
+                                            <Text style={styles.detailLabel}>副石2重</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone2Weight || 0}</Text>
                                             <Text style={styles.detailLabel}>副石2数</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.subStone2Num}</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.subStone2Num || 0}</Text>
                                         </View>
                                     </View>
                                     :
@@ -422,12 +452,12 @@ const styles = StyleSheet.create({
         borderColor: '#f3f3f1'
     },
     label: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#333',
         marginTop: 5
     },
     value: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#666'
     },
     detailLine: {
@@ -437,12 +467,12 @@ const styles = StyleSheet.create({
     },
     detailLabel: {
         flex: 1.5,
-        fontSize: 12,
+        fontSize: 14,
         color: '#333'
     },
     detailValue: {
         flex: 2,
-        fontSize: 12,
+        fontSize: 14,
         color: '#666'
     },
     leftTopContainer: {

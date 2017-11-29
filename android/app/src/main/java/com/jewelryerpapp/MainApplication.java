@@ -28,8 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
               new MainReactPackage(),
               new JPushPackage(false, false),
               new ImagePickerPackage(),
-              new RCTCapturePackage(),
-              new UmengReactPackage()
+              new RCTCapturePackage()
       );
     }
   };

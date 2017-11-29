@@ -18,6 +18,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
@@ -26,6 +27,7 @@ export default class Member extends PageComponent {
         super(props);
         this.backRoute = 'Home';
         this.state = {
+            loading: false,
             keyword: '',
             memberList: []
         };
@@ -34,8 +36,22 @@ export default class Member extends PageComponent {
 
     queryMemberList() {
         let params = new FormData();
-        params.append("keyword", this.state.keyword);
+        let keyword = this.state.keyword;
+        if (!keyword || !keyword.trim()) {
+            alert(this,
+                'info',
+                '请输入查询条件');
+            return;
+        }
+        params.append("keyword", keyword);
+        this.setState({
+            loading: true,
+            keyword: ''
+        });
         callService(this, 'queryCustomer.do', params, function (response) {
+            this.setState({
+                loading: false
+            });
             let result = response.customerList;
             if (result) {
                 this.setState({
@@ -45,9 +61,10 @@ export default class Member extends PageComponent {
                     alert(this, 'info', '没有相关查询信息');
                 }
             }
-        });
-        this.setState({
-            keyword: ''
+        }, function () {
+            this.setState({
+                loading: false
+            });
         });
         Keyboard.dismiss();
     }
@@ -167,6 +184,7 @@ export default class Member extends PageComponent {
     render() {
         return (
             <View style={{ flex: 1 }}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <View style={styles.searchContainer}>
                     <TextInput style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
                         onChangeText={(text) => this.setState({ keyword: text })}

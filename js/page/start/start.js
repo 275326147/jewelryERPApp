@@ -28,7 +28,7 @@ export default class Start extends PageComponent {
                 let now = new Date();
                 let time = now.getTime() - this.leaveTime.getTime();
                 this.leaveTime = null;
-                if (time > 3 * 1000) {
+                if (time > 30 * 60 * 1000) {
                     this.props.navigation.navigate('CheckPwd', { back: true });
                 }
             }

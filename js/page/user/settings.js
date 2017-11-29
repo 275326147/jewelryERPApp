@@ -42,9 +42,11 @@ export default class Settings extends Component {
                 modalVisible: true
             });
             Storage.getCurrentAccount(this, function (accountInfo) {
+                this.setState({
+                    userInfo: accountInfo.currentUser
+                });
                 if (accountInfo.users.length > 1) {
                     this.setState({
-                        userInfo: accountInfo.currentUser,
                         users: handleResult(accountInfo.users),
                         menuData: [
                             { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },

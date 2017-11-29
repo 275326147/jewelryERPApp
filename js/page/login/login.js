@@ -12,7 +12,7 @@ export default class Login extends PageComponent {
     constructor(props) {
         super(props);
         this.state = {
-            account: Platform.OS === 'android' ? '18682077880' : '18682077360',
+            account: '',
             code: '',
             second: 60,
             enable: true,
