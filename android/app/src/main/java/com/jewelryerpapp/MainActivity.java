@@ -4,6 +4,7 @@ import com.facebook.react.ReactActivity;
 import android.os.Bundle;
 import cn.jpush.android.api.JPushInterface;
 import com.reactnativecomponent.barcode.RCTCapturePackage; 
+import cn.jiguang.analytics.android.api.JAnalyticsInterface;
 
 public class MainActivity extends ReactActivity {
 
@@ -20,6 +21,7 @@ public class MainActivity extends ReactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JPushInterface.init(this);
+        JAnalyticsInterface.init(this);
     }
 
     @Override

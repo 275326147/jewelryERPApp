@@ -22,6 +22,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
+let screenWidth = Dimensions.get('window').width;
 export default class Member extends PageComponent {
     constructor(props) {
         super(props);
@@ -33,6 +34,13 @@ export default class Member extends PageComponent {
         };
     }
 
+    componentDidMount() {
+        super.componentDidMount('会员查询');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
 
     queryMemberList() {
         let params = new FormData();
@@ -51,16 +59,17 @@ export default class Member extends PageComponent {
         callService(this, 'queryCustomer.do', params, function (response) {
             this.setState({
                 loading: false
-            });
-            let result = response.customerList;
-            if (result) {
-                this.setState({
-                    memberList: handleResult(response.customerList)
-                });
-                if (result.length === 0) {
-                    alert(this, 'info', '没有相关查询信息');
+            }, function () {
+                let result = response.customerList;
+                if (result) {
+                    this.setState({
+                        memberList: handleResult(response.customerList)
+                    });
+                    if (result.length === 0) {
+                        alert(this, 'info', '没有相关查询信息');
+                    }
                 }
-            }
+            });
         }, function () {
             this.setState({
                 loading: false
@@ -160,7 +169,7 @@ export default class Member extends PageComponent {
                         <View style={{ flex: 1 }}>
                             <View style={[styles.marItem, { borderBottomWidth: 2, borderColor: '#f3f3f1' }]}>
                                 <Text style={styles.markLabel}>
-                                    积分总数
+                                    累计积分
                             </Text>
                                 <Text style={styles.markValue}>
                                     {item.pointTotal}
@@ -216,7 +225,7 @@ const styles = StyleSheet.create({
     input: {
         fontSize: 16,
         height: 40,
-        width: Dimensions.get('window').width - 50,
+        width: screenWidth - 50,
         borderRadius: 20,
         backgroundColor: '#f3f3f1',
         margin: 10,
@@ -231,21 +240,21 @@ const styles = StyleSheet.create({
     },
     img: {
         resizeMode: Image.resizeMode.stretch,
-        width: Dimensions.get('window').width,
-        height: 160
+        width: screenWidth,
+        height: screenWidth < 400 ? 160 : 190
     },
     resultImg: {
         marginTop: 80,
-        marginLeft: (Dimensions.get('window').width / 2 - 100),
+        marginLeft: (screenWidth / 2 - 100),
         height: 200,
         width: 200
     },
     itemContainer: {
-        height: 160,
+        height: screenWidth < 400 ? 160 : 190,
         marginBottom: 10
     },
     item: {
-        height: 16,
+        height: screenWidth < 400 ? 16 : 20,
         flexDirection: 'row',
         backgroundColor: 'transparent',
         marginTop: 5
@@ -259,26 +268,26 @@ const styles = StyleSheet.create({
         marginRight: 10,
         textAlign: 'right',
         backgroundColor: 'transparent',
-        fontSize: 13,
+        fontSize: screenWidth < 400 ? 14 : 16,
         color: '#999'
     },
     markValue: {
         marginTop: 5,
         marginRight: 10,
-        fontSize: 13,
+        fontSize: screenWidth < 400 ? 14 : 16,
         textAlign: 'right',
         backgroundColor: 'transparent',
         color: 'orange',
         marginBottom: 5
     },
     labelText: {
-        fontSize: 12,
+        fontSize: screenWidth < 400 ? 13 : 15,
         color: '#333',
         marginLeft: 10,
         marginRight: 20
     },
     valueText: {
-        fontSize: 12,
+        fontSize: screenWidth < 400 ? 13 : 15,
         color: '#999',
         marginRight: 20
     },

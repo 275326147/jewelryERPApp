@@ -18,7 +18,7 @@ export default class Start extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('启动页');
         setAlias();
         //监听状态改变事件
         AppState.addEventListener('change', (state) => {
@@ -60,6 +60,7 @@ export default class Start extends PageComponent {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         this.timer && clearTimeout(this.timer);
     }
 

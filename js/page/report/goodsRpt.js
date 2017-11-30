@@ -67,10 +67,14 @@ export default class Center extends PageComponent {
                 label: '金重'
             }, {
                 key: 6,
+                id: 'saleStoneWeight',
+                label: '石重'
+            }, {
+                key: 7,
                 id: 'labelPrice',
                 label: '标价'
             }, {
-                key: 7,
+                key: 8,
                 id: 'settleTotalMoney',
                 label: '实收'
             }]
@@ -106,7 +110,7 @@ export default class Center extends PageComponent {
                     data.push({ rowId: deptAreaName, disableClick: true });
                     let rowId = 1;
                     item.forEach(function (el) {
-                        if (el.showName === '小计') {
+                        if (el.showName === '总计') {
                             el.disableClick = true;
                             el.textStyle = { 'color': 'orange' };
                             return;
@@ -123,10 +127,14 @@ export default class Center extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('商品销售排行');
         getShopList(this, function () {
             this.querySaleTopData();
         });
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderDetailItem = ({ item }) => (

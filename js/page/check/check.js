@@ -40,7 +40,7 @@ export default class Check extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('盘点主界面');
         this.querySubSheet();
         this.msgListener = DeviceEventEmitter.addListener('refreshSubCheck', (listenerMsg) => {
             this.querySubSheet();
@@ -48,6 +48,7 @@ export default class Check extends PageComponent {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         this.msgListener && this.msgListener.remove();
     }
 

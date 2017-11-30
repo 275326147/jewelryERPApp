@@ -99,7 +99,7 @@ export default class EmpReport extends PageComponent {
                     data.push({ rowId: deptAreaName, disableClick: true });
                     let rowId = 1;
                     item.forEach(function (el) {
-                        if (el.employeeName === '小计') {
+                        if (el.employeeName === '总计') {
                             el.disableClick = true;
                             el.textStyle = { 'color': 'orange' };
                             return;
@@ -131,7 +131,7 @@ export default class EmpReport extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('店员销售排行');
         getShopList(this, function () {
             let areaCode = [];
             let param = new FormData();
@@ -154,6 +154,10 @@ export default class EmpReport extends PageComponent {
                 }
             });
         });
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderDetailItem = ({ item }) => (

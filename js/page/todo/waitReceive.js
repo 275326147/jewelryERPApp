@@ -40,10 +40,13 @@ export default class WaitReceive extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('待接收在途');
         this.queryTodoList();
     }
 
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
 
     _renderItem = ({ item }) => {
         return (

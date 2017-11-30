@@ -35,8 +35,12 @@ export default class RejectReceive extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('调拨驳回');
         this.queryTodoList();
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderItem = ({ item }) => {

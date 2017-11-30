@@ -15,6 +15,14 @@ import UpgradeDialog from '../upgrade/upgradeDialog';
 import Settings from '../user/settings';
 
 export default class Home extends PageComponent {
+    componentDidMount() {
+        super.componentDidMount('首页');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
     render() {
         return (
             <View style={styles.container}>

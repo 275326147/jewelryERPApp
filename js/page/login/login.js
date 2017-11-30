@@ -2,9 +2,10 @@
 import React from 'react';
 import PageComponent from '../PageComponent';
 import { Keyboard, View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import JAnalyticsModule from 'janalytics-react-native';
 import Storage from '../../utils/storage';
 import { callServiceWithoutToken } from '../../utils/service';
-import { forward, setAlias } from '../../utils/common';
+import { forward, setAlias, alert } from '../../utils/common';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,7 +21,8 @@ export default class Login extends PageComponent {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        super.componentDidMount('登陆界面');
         //监听键盘弹出事件
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',
             this.keyboardDidShowHandler.bind(this));
@@ -30,6 +32,7 @@ export default class Login extends PageComponent {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         //卸载键盘弹出事件监听
         if (this.keyboardDidShowListener != null) {
             this.keyboardDidShowListener.remove();
@@ -59,8 +62,13 @@ export default class Login extends PageComponent {
 
     sendCode() {
         if (this.state.enable) {
+            let account = this.state.account;
+            if (!/^1(3|4|5|7|8)\d{9}$/.test(account)) {
+                alert(this, 'info', '请输入正确的手机号码');
+                return;
+            }
             let params = new FormData();
-            params.append("mobileNum", this.state.account);
+            params.append("mobileNum", account);
             params.append("type", 1);
             callServiceWithoutToken(this, 'getSmsValidateCode.do', params, function (response) {
                 this.setState({
@@ -93,6 +101,15 @@ export default class Login extends PageComponent {
             Storage.setStorageAsync('currentAccount', this.state.account).then(() => {
                 setAlias();
             });
+            var LoginEvent = {
+                type: 'login',
+                extra: {
+                    userId: this.state.account
+                },
+                method: "login",
+                success: true
+            };
+            JAnalyticsModule.postEvent(LoginEvent);
             Storage.setAccountInfo(this, response, function () {
                 Storage.getCurrentAccount(this, function (accountInfo) {
                     if (!accountInfo.password) {

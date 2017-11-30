@@ -55,8 +55,12 @@ export default class WaitApprove extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('待审批');
         this.queryTodoList();
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderItem = ({ item }) => {

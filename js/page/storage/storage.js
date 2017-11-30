@@ -15,6 +15,7 @@ import {
     FlatList,
     TouchableWithoutFeedback
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Datatable from '../../components/datatable/datatable';
 import { clickHandler, getShopList, show, reloadTable } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
@@ -25,6 +26,7 @@ export default class Storage extends PageComponent {
         super(props);
         this.backRoute = 'Home';
         this.state = {
+            loading: false,
             modalVisible: false,
             deptVisible: false,
             storeVisible: false,
@@ -59,40 +61,28 @@ export default class Storage extends PageComponent {
                 sortable: true
             }, {
                 key: 5,
-                id: 'supplierName',
-                label: '供应商',
-                sortable: true,
-                hidden: true
-            }, {
-                key: 6,
                 id: 'statsClassify',
                 label: '统计分类',
                 sortable: true,
                 hidden: true
             }, {
-                key: 7,
-                id: 'mainType',
-                label: '核算模式',
-                sortable: true,
-                hidden: true
-            }, {
-                key: 8,
+                key: 6,
                 id: 'archivesCategory',
                 label: '品类',
                 sortable: true,
                 hidden: true
             }, {
-                key: 9,
+                key: 7,
                 id: 'num',
                 label: '数量',
                 sortable: true
             }, {
-                key: 10,
+                key: 8,
                 id: 'totalGoldWeight',
                 label: '金重',
                 sortable: true
             }, {
-                key: 11,
+                key: 9,
                 id: 'labelMoney',
                 label: '标价',
                 sortable: true
@@ -123,12 +113,23 @@ export default class Storage extends PageComponent {
         params.append("storeId", storeId.join(','));
         params.append("groupField", groupField.join(','));
         params.append("shopAreaCode", shopAreaCode.join(','));
+        this.setState({
+            loading: true
+        });
         callService(this, 'getGoodsStockSummary.do', params, function (response) {
-            if (response.stockList) {
-                this.setState({
-                    data: handleResult(response.stockList)
-                });
-            }
+            this.setState({
+                loading: false
+            }, function () {
+                if (response.stockList) {
+                    this.setState({
+                        data: handleResult(response.stockList)
+                    });
+                }
+            });
+        }, function () {
+            this.setState({
+                loading: false
+            });
         });
     }
 
@@ -145,7 +146,7 @@ export default class Storage extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('库存汇总');
         getShopList(this, function () {
             let areaCode = [];
             let param = new FormData();
@@ -164,18 +165,20 @@ export default class Storage extends PageComponent {
             });
         });
         this.setState({
-            list: this.state.fields.slice(0, 8)
+            list: this.state.fields.slice(0, 6)
         }, function () {
             this.queryGoodsList();
         });
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     itemClick(item) {
         let list = clickHandler(item, this.state.list, 'label');
         this.setState({
             list: list
-        }, function () {
-            this.queryGoodsList();
         });
     }
 
@@ -184,8 +187,6 @@ export default class Storage extends PageComponent {
         this.setState({
             deptList: deptList,
             storeList: this.filterStore(this.state.originStoreList, deptList)
-        }, function () {
-            this.queryGoodsList();
         });
     }
 
@@ -193,8 +194,6 @@ export default class Storage extends PageComponent {
         let storeList = clickHandler(item, this.state.storeList, 'storeName');
         this.setState({
             storeList: storeList
-        }, function () {
-            this.queryGoodsList();
         });
     }
 
@@ -223,10 +222,11 @@ export default class Storage extends PageComponent {
     );
 
     _renderDetailItem = ({ item }) => (
-        <View style={{ width: 280, height: 25, flexDirection: 'row' }}>
-            <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
-            <Text style={{ flex: 2, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
-        </View>
+        item.hidden ? <View /> :
+            <View style={{ width: 280, height: 25, flexDirection: 'row' }}>
+                <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
+                <Text style={{ flex: 2, textAlign: 'left', fontSize: 14, color: '#333' }}>{this.state.row[item.id]}</Text>
+            </View>
     );
 
     _onClose() {
@@ -285,13 +285,14 @@ export default class Storage extends PageComponent {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <Modal
                     visible={this.state.detailVisible}
                     animationType={'slide'}
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
+                        <View style={[styles.modalContainer, { height: 280 }]}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>库存详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
@@ -312,6 +313,9 @@ export default class Storage extends PageComponent {
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择分组设置</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.list} renderItem={this._renderItem} horizontal={false} numColumns={3} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this.setState({ modalVisible: false }, function () { this.queryGoodsList() }); }}>
+                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>确定</Text>
+                                </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
                                 </TouchableOpacity>
@@ -329,6 +333,9 @@ export default class Storage extends PageComponent {
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择门店</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.deptList} renderItem={this._renderDeptItem} horizontal={false} numColumns={2} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this.setState({ deptVisible: false }, function () { this.queryGoodsList() }); }}>
+                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>确定</Text>
+                                </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDeptClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
                                 </TouchableOpacity>
@@ -346,6 +353,9 @@ export default class Storage extends PageComponent {
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>请选择柜台</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.storeList} renderItem={this._renderStoreItem} horizontal={false} numColumns={2} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
+                                <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this.setState({ storeVisible: false }, function () { this.queryGoodsList() }); }}>
+                                    <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>确定</Text>
+                                </TouchableOpacity>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#f3f3f1', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onStoreClose() }}>
                                     <Text style={{ textAlign: 'center', color: '#666', fontSize: 14 }}>关闭</Text>
                                 </TouchableOpacity>
@@ -393,7 +403,7 @@ const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: '#fff',
         width: 300,
-        height: 360,
+        height: 320,
         borderRadius: 4,
         alignItems: 'center'
     },

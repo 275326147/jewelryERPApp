@@ -19,6 +19,14 @@ export default class SetPwd extends PageComponent {
         };
     }
 
+    componentDidMount() {
+        super.componentDidMount('重置手势密码');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
     _onFinish = (password) => {
         if (this.state.pwd === '') {
             // The first password

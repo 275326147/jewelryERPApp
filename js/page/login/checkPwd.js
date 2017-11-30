@@ -18,6 +18,14 @@ export default class Password extends PageComponent {
         };
     }
 
+    componentDidMount() {
+        super.componentDidMount('检查手势密码');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
     _onFinish = (password) => {
         Storage.getCurrentAccount(this, function (accountInfo) {
             if (!accountInfo.password) {

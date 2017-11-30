@@ -10,6 +10,14 @@ let image3 = require('../../../assets/image/start/guide3.png');
 
 const { width, height } = Dimensions.get('window');
 export default class Guide extends PageComponent {
+    componentDidMount() {
+        super.componentDidMount('指导页');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
     render() {
         return (
             <ScrollView

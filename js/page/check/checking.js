@@ -47,7 +47,7 @@ export default class Checking extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('盘点中');
         this.msgListener = DeviceEventEmitter.addListener('commitCheck', (listenerMsg) => {
             let params = new FormData();
             params.append("subSheetId", this.state.item.id);
@@ -74,6 +74,7 @@ export default class Checking extends PageComponent {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         this.msgListener && this.msgListener.remove();
     }
 

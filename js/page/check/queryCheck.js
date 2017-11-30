@@ -21,6 +21,15 @@ export default class QueryCheck extends PageComponent {
         this.backRoute = 'Check';
     }
 
+    componentDidMount() {
+        super.componentDidMount('查询盘点单');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
+
     _getData = () => {
         let filterData = [];
         data.forEach(function (item) {

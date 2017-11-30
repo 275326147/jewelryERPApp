@@ -41,7 +41,7 @@ export default class Track extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('商品跟踪');
         let params = this.props.navigation.state.params;
         if (!params) return;
         let paramType = params.type;
@@ -56,6 +56,9 @@ export default class Track extends PageComponent {
         }
     }
 
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
 
     //1 --进货   2 --调拨   3 --调价   4 --销售   5 --出库   6 --调款   7 --礼品兑换
     colorMap = {
@@ -96,18 +99,19 @@ export default class Track extends PageComponent {
             }
             this.setState({
                 loading: false
+            }, function () {
+                if (response.goodsInfoList && response.goodsInfoList.length > 1) {
+                    this.setState({
+                        selectGoodsVisible: true,
+                        goodsList: handleResult(response.goodsInfoList)
+                    });
+                } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
+                    this.setState({
+                        data: response.goodsInfoList[0],
+                        steps: handleResult(response.goodsTrackingList)
+                    });
+                }
             });
-            if (response.goodsInfoList && response.goodsInfoList.length > 1) {
-                this.setState({
-                    selectGoodsVisible: true,
-                    goodsList: handleResult(response.goodsInfoList)
-                });
-            } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
-                this.setState({
-                    data: response.goodsInfoList[0],
-                    steps: handleResult(response.goodsTrackingList)
-                });
-            }
         }, function () {
             this.setState({
                 loading: false

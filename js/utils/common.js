@@ -65,9 +65,7 @@ export function setAlias() {
                 if (Platform.OS === 'ios') {
                     NativeAppEventEmitter.removeAllListeners();
                     NativeAppEventEmitter.addListener('ReceiveNotification', (message) => {
-                        JPushModule.setBadge(0, function () {
-                            // console.log(message)
-                        });
+                        JPushModule.setBadge(0, function () { });
                     });
                 } else {
                     //---------------------------------android start---------------------------------

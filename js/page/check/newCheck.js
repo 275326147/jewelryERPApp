@@ -45,7 +45,7 @@ export default class NewCheck extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('新建盘点');
         this.msgListener = DeviceEventEmitter.addListener('refreshCheck', (listenerMsg) => {
             this.queryMainSheet();
         });
@@ -54,6 +54,7 @@ export default class NewCheck extends PageComponent {
 
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         this.msgListener && this.msgListener.remove();
     }
 

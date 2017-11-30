@@ -20,6 +20,14 @@ export default class Scanner extends PageComponent {
         };
     }
 
+    componentDidMount() {
+        super.componentDidMount('扫描界面');
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+    }
+
     lock = false;
 
     render() {

@@ -70,8 +70,12 @@ export default class Message extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('消息列表');
         this.queryMsg();
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     colorMap = {

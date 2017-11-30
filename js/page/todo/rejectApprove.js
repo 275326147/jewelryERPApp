@@ -22,7 +22,6 @@ export default class RejectApprove extends PageComponent {
         };
     }
 
-
     typeMap = {
         1: {
             color: '#ACC2FA',
@@ -51,8 +50,12 @@ export default class RejectApprove extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('审核驳回');
         this.queryTodoList();
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderItem = ({ item }) => {

@@ -46,7 +46,7 @@ export default class Center extends PageComponent {
 
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('待办事项');
         this.queryMyTodo();
         this.msgListener = DeviceEventEmitter.addListener('refreshMyTodo', (listenerMsg) => {
             this.queryMyTodo();
@@ -54,6 +54,7 @@ export default class Center extends PageComponent {
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         this.msgListener && this.msgListener.remove();
     }
 

@@ -26,12 +26,16 @@ export default class UserInfo extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('用户信息');
         Storage.getCurrentAccount(this, function (accountInfo) {
             this.setState({
                 userInfo: accountInfo.currentUser
             });
         });
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderItem = ({ item }) => (

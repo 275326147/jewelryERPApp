@@ -15,7 +15,8 @@ import {
     Modal,
     FlatList,
     TouchableWithoutFeedback,
-    TextInput
+    TextInput,
+    ScrollView
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import Datatable from '../../components/datatable/datatable';
@@ -53,14 +54,26 @@ export default class DailyReport extends PageComponent {
                 label: '件数'
             }, {
                 key: 4,
-                id: 'labelPrice',
-                label: '标价'
-            }, {
-                key: 5,
                 id: 'saleGoldWeight',
                 label: '金重'
             }, {
+                key: 5,
+                id: 'saleStoneWeight',
+                label: '石重'
+            }, {
                 key: 6,
+                id: 'exchangeWorkFee',
+                label: '兑换工费'
+            }, {
+                key: 7,
+                id: 'refineFeeTotal',
+                label: '提纯费'
+            }, {
+                key: 8,
+                id: 'labelPrice',
+                label: '标价'
+            }, {
+                key: 9,
                 id: 'settleTotalMoney',
                 label: '实收'
             }]
@@ -115,6 +128,16 @@ export default class DailyReport extends PageComponent {
         params.append("endDate", this.state.endDate || this.state.date);
         callService(this, 'getDailyReportData.do', params, function (response) {
             if (response) {
+                response.dailyReportData.forEach(function (item) {
+                    if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
+                        item.textStyle = { 'color': 'orange' };
+                    }
+                });
+                response.materialSummaryData.forEach(function (item) {
+                    if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
+                        item.textStyle = { 'color': 'orange' };
+                    }
+                });
                 this.setState({
                     data: handleResult(response.dailyReportData),
                     materialData: handleResult(response.materialSummaryData),
@@ -125,10 +148,14 @@ export default class DailyReport extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('日报表');
         getShopList(this, function () {
             this.queryDailyData();
         });
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderDetailItem = ({ item }) => (
@@ -290,30 +317,33 @@ export default class DailyReport extends PageComponent {
                     </TouchableOpacity>
                     {
                         this.state.active === 1 ?
-                            <ModalDropdown options={['实际分类', '商品名称', '门店', '柜台']} onSelect={
-                                (rowID, rowData) => {
-                                    let groupField = '';
-                                    switch (rowID) {
-                                        case '0':
-                                            groupField = 'goodsClassify';
-                                            break;
-                                        case '1':
-                                            groupField = 'goodsName';
-                                            break;
-                                        case '2':
-                                            groupField = 'deptAreaName';
-                                            break;
-                                        case '3':
-                                            groupField = 'storeName';
-                                            break;
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 14, color: '#333' }}>分组：</Text>
+                                <ModalDropdown options={['实际分类', '商品名称', '门店', '柜台']} onSelect={
+                                    (rowID, rowData) => {
+                                        let groupField = '';
+                                        switch (rowID) {
+                                            case '0':
+                                                groupField = 'goodsClassify';
+                                                break;
+                                            case '1':
+                                                groupField = 'goodsName';
+                                                break;
+                                            case '2':
+                                                groupField = 'deptAreaName';
+                                                break;
+                                            case '3':
+                                                groupField = 'storeName';
+                                                break;
+                                        }
+                                        this.setState({
+                                            groupField: groupField
+                                        }, function () {
+                                            this.queryDailyData();
+                                        });
                                     }
-                                    this.setState({
-                                        groupField: groupField
-                                    }, function () {
-                                        this.queryDailyData();
-                                    });
-                                }
-                            } />
+                                } />
+                            </View>
                             : <View />
                     }
                 </View>
@@ -358,7 +388,7 @@ export default class DailyReport extends PageComponent {
                             fields={this.paymentFields} />
                         : <View />
                 }
-            </View>
+            </View >
         );
     }
 }
@@ -416,7 +446,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     toolbar: {
-        height: 40,
+        height: 55,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'

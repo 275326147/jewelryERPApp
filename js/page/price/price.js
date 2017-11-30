@@ -14,7 +14,8 @@ import {
     Modal,
     FlatList,
     TouchableWithoutFeedback,
-    TextInput
+    TextInput,
+    ScrollView
 } from 'react-native';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
@@ -50,30 +51,26 @@ export default class Price extends PageComponent {
                     sortable: true
                 }, {
                     key: 4,
-                    id: 'minPrice',
-                    label: '最低价格(克)',
+                    id: 'currentDiscount',
                     editable: true,
-                    width: 120,
-                    sortable: true
+                    label: '今日折扣'
                 }, {
                     key: 5,
-                    id: 'minDiscount',
-                    label: '最低折扣',
-                    editable: true,
-                    sortable: true
-                }, {
-                    key: 6,
                     id: 'currentPrice',
                     label: '今日价格(克)',
                     editable: true,
-                    width: 120,
-                    sortable: true
+                    width: 120
+                }, {
+                    key: 6,
+                    id: 'minDiscount',
+                    label: '最低折扣',
+                    editable: true
                 }, {
                     key: 7,
-                    id: 'currentDiscount',
+                    id: 'minPrice',
+                    label: '最低价格(克)',
                     editable: true,
-                    label: '今日折扣',
-                    sortable: true
+                    width: 120
                 }]
         };
     }
@@ -92,7 +89,7 @@ export default class Price extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount();
+        super.componentDidMount('今日牌价');
         getShopList(this, function () {
             this.setState({
                 shopId: this.state.deptList[0].id
@@ -108,6 +105,10 @@ export default class Price extends PageComponent {
                 }
             });
         });
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
     }
 
     _renderDetailItem = ({ item }) => (
@@ -207,27 +208,31 @@ export default class Price extends PageComponent {
                         </View>
                     </View>
                 </Modal>
-                <View style={styles.toolbar}>
-                    <Text style={{ fontSize: 14, color: '#333' }}>门店：</Text>
-                    <ModalDropdown options={this.state.deptList} field="shopName" onSelect={
-                        (rowID, rowData) => {
-                            this.setState({
-                                shopId: rowData.id
-                            }, function () {
-                                this.queryPriceList();
-                            });
-                        }
-                    } />
-                    <Text style={{ fontSize: 14, color: '#333', marginLeft: 20 }}>品牌：</Text>
-                    <ModalDropdown options={this.state.brandList} field="name" onSelect={
-                        (rowID, rowData) => {
-                            this.setState({
-                                brandId: rowData.id
-                            }, function () {
-                                this.queryPriceList();
-                            });
-                        }
-                    } />
+                <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                    <ScrollView horizontal={true}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: 10 }}>
+                            <Text style={{ fontSize: 14, color: '#333' }}>门店：</Text>
+                            <ModalDropdown options={this.state.deptList} field="shopName" onSelect={
+                                (rowID, rowData) => {
+                                    this.setState({
+                                        shopId: rowData.id
+                                    }, function () {
+                                        this.queryPriceList();
+                                    });
+                                }
+                            } />
+                            <Text style={{ fontSize: 14, color: '#333', marginLeft: 20 }}>品牌：</Text>
+                            <ModalDropdown options={this.state.brandList} field="name" onSelect={
+                                (rowID, rowData) => {
+                                    this.setState({
+                                        brandId: rowData.id
+                                    }, function () {
+                                        this.queryPriceList();
+                                    });
+                                }
+                            } />
+                        </View>
+                    </ScrollView>
                 </View>
                 <Datatable
                     onSort={this.onSort.bind(this)}
@@ -252,12 +257,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    toolbar: {
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     button: {
         margin: 10,

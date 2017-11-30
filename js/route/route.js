@@ -284,7 +284,7 @@ const SimpleStack = StackNavigator(
         Storage: {
             screen: Storage,
             navigationOptions: ({ navigation }) => ({
-                title: '商品库存'
+                title: '库存汇总'
             })
         },
         DailyReport: {
