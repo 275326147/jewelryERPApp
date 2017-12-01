@@ -24,7 +24,7 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
-import { forward, alert } from '../../utils/common';
+import { forward, alert, unlockScreen } from '../../utils/common';
 
 export default class Track extends PageComponent {
     constructor(props) {
@@ -113,9 +113,7 @@ export default class Track extends PageComponent {
                 }
             });
         }, function () {
-            this.setState({
-                loading: false
-            });
+            unlockScreen(this);
         });
         Keyboard.dismiss();
     }
@@ -192,16 +190,15 @@ export default class Track extends PageComponent {
                 params.append('module', 'goods');
                 this.setState({
                     loading: true
-                });
-                callService(this, 'ajaxUpImg.do', params, function (response) {
-                    this.setState({
-                        loading: false
-                    }, function () {
-                        this.queryGoodsInfo(true);
-                    });
                 }, function () {
-                    this.setState({
-                        loading: false
+                    callService(this, 'ajaxUpImg.do', params, function (response) {
+                        this.setState({
+                            loading: false
+                        }, function () {
+                            this.queryGoodsInfo(true);
+                        });
+                    }, function () {
+                        unlockScreen(this);
                     });
                 });
             }
@@ -219,16 +216,16 @@ export default class Track extends PageComponent {
         params.append("barCode", item.barCode);
         this.setState({
             loading: true
-        });
-        callService(this, 'queryGoodsTrackList.do', params, function (response) {
-            this.setState({
-                loading: false,
-                data: item,
-                steps: handleResult(response.goodsTrackingList)
-            });
         }, function () {
-            this.setState({
-                loading: false
+            callService(this, 'queryGoodsTrackList.do', params, function (response) {
+                this.setState({
+                    data: item,
+                    steps: handleResult(response.goodsTrackingList)
+                }, function () {
+                    unlockScreen(this);
+                });
+            }, function () {
+                unlockScreen(this);
             });
         });
         this._onClose();
@@ -237,9 +234,19 @@ export default class Track extends PageComponent {
     _renderGoodsItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._selectGoods(item) }}>
             <View style={styles.menuContainer}>
-                <Text style={styles.menuText}>{item.archivesNo}</Text>
                 <Text style={styles.menuText}>{item.goodsName}</Text>
-                <Text style={styles.menuText}>{item.barCode}</Text>
+                <View style={styles.menuLine}>
+                    <Text style={styles.menuLabel}>条码</Text>
+                    <Text style={styles.menuValue}>{item.barCode}</Text>
+                    <Text style={styles.menuLabel}>原条码</Text>
+                    <Text style={styles.menuValue}>{item.oldBarCode}</Text>
+                </View>
+                <View style={styles.menuLine}>
+                    <Text style={styles.menuLabel}>证书号</Text>
+                    <Text style={styles.menuValue}>{item.certificateNo}</Text>
+                    <Text style={styles.menuLabel}>款号</Text>
+                    <Text style={styles.menuValue}>{item.styleNo}</Text>
+                </View>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -254,7 +261,13 @@ export default class Track extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 50) }]}>
+                        <View style={{ flexDirection: 'row', width: 280, height: 30, backgroundColor: '#fff' }}>
+                            <Text style={{ flex: 3, height: 20, marginTop: 10, textAlign: 'center', fontSize: 14, color: '#333' }}>请选择商品记录</Text>
+                            <TouchableOpacity onPress={() => this._onClose()}>
+                                <Image style={{ height: 25, width: 25, marginTop: 5, marginRight: 5 }} source={require('../../../assets/image/head/close.png')} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 100) }]}>
                             <FlatList style={{ flex: 1 }} data={this.state.goodsList} renderItem={this._renderGoodsItem} />
                         </View>
                     </View>
@@ -291,18 +304,21 @@ export default class Track extends PageComponent {
                     this.state.data ?
                         <View style={{ flex: 1 }}>
                             <View style={styles.baseInfoContainer}>
-                                <TouchableOpacity onPress={() => { this.showImagePicker(); }}>
+                                <TouchableOpacity style={{ flex: 1 }} onPress={() => { this.showImagePicker(); }}>
                                     {
                                         this.state.data.img ?
-                                            <Image style={{ width: 80, height: 80, margin: 15 }} source={{ uri: this.state.data.img }} />
+                                            <Image style={{ flex: 1, margin: 15 }} source={{ uri: this.state.data.img }} />
                                             :
-                                            <Image style={{ width: 80, height: 80, margin: 15 }} source={require('../../../assets/image/track/camera.png')} />
+                                            <Image style={{ width: 100, height: 100, margin: 15 }} source={require('../../../assets/image/track/camera.png')} />
                                     }
                                 </TouchableOpacity>
                                 <View style={{ flex: 1 }}>
-                                    <Text style={[styles.label, { marginTop: 15 }]}>商品代码      <Text style={styles.value}>{this.state.data.archivesNo}</Text></Text>
-                                    <Text style={styles.label}>商品名称      <Text style={styles.value}>{this.state.data.goodsName}</Text></Text>
-                                    <Text style={styles.label}>子名称          <Text style={styles.value}>{this.state.data.subGoodsName}</Text></Text>
+                                    <Text style={[styles.label, { marginTop: 15 }]}>商品名   <Text style={styles.value}>{this.state.data.goodsName}</Text></Text>
+                                    <Text style={styles.label}>条码号   <Text style={styles.value}>{this.state.data.barCode}</Text></Text>
+                                    <Text style={styles.label}>原条码   <Text style={styles.value}>{this.state.data.oldBarCode}</Text></Text>
+                                    <Text style={styles.label}>子名称   <Text style={styles.value}>{this.state.data.subGoodsName}</Text></Text>
+                                    <Text style={styles.label}>证书号   <Text style={styles.value}>{this.state.data.certificateNo}</Text></Text>
+                                    <Text style={styles.label}>款    号   <Text style={styles.value}>{this.state.data.styleNo}</Text></Text>
                                     <View style={{ flex: 1, justifyContent: 'center' }}>
                                         {
                                             this.state.modalVisible ?
@@ -322,22 +338,10 @@ export default class Track extends PageComponent {
                                     <View style={styles.modalContainer}>
                                         <View style={{ borderTopWidth: 1.5, borderColor: '#f3f3f1', margin: 10 }}></View>
                                         <View style={styles.detailLine}>
-                                            <Text style={styles.detailLabel}>条码号</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.barCode}</Text>
-                                            <Text style={styles.detailLabel}>原条码号</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.oldBarCode}</Text>
-                                        </View>
-                                        <View style={styles.detailLine}>
-                                            <Text style={styles.detailLabel}>证书号</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.certificateNo}</Text>
-                                            <Text style={styles.detailLabel}>CIA证书</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.giaCertificateNo}</Text>
-                                        </View>
-                                        <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>款式</Text>
                                             <Text style={styles.detailValue}>{this.state.data.style}</Text>
-                                            <Text style={styles.detailLabel}>款号</Text>
-                                            <Text style={styles.detailValue}>{this.state.data.styleNo}</Text>
+                                            <Text style={styles.detailLabel}>CIA证书</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.giaCertificateNo}</Text>
                                         </View>
                                         <View style={styles.detailLine}>
                                             <Text style={styles.detailLabel}>实际分类</Text>
@@ -369,6 +373,12 @@ export default class Track extends PageComponent {
                                             <Text style={styles.detailLabel}>副石2数</Text>
                                             <Text style={styles.detailValue}>{this.state.data.subStone2Num || 0}</Text>
                                         </View>
+                                        <View style={styles.detailLine}>
+                                            <Text style={styles.detailLabel}>克工费</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.labelWorkFee4Ke}</Text>
+                                            <Text style={styles.detailLabel}>件工费</Text>
+                                            <Text style={styles.detailValue}>{this.state.data.labelWorkFee4Jian}</Text>
+                                        </View>
                                     </View>
                                     :
                                     <View></View>
@@ -394,8 +404,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     menuContainer: {
-        flexDirection: 'row',
-        height: 50,
+        height: 100,
+        width: 280,
         borderTopWidth: 1,
         borderBottomWidth: 0.5,
         borderColor: '#f3f3f1'
@@ -411,7 +421,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     modalContainer: {
-        height: 200,
+        height: 260,
         backgroundColor: '#fff'
     },
     container: {
@@ -449,7 +459,7 @@ const styles = StyleSheet.create({
         marginLeft: 80
     },
     baseInfoContainer: {
-        height: 130,
+        height: 200,
         flexDirection: 'row',
         backgroundColor: '#fff',
         borderTopWidth: 1,
@@ -465,18 +475,18 @@ const styles = StyleSheet.create({
         color: '#666'
     },
     detailLine: {
-        height: 20,
+        height: 32,
         flexDirection: 'row',
         marginLeft: 10
     },
     detailLabel: {
         flex: 1.5,
-        fontSize: 14,
+        fontSize: 13,
         color: '#333'
     },
     detailValue: {
         flex: 2,
-        fontSize: 14,
+        fontSize: 13,
         color: '#666'
     },
     leftTopContainer: {
@@ -505,5 +515,20 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         borderRadius: 3
-    }
+    },
+    menuLine: {
+        height: 25,
+        flexDirection: 'row',
+        marginLeft: 10
+    },
+    menuLabel: {
+        flex: 1,
+        fontSize: 13,
+        color: '#333'
+    },
+    menuValue: {
+        flex: 2,
+        fontSize: 13,
+        color: '#666'
+    },
 });

@@ -42,7 +42,7 @@ export default class DailyReport extends PageComponent {
             deptList: [],
             fields: [{
                 key: 1,
-                id: 'goodsClassify',
+                id: 'showName',
                 label: '名称'
             }, {
                 key: 2,

@@ -109,7 +109,7 @@ export default class WaitApprove extends PageComponent {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>石重</Text>
-                        <Text style={styles.value}>{item.stoneWeight}g</Text>
+                        <Text style={styles.value}>{item.stoneWeight}</Text>
                     </View>
                 </View>
                 <View style={styles.bottomContainer}>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        height: 240,
+        height: 180,
         width: (Dimensions.get('window').width - 60),
         borderRadius: 4
     },

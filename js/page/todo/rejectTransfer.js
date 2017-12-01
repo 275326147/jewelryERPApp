@@ -79,12 +79,12 @@ export default class RejectReceive extends PageComponent {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
                             <Text style={styles.label}>石重</Text>
-                            <Text style={styles.value}>{item.stoneWeight}g</Text>
+                            <Text style={styles.value}>{item.stoneWeight}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', height: 30, marginLeft: 10, marginTop: 5 }}>
                         <Text style={styles.label}>审批意见：</Text>
-                        <Text style={styles.value}>{item.remarks}</Text>
+                        <Text style={styles.value}>{item.auditRemarks}</Text>
                     </View>
                 </View>
             </View >

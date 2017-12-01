@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { callService, handleResult } from '../../utils/service';
-import { alert } from '../../utils/common';
+import { alert, unlockScreen } from '../../utils/common';
 
 let screenWidth = Dimensions.get('window').width;
 export default class Member extends PageComponent {
@@ -55,11 +55,8 @@ export default class Member extends PageComponent {
         this.setState({
             loading: true,
             keyword: ''
-        });
-        callService(this, 'queryCustomer.do', params, function (response) {
-            this.setState({
-                loading: false
-            }, function () {
+        }, function () {
+            callService(this, 'queryCustomer.do', params, function (response) {
                 let result = response.customerList;
                 if (result) {
                     this.setState({
@@ -69,10 +66,9 @@ export default class Member extends PageComponent {
                         alert(this, 'info', '没有相关查询信息');
                     }
                 }
-            });
-        }, function () {
-            this.setState({
-                loading: false
+                unlockScreen(this);
+            }, function () {
+                unlockScreen(this);
             });
         });
         Keyboard.dismiss();

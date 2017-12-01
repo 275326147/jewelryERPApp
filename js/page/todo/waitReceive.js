@@ -78,7 +78,7 @@ export default class WaitReceive extends PageComponent {
                     </View>
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                         <Text style={styles.label}>石重</Text>
-                        <Text style={styles.value}>{item.stoneWeight}g</Text>
+                        <Text style={styles.value}>{item.stoneWeight}</Text>
                     </View>
                 </View>
                 <View style={styles.bottomContainer}>
@@ -173,8 +173,8 @@ export default class WaitReceive extends PageComponent {
 const styles = StyleSheet.create({
     input: {
         fontSize: 14,
-        height: 130,
-        width: Dimensions.get('window').width - 100,
+        height: 100,
+        width: 260,
         backgroundColor: '#F9F9F9',
         marginTop: 5,
         marginBottom: 10,
@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        height: 240,
-        width: (Dimensions.get('window').width - 60),
+        height: 180,
+        width: 300,
         borderRadius: 4
     },
     modalBackground: {

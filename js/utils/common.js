@@ -92,3 +92,13 @@ export function deleteAlias() {
         }
     });
 }
+
+export function unlockScreen(master) {
+    master.timeout = setTimeout(function () {
+        master.setState({
+            loading: false
+        }, function () {
+            master.timeout && clearTimeout(master.timeout);
+        });
+    }, 500);
+}

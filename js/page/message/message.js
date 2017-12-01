@@ -108,7 +108,7 @@ export default class Message extends PageComponent {
     }
 
     _renderItem = ({ item }) => (
-        <Swipeout right={[{ text: '删除', backgroundColor: 'red', onPress: () => { this._deleteMsg(item) } }]}>
+        <Swipeout autoClose={true} right={[{ text: '删除', backgroundColor: 'red', onPress: () => { this._deleteMsg(item) } }]}>
             <TouchableWithoutFeedback onPress={() => this.setState({ item: item, detailVisible: true }, function () { this._setViewFlag() })}>
                 <View style={styles.itemContainer}>
                     <View style={{ height: 20, flexDirection: 'row', margin: 5, marginLeft: 10, justifyContent: 'center', alignItems: 'center' }}>

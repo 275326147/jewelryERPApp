@@ -19,6 +19,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Datatable from '../../components/datatable/datatable';
 import { clickHandler, getShopList, show, reloadTable } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
+import { unlockScreen } from '../../utils/common';
 
 export default class Storage extends PageComponent {
 
@@ -115,20 +116,16 @@ export default class Storage extends PageComponent {
         params.append("shopAreaCode", shopAreaCode.join(','));
         this.setState({
             loading: true
-        });
-        callService(this, 'getGoodsStockSummary.do', params, function (response) {
-            this.setState({
-                loading: false
-            }, function () {
+        }, function () {
+            callService(this, 'getGoodsStockSummary.do', params, function (response) {
                 if (response.stockList) {
                     this.setState({
                         data: handleResult(response.stockList)
                     });
                 }
-            });
-        }, function () {
-            this.setState({
-                loading: false
+                unlockScreen(this);
+            }, function () {
+                unlockScreen(this);
             });
         });
     }
