@@ -10,17 +10,22 @@ import {
     FlatList,
     TouchableOpacity,
     Modal,
-    TextInput
+    TextInput,
+    Keyboard,
+    Platform
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 export default class WaitApprove extends PageComponent {
 
     constructor(props) {
         super(props);
         this.backRoute = 'Todo';
         this.state = {
+            top: (screenHeight / 2 - 80),
             modalVisible: false,
             todoList: [],
             current: {}
@@ -56,11 +61,31 @@ export default class WaitApprove extends PageComponent {
 
     componentDidMount() {
         super.componentDidMount('待审批');
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
+            let keyboardHeight = event.endCoordinates.height;
+            this.setState({
+                top: (screenHeight - keyboardHeight - 160)
+            });
+        });
+        //监听键盘隐藏事件
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            this.setState({
+                top: (screenHeight / 2 - 80)
+            });
+        });
         this.queryTodoList();
     }
 
     componentWillUnmount() {
         super.componentWillUnmount();
+        //卸载键盘弹出事件监听
+        if (this.keyboardDidShowListener != null) {
+            this.keyboardDidShowListener.remove();
+        }
+        //卸载键盘隐藏事件监听
+        if (this.keyboardDidHideListener != null) {
+            this.keyboardDidHideListener.remove();
+        }
     }
 
     _renderItem = ({ item }) => {
@@ -79,7 +104,7 @@ export default class WaitApprove extends PageComponent {
                     <Text style={{ fontSize: 14, color: '#333' }}>{item.sheetNo}</Text>
                 </View>
                 <View style={styles.split}></View>
-                <View style={{ height: item.sheetType === 2 ? 120 : 80, marginLeft: 20, marginTop: 5 }}>
+                <View style={{ height: item.sheetType === 2 ? 140 : 100, marginLeft: 20, marginTop: 5 }}>
                     <Text style={styles.label}>提交人  <Text style={styles.value}>{item.submitter}</Text></Text>
                     <Text style={styles.label}>提交时间  <Text style={styles.value}>{item.submitTime}</Text></Text>
                     <Text style={styles.label}>门店  <Text style={styles.value}>{item.deptAreaName}</Text></Text>
@@ -170,7 +195,7 @@ export default class WaitApprove extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
+                        <View style={[styles.modalContainer, { position: 'absolute', top: this.state.top }]}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ flex: 3, height: 20, marginTop: 10, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
                                 <TouchableOpacity onPress={() => this._onClose()}>
@@ -182,7 +207,7 @@ export default class WaitApprove extends PageComponent {
                                 onChangeText={(text) => this.state.current.remarks = text}
                                 placeholderTextColor={'#999'}
                                 underlineColorAndroid="transparent" />
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
                                 <TouchableOpacity style={[styles.button, { borderWidth: 0, width: 150, backgroundColor: '#6334E6' }]} onPress={() => this.reject()}>
                                     <Text style={{ textAlign: 'center', color: '#fff', fontSize: 13 }}>确定</Text>
                                 </TouchableOpacity>
@@ -203,7 +228,7 @@ export default class WaitApprove extends PageComponent {
 const styles = StyleSheet.create({
     input: {
         fontSize: 14,
-        height: 130,
+        height: 70,
         width: Dimensions.get('window').width - 100,
         backgroundColor: '#F9F9F9',
         marginTop: 5,
@@ -214,7 +239,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        height: 180,
+        height: 160,
         width: (Dimensions.get('window').width - 60),
         borderRadius: 4
     },
@@ -262,12 +287,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     label: {
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#333',
         marginTop: 5
     },
     value: {
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#666',
         marginTop: 5
     },
@@ -294,7 +319,7 @@ const styles = StyleSheet.create({
         marginLeft: 20
     },
     itemContainer: {
-        height: 300,
+        height: 320,
         backgroundColor: '#fff',
         marginBottom: 10
     }

@@ -116,7 +116,7 @@ export default class Message extends PageComponent {
                             <Text style={{ backgroundColor: 'transparent', color: '#fff', textAlign: 'center', fontSize: 13 }}>{this.textMap[item.msgType]}</Text>
                         </View>
                         <Text style={{ flex: 1, fontSize: 14, color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.msgTypeStr}</Text>
-                        <Text style={{ fontSize: 14, width: 150, textAlign: 'right', color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.createTime}</Text>
+                        <Text style={{ fontSize: Platform.OS === 'ios' ? 14 : 12, width: 150, textAlign: 'right', color: item.hasViewFlag == 0 ? '#333' : '#999' }}>{item.createTime}</Text>
                     </View>
                     <View style={{ flex: 1, marginLeft: 10 }}>
                         <Text style={[styles.contentText, { color: item.hasViewFlag == 0 ? '#666' : '#999' }]}>{item.msgDtl}</Text>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     detailTitle: {
         flex: 1,
         color: '#333',
-        fontSize: 16,
+        fontSize: Platform.OS === 'ios' ? 16 : 15,
         textAlign: 'center',
         marginTop: 10
     },

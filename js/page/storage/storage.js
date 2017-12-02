@@ -289,7 +289,7 @@ export default class Storage extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: 280 }]}>
+                        <View style={[styles.modalContainer, { height: 300 }]}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>库存详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
                             <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>

@@ -72,8 +72,6 @@ export function setAlias() {
                     JPushModule.removeReceiveOpenNotificationListener();
                     JPushModule.notifyJSDidLoad((resultCode) => { });
                     JPushModule.addReceiveOpenNotificationListener((map) => {
-                        console.log("Opening notification!");
-                        console.log("map.extra: " + map.key);
                         JPushModule.jumpToPushActivity("jewelryERPApp");
                     });
                     //---------------------------------android end---------------------------------
@@ -86,9 +84,7 @@ export function setAlias() {
 export function deleteAlias() {
     JPushModule.getAlias((alias) => {
         if (alias) {
-            JPushModule.deleteAlias((args) => {
-                console.info(args);
-            });
+            JPushModule.deleteAlias((args) => { });
         }
     });
 }

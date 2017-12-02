@@ -8,7 +8,8 @@ import {
     Image,
     Dimensions,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 
@@ -161,12 +162,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     label: {
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#333',
         marginTop: 5
     },
     value: {
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#666',
         marginTop: 5
     },

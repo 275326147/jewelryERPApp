@@ -15,20 +15,25 @@ import {
     FlatList,
     TouchableWithoutFeedback,
     TextInput,
-    ScrollView
+    ScrollView,
+    Keyboard,
+    Dimensions
 } from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { reloadTable, getShopList } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
-import { deepClone } from '../../utils/common';
+import { deepClone, unlockScreen } from '../../utils/common';
 
+let screenHeight = Dimensions.get('window').height;
 export default class Price extends PageComponent {
-
     constructor(props) {
         super(props);
         this.backRoute = 'Home';
         this.state = {
+            top: (screenHeight / 2 - 140),
+            loading: false,
             detailVisible: false,
             deptList: [],
             brandList: [],
@@ -79,17 +84,37 @@ export default class Price extends PageComponent {
         let params = new FormData();
         params.append("shopId", this.state.shopId);
         params.append("brandId", this.state.brandId);
-        callService(this, 'getSalePriceList.do', params, function (response) {
-            if (response.salePriceList) {
-                this.setState({
-                    data: handleResult(response.salePriceList)
-                });
-            }
+        this.setState({
+            loading: true
+        }, function () {
+            callService(this, 'getSalePriceList.do', params, function (response) {
+                if (response.salePriceList) {
+                    this.setState({
+                        data: handleResult(response.salePriceList)
+                    });
+                }
+                unlockScreen(this);
+            });
+        }, function () {
+            unlockScreen(this);
         });
     }
 
     componentDidMount() {
         super.componentDidMount('今日牌价');
+        //监听键盘弹出事件
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
+            let keyboardHeight = event.endCoordinates.height;
+            this.setState({
+                top: (screenHeight - keyboardHeight - 280)
+            });
+        });
+        //监听键盘隐藏事件
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            this.setState({
+                top: (screenHeight / 2 - 140)
+            });
+        });
         getShopList(this, function () {
             this.setState({
                 shopId: this.state.deptList[0].id
@@ -109,10 +134,18 @@ export default class Price extends PageComponent {
 
     componentWillUnmount() {
         super.componentWillUnmount();
+        //卸载键盘弹出事件监听
+        if (this.keyboardDidShowListener != null) {
+            this.keyboardDidShowListener.remove();
+        }
+        //卸载键盘隐藏事件监听
+        if (this.keyboardDidHideListener != null) {
+            this.keyboardDidHideListener.remove();
+        }
     }
 
     _renderDetailItem = ({ item }) => (
-        <View style={{ width: 280, height: 35, flexDirection: 'row' }}>
+        <View style={{ width: 280, height: 35, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ flex: 1, textAlign: 'left', fontSize: 14, color: '#999', marginLeft: 40 }}>{item.label}</Text>
             {
                 item.editable ?
@@ -188,16 +221,17 @@ export default class Price extends PageComponent {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <Modal
                     visible={this.state.detailVisible}
                     animationType={'slide'}
                     transparent={true}
                     onRequestClose={() => this._onDetailClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
+                        <View style={[styles.modalContainer, { position: 'absolute', top: this.state.top }]}>
                             <View style={{ height: 20, margin: 10 }}><Text style={{ fontSize: 14, color: '#333' }}>牌价详情</Text></View>
                             <FlatList style={{ flex: 1 }} data={this.state.fields} renderItem={this._renderDetailItem} />
-                            <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 5 }}>
+                            <View style={{ height: 40, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginBottom: 10 }}>
                                 <TouchableOpacity style={[styles.button, { backgroundColor: '#6334E6', borderRadius: 18, height: 30, width: 120 }]} onPress={() => { this._onDetailSave() }}>
                                     <Text style={{ textAlign: 'center', color: '#fff', fontSize: 14 }}>保存</Text>
                                 </TouchableOpacity>

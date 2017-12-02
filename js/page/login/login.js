@@ -17,6 +17,7 @@ export default class Login extends PageComponent {
             code: '',
             second: 60,
             enable: true,
+            enableLogin: true,
             keyboardHeight: 280
         };
     }
@@ -94,29 +95,50 @@ export default class Login extends PageComponent {
     }
 
     redirect() {
+        let account = this.state.account;
+        let code = this.state.code;
+        if (!/^1(3|4|5|7|8)\d{9}$/.test(account)) {
+            alert(this, 'info', '请输入正确的手机号码');
+            return;
+        }
+        if (!code || !code.trim()) {
+            alert(this, 'info', '短信验证码不能为空');
+            return;
+        }
         let params = new FormData();
-        params.append("mobileNo", this.state.account);
-        params.append("smsValiCode", this.state.code);
-        callServiceWithoutToken(this, 'checkLogin.do', params, function (response) {
-            Storage.setStorageAsync('currentAccount', this.state.account).then(() => {
-                setAlias();
-            });
-            var LoginEvent = {
-                type: 'login',
-                extra: {
-                    userId: this.state.account
-                },
-                method: "login",
-                success: true
-            };
-            JAnalyticsModule.postEvent(LoginEvent);
-            Storage.setAccountInfo(this, response, function () {
-                Storage.getCurrentAccount(this, function (accountInfo) {
-                    if (!accountInfo.password) {
-                        forward(this, 'SetPwd');
-                    } else {
-                        forward(this, 'CheckPwd');
-                    }
+        params.append("mobileNo", account);
+        params.append("smsValiCode", code);
+        this.setState({
+            enableLogin: false
+        }, function () {
+            callServiceWithoutToken(this, 'checkLogin.do', params, function (response) {
+                this.setState({
+                    enableLogin: true
+                });
+                Storage.setStorageAsync('currentAccount', account).then(() => {
+                    setAlias();
+                });
+                var LoginEvent = {
+                    type: 'login',
+                    extra: {
+                        userId: account
+                    },
+                    method: "login",
+                    success: true
+                };
+                JAnalyticsModule.postEvent(LoginEvent);
+                Storage.setAccountInfo(this, response, function () {
+                    Storage.getCurrentAccount(this, function (accountInfo) {
+                        if (!accountInfo.password) {
+                            forward(this, 'SetPwd');
+                        } else {
+                            forward(this, 'CheckPwd');
+                        }
+                    });
+                });
+            }, function () {
+                this.setState({
+                    enableLogin: true
                 });
             });
         });
@@ -150,11 +172,18 @@ export default class Login extends PageComponent {
                                 </View>
                         }
                     </View>
-                    <TouchableOpacity
-                        style={styles.btn}
-                        onPress={() => { this.redirect() }}>
-                        <Text style={styles.btnText}>登    录</Text>
-                    </TouchableOpacity>
+                    {
+                        this.state.enableLogin ?
+                            <TouchableOpacity
+                                style={styles.btn}
+                                onPress={() => { this.redirect() }}>
+                                <Text style={styles.btnText}>登    录</Text>
+                            </TouchableOpacity>
+                            :
+                            <View style={[styles.btn, { backgroundColor: '#EEEEEE' }]}>
+                                <Text style={[styles.btnText, { color: '#999' }]}>登    录</Text>
+                            </View>
+                    }
                 </View>
             </Image>
         );

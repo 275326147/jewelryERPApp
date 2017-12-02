@@ -387,7 +387,8 @@ const styles = StyleSheet.create({
         borderColor: '#f3f3f1',
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        height: 32
     },
     buttonText: {
         fontSize: 14,
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     rowText: {
         paddingHorizontal: 6,
         paddingVertical: 10,
-        fontSize: 13,
+        fontSize: 14,
         backgroundColor: '#fff',
         textAlignVertical: 'center',
         textAlign: 'center'

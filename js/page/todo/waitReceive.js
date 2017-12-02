@@ -10,17 +10,22 @@ import {
     FlatList,
     TouchableOpacity,
     Modal,
-    TextInput
+    TextInput,
+    Keyboard,
+    Platform
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import { alert } from '../../utils/common';
 
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 export default class WaitReceive extends PageComponent {
 
     constructor(props) {
         super(props);
         this.backRoute = 'Todo';
         this.state = {
+            top: (screenHeight / 2 - 80),
             modalVisible: false,
             todoList: [],
             current: {}
@@ -41,11 +46,32 @@ export default class WaitReceive extends PageComponent {
 
     componentDidMount() {
         super.componentDidMount('待接收在途');
+        //监听键盘弹出事件
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
+            let keyboardHeight = event.endCoordinates.height;
+            this.setState({
+                top: (screenHeight - keyboardHeight - 160)
+            });
+        });
+        //监听键盘隐藏事件
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            this.setState({
+                top: (screenHeight / 2 - 80)
+            });
+        });
         this.queryTodoList();
     }
 
     componentWillUnmount() {
         super.componentWillUnmount();
+        //卸载键盘弹出事件监听
+        if (this.keyboardDidShowListener != null) {
+            this.keyboardDidShowListener.remove();
+        }
+        //卸载键盘隐藏事件监听
+        if (this.keyboardDidHideListener != null) {
+            this.keyboardDidHideListener.remove();
+        }
     }
 
     _renderItem = ({ item }) => {
@@ -140,7 +166,7 @@ export default class WaitReceive extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={styles.modalContainer}>
+                        <View style={[styles.modalContainer, { position: 'absolute', top: this.state.top }]}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={{ flex: 3, height: 20, marginTop: 10, marginLeft: 20, fontSize: 14, color: '#333' }}>驳回</Text>
                                 <TouchableOpacity onPress={() => this._onClose()}>
@@ -152,7 +178,7 @@ export default class WaitReceive extends PageComponent {
                                 onChangeText={(text) => this.state.current.remarks = text}
                                 placeholderTextColor={'#999'}
                                 underlineColorAndroid="transparent" />
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom: 10 }}>
                                 <TouchableOpacity style={[styles.button, { borderWidth: 0, width: 150, backgroundColor: '#6334E6' }]} onPress={() => this.reject()}>
                                     <Text style={{ textAlign: 'center', color: '#fff', fontSize: 13 }}>确定</Text>
                                 </TouchableOpacity>
@@ -173,7 +199,7 @@ export default class WaitReceive extends PageComponent {
 const styles = StyleSheet.create({
     input: {
         fontSize: 14,
-        height: 100,
+        height: 70,
         width: 260,
         backgroundColor: '#F9F9F9',
         marginTop: 5,
@@ -184,7 +210,7 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         backgroundColor: '#fff',
-        height: 180,
+        height: 160,
         width: 300,
         borderRadius: 4
     },
@@ -221,7 +247,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     contentContainer: {
-        width: (Dimensions.get('window').width - 30),
+        width: (screenWidth - 30),
         marginLeft: 15,
         marginRight: 15,
         backgroundColor: '#E9E9E9',
@@ -232,17 +258,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     label: {
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#333',
         marginTop: 5
     },
     value: {
-        fontSize: 12,
+        fontSize: Platform.OS === 'ios' ? 14 : 12,
         color: '#666',
         marginTop: 5
     },
     split: {
-        width: (Dimensions.get('window').width - 30),
+        width: (screenWidth - 30),
         marginLeft: 15,
         marginRight: 15,
         marginTop: 10,
