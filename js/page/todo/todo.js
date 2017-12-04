@@ -16,7 +16,7 @@ import {
     DeviceEventEmitter
 } from 'react-native';
 import { callService } from '../../utils/service';
-import { forward } from '../../utils/common';
+import { forward, alert } from '../../utils/common';
 
 export default class Center extends PageComponent {
 
@@ -58,8 +58,16 @@ export default class Center extends PageComponent {
         this.msgListener && this.msgListener.remove();
     }
 
+    handleTodo(item) {
+        if (item.num <= 0) {
+            alert(this, 'info', '暂无待办事项');
+            return;
+        }
+        forward(this, item.url);
+    }
+
     _renderTodo = ({ item }) => (
-        <TouchableWithoutFeedback onPress={() => { forward(this, item.url) }}>
+        <TouchableWithoutFeedback onPress={() => { this.handleTodo(item) }}>
             <View style={item.split ? styles.splitContainer : styles.todoContainer}>
                 <Text style={styles.todoText}>{item.text}</Text>
                 <Text style={styles.countText}>{item.num}</Text>

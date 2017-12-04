@@ -18,11 +18,13 @@ import {
     TextInput,
     ScrollView
 } from 'react-native';
+import Spinner from '../../components/loading/loading';
 import DatePicker from 'react-native-datepicker';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { callService, handleResult } from '../../utils/service';
 import { clickHandler, getShopList, show, getDate, setDate } from './common';
+import { unlockScreen } from '../../utils/common';
 
 export default class DailyReport extends PageComponent {
 
@@ -30,6 +32,7 @@ export default class DailyReport extends PageComponent {
         super(props);
         this.backRoute = 'Home';
         this.state = {
+            loading: false,
             date: getDate(new Date()),
             active: 1,
             detailVisible: false,
@@ -126,32 +129,38 @@ export default class DailyReport extends PageComponent {
         params.append("groupField", this.state.groupField || 'goodsClassify');
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
-        callService(this, 'getDailyReportData.do', params, function (response) {
-            if (response) {
-                response.dailyReportData.forEach(function (item) {
-                    if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
-                        item.textStyle = { 'color': 'orange' };
-                    }
-                });
-                response.materialSummaryData.forEach(function (item) {
-                    if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
-                        item.textStyle = { 'color': 'orange' };
-                    }
-                });
-                this.setState({
-                    data: handleResult(response.dailyReportData),
-                    materialData: handleResult(response.materialSummaryData),
-                    paymentData: handleResult(response.paymentMainData)
-                });
-            }
+        this.setState({
+            loading: true
+        }, function () {
+            callService(this, 'getDailyReportData.do', params, function (response) {
+                if (response) {
+                    response.dailyReportData.forEach(function (item) {
+                        if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
+                            item.textStyle = { 'color': 'orange' };
+                        }
+                    });
+                    response.materialSummaryData.forEach(function (item) {
+                        if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
+                            item.textStyle = { 'color': 'orange' };
+                        }
+                    });
+                    this.setState({
+                        data: handleResult(response.dailyReportData),
+                        materialData: handleResult(response.materialSummaryData),
+                        paymentData: handleResult(response.paymentMainData)
+                    });
+                }
+                unlockScreen(this);
+            }, function () {
+                unlockScreen(this);
+            });
         });
     }
 
     componentDidMount() {
         super.componentDidMount('日报表');
-        getShopList(this, function () {
-            this.queryDailyData();
-        });
+        getShopList(this);
+        this.queryDailyData();
     }
 
     componentWillUnmount() {
@@ -222,6 +231,7 @@ export default class DailyReport extends PageComponent {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <Modal
                     visible={this.state.dateVisible}
                     animationType={'slide'}

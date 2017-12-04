@@ -96,5 +96,5 @@ export function unlockScreen(master) {
         }, function () {
             master.timeout && clearTimeout(master.timeout);
         });
-    }, 500);
+    }, 100);
 }

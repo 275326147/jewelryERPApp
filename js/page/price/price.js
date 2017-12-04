@@ -19,7 +19,7 @@ import {
     Keyboard,
     Dimensions
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from '../../components/loading/loading';
 import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { reloadTable, getShopList } from '../report/common';

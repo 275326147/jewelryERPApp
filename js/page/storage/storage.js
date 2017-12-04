@@ -15,7 +15,7 @@ import {
     FlatList,
     TouchableWithoutFeedback
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from '../../components/loading/loading';
 import Datatable from '../../components/datatable/datatable';
 import { clickHandler, getShopList, show, reloadTable } from '../report/common';
 import { callService, handleResult } from '../../utils/service';

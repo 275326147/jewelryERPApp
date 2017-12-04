@@ -68,13 +68,14 @@ export default class Login extends PageComponent {
                 alert(this, 'info', '请输入正确的手机号码');
                 return;
             }
+            this.refs.codeInput.focus();
             let params = new FormData();
             params.append("mobileNum", account);
             params.append("type", 1);
             callServiceWithoutToken(this, 'getSmsValidateCode.do', params, function (response) {
-                this.setState({
-                    code: response.msg
-                });
+                // this.setState({
+                //     code: response.msg
+                // });
             });
             this.timer && clearInterval(this.timer);
             this.timer = setInterval(() => {
@@ -155,6 +156,7 @@ export default class Login extends PageComponent {
                     </TextInput>
                     <View style={styles.inputContainer}>
                         <TextInput style={styles.codeInput} placeholder='请输入验证码'
+                            ref="codeInput"
                             onChangeText={(text) => this.setState({ code: text })}
                             value={this.state.code}
                             underlineColorAndroid="transparent">

@@ -21,7 +21,7 @@ import {
     Keyboard,
     Platform
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
 import { forward, alert, unlockScreen } from '../../utils/common';

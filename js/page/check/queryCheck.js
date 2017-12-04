@@ -13,12 +13,14 @@ import {
     Image,
     FlatList
 } from 'react-native';
-import data from './data';
 
 export default class QueryCheck extends PageComponent {
     constructor(props) {
         super(props);
         this.backRoute = 'Check';
+        this.state = {
+            checkData: []
+        }
     }
 
     componentDidMount() {
@@ -27,17 +29,6 @@ export default class QueryCheck extends PageComponent {
 
     componentWillUnmount() {
         super.componentWillUnmount();
-    }
-
-
-    _getData = () => {
-        let filterData = [];
-        data.forEach(function (item) {
-            if (item.status === 1 || item.status === 2) {
-                filterData.push(item);
-            }
-        });
-        return filterData;
     }
 
     _renderItem = ({ item }) => {
@@ -66,14 +57,13 @@ export default class QueryCheck extends PageComponent {
     }
 
     render() {
-        let checkData = this._getData();
         return (
             <View style={{ flex: 1 }}>
                 {
-                    checkData.length === 0 ?
+                    this.state.checkData.length === 0 ?
                         <Image style={styles.img} source={require('../../../assets/image/info/no_result.png')} />
                         :
-                        <FlatList style={{ flex: 1 }} data={checkData} renderItem={this._renderItem} />
+                        <FlatList style={{ flex: 1 }} data={this.state.checkData} renderItem={this._renderItem} />
                 }
 
             </View>

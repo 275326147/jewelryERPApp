@@ -18,7 +18,7 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
+import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
 import { alert, unlockScreen } from '../../utils/common';
 
@@ -63,10 +63,11 @@ export default class Member extends PageComponent {
                         memberList: handleResult(response.customerList)
                     });
                     if (result.length === 0) {
-                        alert(this, 'info', '没有相关查询信息');
+                        alert(this, 'info', '没有相关查询信息', function () {
+                            unlockScreen(this);
+                        });
                     }
                 }
-                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });
