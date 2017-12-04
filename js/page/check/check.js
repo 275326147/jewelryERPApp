@@ -17,25 +17,34 @@ import {
     FlatList,
     DeviceEventEmitter
 } from 'react-native';
+import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
-import { alert, forward } from '../../utils/common';
+import { alert, forward, unlockScreen } from '../../utils/common';
 
 export default class Check extends PageComponent {
     constructor(props) {
         super(props);
         this.backRoute = 'Home';
         this.state = {
+            loading: false,
             checkData: []
         };
     }
 
     querySubSheet() {
-        callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
-            if (response.subSheetList) {
-                this.setState({
-                    checkData: handleResult(response.subSheetList)
-                });
-            }
+        this.setState({
+            loading: true
+        }, function () {
+            callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
+                if (response.subSheetList) {
+                    this.setState({
+                        checkData: handleResult(response.subSheetList)
+                    });
+                }
+                unlockScreen(this);
+            }, function () {
+                unlockScreen(this);
+            });
         });
     }
 
@@ -100,6 +109,7 @@ export default class Check extends PageComponent {
     render() {
         return (
             <ScrollView style={styles.container}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <View style={{ flexDirection: 'row', height: 60 }}>
                     <TouchableWithoutFeedback onPress={() => { forward(this, 'NewCheck') }}>
                         <View style={[styles.menuContainer, { borderRightWidth: 1, borderColor: '#f3f3f1' }]}>

@@ -17,7 +17,8 @@ import {
     TextInput,
     TouchableWithoutFeedback,
     Modal,
-    Keyboard
+    Keyboard,
+    ScrollView
 } from 'react-native';
 import { callService, handleResult } from '../../utils/service';
 import { alert, forward } from '../../utils/common';
@@ -237,7 +238,19 @@ export default class Checking extends PageComponent {
     _renderGoodsItem = ({ item }) => (
         <TouchableWithoutFeedback onPress={() => { this._selectGoods(item) }}>
             <View style={styles.menuContainer}>
-                <Text style={styles.menuText}>{item.barCode}</Text>
+                <Text style={styles.menuText}>{item.goodsName}</Text>
+                <View style={styles.menuLine}>
+                    <Text style={styles.menuLabel}>条码</Text>
+                    <Text style={styles.menuValue}>{item.barCode}</Text>
+                    <Text style={styles.menuLabel}>原条码</Text>
+                    <Text style={styles.menuValue}>{item.oldBarCode}</Text>
+                </View>
+                <View style={styles.menuLine}>
+                    <Text style={styles.menuLabel}>证书号</Text>
+                    <Text style={styles.menuValue}>{item.certificateNo}</Text>
+                    <Text style={styles.menuLabel}>款号</Text>
+                    <Text style={styles.menuValue}>{item.styleNo}</Text>
+                </View>
             </View>
         </TouchableWithoutFeedback>
     )
@@ -251,7 +264,7 @@ export default class Checking extends PageComponent {
                     transparent={true}
                     onRequestClose={() => this._onSelectClose()}>
                     <View style={styles.modalBackground}>
-                        <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 50) }]}>
+                        <View style={[styles.modalContainer, { height: (this.state.goodsList.length * 100) }]}>
                             <FlatList style={{ flex: 1 }} data={this.state.goodsList} renderItem={this._renderGoodsItem} />
                         </View>
                     </View>
@@ -439,7 +452,7 @@ export default class Checking extends PageComponent {
                                             this.state.showCheckInfo.showStoneWeightInput ?
                                                 <View style={{ flex: 2, flexDirection: 'column', alignItems: 'flex-start' }}>
                                                     <Text style={{ fontSize: 10, color: '#333' }}>石重</Text>
-                                                    <Text style={{ fontSize: 10, color: 'orange', marginTop: 3, marginLeft: 5 }}>{this.state.showCheckInfo.hasCheckStoneWeight}g</Text>
+                                                    <Text style={{ fontSize: 10, color: 'orange', marginTop: 3, marginLeft: 5 }}>{this.state.showCheckInfo.hasCheckStoneWeight}</Text>
                                                 </View>
                                                 : <View />
                                         }
@@ -450,13 +463,15 @@ export default class Checking extends PageComponent {
                             <View />
                     }
                 </View>
-                <View style={{ height: 35, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ marginLeft: 20, fontSize: 12, color: '#333' }}>总金重：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.hasCheckGoldWeight4SubSheet}克</Text>
-                    <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总数量：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.hasCheckNum4SubSheet}件</Text>
-                    <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总石重：</Text>
-                    <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.showStoneWeightInput}克</Text>
+                <View style={{ height: 35, backgroundColor: '#fff' }}>
+                    <ScrollView style={{ flexDirection: 'row' }} horizontal={true} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ marginLeft: 20, fontSize: 12, color: '#333' }}>总金重：</Text>
+                        <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.hasCheckGoldWeight4SubSheet}克</Text>
+                        <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总数量：</Text>
+                        <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.hasCheckNum4SubSheet}件</Text>
+                        <Text style={{ fontSize: 12, color: '#333', marginLeft: 40 }}>总石重：</Text>
+                        <Text style={{ fontSize: 12, color: 'orange' }}>{this.state.showStoneWeightInput}</Text>
+                    </ScrollView>
                 </View>
             </View>
         );
@@ -484,9 +499,8 @@ const styles = StyleSheet.create({
         margin: 10
     },
     menuContainer: {
-        alignItems: 'center',
-        height: 50,
-        width: 150,
+        height: 100,
+        width: 280,
         borderTopWidth: 1,
         borderBottomWidth: 0.5,
         borderColor: '#f3f3f1'
@@ -494,6 +508,21 @@ const styles = StyleSheet.create({
     menuText: {
         margin: 15,
         marginRight: 10
+    },
+    menuLine: {
+        height: 25,
+        flexDirection: 'row',
+        marginLeft: 10
+    },
+    menuLabel: {
+        flex: 1,
+        fontSize: 13,
+        color: '#333'
+    },
+    menuValue: {
+        flex: 2,
+        fontSize: 13,
+        color: '#666'
     },
     modalBackground: {
         flex: 1,

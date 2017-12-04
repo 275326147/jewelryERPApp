@@ -530,5 +530,5 @@ const styles = StyleSheet.create({
         flex: 2,
         fontSize: 13,
         color: '#666'
-    },
+    }
 });
