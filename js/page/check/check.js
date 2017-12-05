@@ -36,12 +36,15 @@ export default class Check extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
-                if (response.subSheetList) {
-                    this.setState({
-                        checkData: handleResult(response.subSheetList)
-                    });
-                }
-                unlockScreen(this);
+                this.setState({
+                    loading: false
+                }, function () {
+                    if (response.subSheetList) {
+                        this.setState({
+                            checkData: handleResult(response.subSheetList)
+                        });
+                    }
+                });
             }, function () {
                 unlockScreen(this);
             });

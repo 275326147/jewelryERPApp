@@ -74,12 +74,12 @@ export default class Track extends PageComponent {
     queryGoodsInfo(refresh) {
         let params = new FormData();
         let field = "oldBarCode";
-        if (this.state.type === 2) {
+        if (this.state.type === 2 || refresh) {
             field = "barCode";
         } else if (this.state.type === 3) {
             field = "certificateNo";
         }
-        let barCode = refresh ? this.state.data[field] : this.state.barCode;
+        let barCode = refresh ? this.state.data.barCode : this.state.barCode;
         if (!barCode || !barCode.trim()) {
             alert(this,
                 'info',
@@ -87,33 +87,29 @@ export default class Track extends PageComponent {
             return;
         }
         params.append(field, barCode);
-        if (!refresh) {
-            this.setState({
-                loading: true,
-                barCode: ''
-            });
-        }
-        callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
-            if (refresh) {
-                alert(this, 'info', '上传成功');
-            }
-            this.setState({
-                loading: false
-            }, function () {
-                if (response.goodsInfoList && response.goodsInfoList.length > 1) {
-                    this.setState({
-                        selectGoodsVisible: true,
-                        goodsList: handleResult(response.goodsInfoList)
-                    });
-                } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
-                    this.setState({
-                        data: response.goodsInfoList[0],
-                        steps: handleResult(response.goodsTrackingList)
-                    });
-                }
-            });
+        this.setState({
+            loading: true,
+            barCode: ''
         }, function () {
-            unlockScreen(this);
+            callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
+                this.setState({
+                    loading: false
+                }, function () {
+                    if (response.goodsInfoList && response.goodsInfoList.length > 1) {
+                        this.setState({
+                            selectGoodsVisible: true,
+                            goodsList: handleResult(response.goodsInfoList)
+                        });
+                    } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
+                        this.setState({
+                            data: response.goodsInfoList[0],
+                            steps: handleResult(response.goodsTrackingList)
+                        });
+                    }
+                });
+            }, function () {
+                unlockScreen(this);
+            });
         });
         Keyboard.dismiss();
     }
@@ -175,34 +171,32 @@ export default class Track extends PageComponent {
     };
 
     showImagePicker() {
-        ImagePicker.showImagePicker(this.options, (response) => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            }
-            else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            }
-            else {
-                let params = new FormData();
-                params.append('imgData', response.data);
-                params.append('fileFixName', response.fileName || `${this.state.data.barCode}.jpg`);
-                params.append('barCode', this.state.data.barCode);
-                params.append('module', 'goods');
-                this.setState({
-                    loading: true
-                }, function () {
-                    callService(this, 'ajaxUpImg.do', params, function (response) {
-                        this.setState({
-                            loading: false
-                        }, function () {
-                            this.queryGoodsInfo(true);
-                        });
+        if (window.currentUser && window.currentUser.mobileRightStr.indexOf("102002") > -1) {
+            ImagePicker.showImagePicker(this.options, (response) => {
+                if (response.didCancel) {
+                    console.log('User cancelled image picker');
+                }
+                else if (response.error) {
+                    console.log('ImagePicker Error: ', response.error);
+                }
+                else {
+                    let params = new FormData();
+                    params.append('imgData', response.data);
+                    params.append('fileFixName', response.fileName || `${this.state.data.barCode}.jpg`);
+                    params.append('barCode', this.state.data.barCode);
+                    params.append('module', 'goods');
+                    this.setState({
+                        loading: true
                     }, function () {
-                        unlockScreen(this);
+                        callService(this, 'ajaxUpImg.do', params, function (response) {
+                            this.queryGoodsInfo(true);
+                        }, function () {
+                            unlockScreen(this);
+                        });
                     });
-                });
-            }
-        });
+                }
+            });
+        }
     }
 
     _onClose() {
@@ -219,10 +213,14 @@ export default class Track extends PageComponent {
         }, function () {
             callService(this, 'queryGoodsTrackList.do', params, function (response) {
                 this.setState({
-                    data: item,
-                    steps: handleResult(response.goodsTrackingList)
+                    loading: false
                 }, function () {
-                    unlockScreen(this);
+                    if (response) {
+                        this.setState({
+                            data: item,
+                            steps: handleResult(response.goodsTrackingList)
+                        });
+                    }
                 });
             }, function () {
                 unlockScreen(this);

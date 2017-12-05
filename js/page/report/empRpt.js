@@ -96,29 +96,32 @@ export default class EmpReport extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getEmployeeTopData.do', params, function (response) {
-                let employeeTopData = response.employeeTopData;
-                if (employeeTopData) {
-                    let data = [];
-                    sort(employeeTopData, 'settleTotalMoney');
-                    employeeTopData.forEach(function (item) {
-                        let deptAreaName = item[0].deptAreaName;
-                        data.push({ rowId: deptAreaName, disableClick: true });
-                        let rowId = 1;
-                        item.forEach(function (el) {
-                            if (el.employeeName === '总计') {
-                                el.disableClick = true;
-                                el.textStyle = { 'color': 'orange' };
-                                return;
-                            }
-                            el.rowId = rowId++;
+                this.setState({
+                    loading: false
+                }, function () {
+                    let employeeTopData = response.employeeTopData;
+                    if (employeeTopData) {
+                        let data = [];
+                        sort(employeeTopData, 'settleTotalMoney');
+                        employeeTopData.forEach(function (item) {
+                            let deptAreaName = item[0].deptAreaName;
+                            data.push({ rowId: deptAreaName, disableClick: true });
+                            let rowId = 1;
+                            item.forEach(function (el) {
+                                if (el.employeeName === '总计') {
+                                    el.disableClick = true;
+                                    el.textStyle = { 'color': 'orange' };
+                                    return;
+                                }
+                                el.rowId = rowId++;
+                            });
+                            data = data.concat(item);
                         });
-                        data = data.concat(item);
-                    });
-                    this.setState({
-                        data: handleResult(data)
-                    });
-                }
-                unlockScreen(this);
+                        this.setState({
+                            data: handleResult(data)
+                        });
+                    }
+                });
             }, function () {
                 unlockScreen(this);
             });

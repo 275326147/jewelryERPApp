@@ -118,12 +118,15 @@ export default class Storage extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getGoodsStockSummary.do', params, function (response) {
-                if (response.stockList) {
-                    this.setState({
-                        data: handleResult(response.stockList)
-                    });
-                }
-                unlockScreen(this);
+                this.setState({
+                    loading: false
+                }, function () {
+                    if (response.stockList) {
+                        this.setState({
+                            data: handleResult(response.stockList)
+                        });
+                    }
+                });
             }, function () {
                 unlockScreen(this);
             });

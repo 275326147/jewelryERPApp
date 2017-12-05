@@ -58,6 +58,7 @@ class Storage {
                         forward(master, 'Login');
                         return;
                     }
+                    window.currentUser = accountInfo.currentUser;
                     callback.call(master, accountInfo);
                 });
             });
@@ -101,6 +102,7 @@ class Storage {
                         });
                         if (!flag) accountInfo.currentUser = value.users[0];
                     }
+                    window.currentUser = accountInfo.currentUser;
                     this.setStorageAsync(currentAccount, JSON.stringify(accountInfo)).then(function () {
                         if (callback) {
                             callback.call(master);

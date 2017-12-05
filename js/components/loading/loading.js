@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'transparent',
         position: 'absolute',
-        top: 50,
+        top: 0,
         bottom: 0,
         left: 0,
         right: 0
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
 const ANIMATION = ['none', 'slide', 'fade'];
 const SIZES = ['small', 'normal', 'large'];
 
+let time = 0;
 export default class Spinner extends React.Component {
 
     constructor(props) {
@@ -107,11 +108,6 @@ export default class Spinner extends React.Component {
     }
 
     _renderSpinner() {
-        const { visible } = this.state;
-
-        if (!visible)
-            return null;
-
         const spinner = (
             <View style={[
                 styles.container,
@@ -121,17 +117,22 @@ export default class Spinner extends React.Component {
             </View>
         );
 
+        let now = new Date().getTime();
+        if (this.state.visible && now - time < 1000) {
+            time = now
+            return (<View />);
+        }
+
         return (
             <Modal
                 animationType={this.props.animation}
                 onRequestClose={() => this._handleOnRequestClose()}
                 supportedOrientations={['landscape', 'portrait']}
                 transparent
-                visible={visible}>
-                <TouchableOpacity style={{ height: 50, backgroundColor: this.props.overlayColor, justifyContent: 'flex-start', alignItems: 'flex-end' }} onPress={() => this.close()}>
-                    <Image style={{ height: 35, width: 35 }} source={require('./assets/close.png')} />
+                visible={this.state.visible}>
+                <TouchableOpacity style={{ flex: 1 }} onPress={() => this.close()}>
+                    {spinner}
                 </TouchableOpacity>
-                {spinner}
             </Modal>
         );
 

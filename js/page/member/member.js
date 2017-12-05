@@ -57,17 +57,16 @@ export default class Member extends PageComponent {
             keyword: ''
         }, function () {
             callService(this, 'queryCustomer.do', params, function (response) {
-                let result = response.customerList;
-                if (result) {
-                    this.setState({
-                        memberList: handleResult(response.customerList)
-                    });
-                    if (result.length === 0) {
-                        alert(this, 'info', '没有相关查询信息', function () {
-                            unlockScreen(this);
+                this.setState({
+                    loading: false
+                }, function () {
+                    let result = response.customerList;
+                    if (result) {
+                        this.setState({
+                            memberList: handleResult(response.customerList)
                         });
                     }
-                }
+                });
             }, function () {
                 unlockScreen(this);
             });

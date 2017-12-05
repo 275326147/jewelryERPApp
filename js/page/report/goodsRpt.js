@@ -107,29 +107,33 @@ export default class Center extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getSaleTopData.do', params, function (response) {
-                let saleTopData = response.saleTopData;
-                if (saleTopData) {
-                    let data = [];
-                    sort(saleTopData, 'settleTotalMoney');
-                    saleTopData.forEach(function (item) {
-                        let deptAreaName = item[0].deptAreaName;
-                        data.push({ rowId: deptAreaName, disableClick: true });
-                        let rowId = 1;
-                        item.forEach(function (el) {
-                            if (el.showName === '总计') {
-                                el.disableClick = true;
-                                el.textStyle = { 'color': 'orange' };
-                                return;
-                            }
-                            el.rowId = rowId++;
+                this.setState({
+                    loading: false
+                }, function () {
+                    let saleTopData = response.saleTopData;
+                    if (saleTopData) {
+                        let data = [];
+                        sort(saleTopData, 'settleTotalMoney');
+                        saleTopData.forEach(function (item) {
+                            let deptAreaName = item[0].deptAreaName;
+                            data.push({ rowId: deptAreaName, disableClick: true });
+                            let rowId = 1;
+                            item.forEach(function (el) {
+                                if (el.showName === '总计') {
+                                    el.disableClick = true;
+                                    el.textStyle = { 'color': 'orange' };
+                                    return;
+                                }
+                                el.rowId = rowId++;
+                            });
+                            data = data.concat(item);
                         });
-                        data = data.concat(item);
-                    });
-                    this.setState({
-                        data: handleResult(data)
-                    });
-                }
-                unlockScreen(this);
+                        this.setState({
+                            loading: false,
+                            data: handleResult(data)
+                        });
+                    }
+                });
             }, function () {
                 unlockScreen(this);
             });

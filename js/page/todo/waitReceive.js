@@ -107,14 +107,18 @@ export default class WaitReceive extends PageComponent {
                         <Text style={styles.value}>{item.stoneWeight}</Text>
                     </View>
                 </View>
-                <View style={styles.bottomContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => { this.setState({ current: item, modalVisible: true }) }}>
-                        <Text style={styles.buttonText}>驳回</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => { this.receive(item) }}>
-                        <Text style={styles.buttonText}>接收</Text>
-                    </TouchableOpacity>
-                </View>
+                {
+                    window.currentUser && window.currentUser.mobileRightStr.indexOf("106001") > -1 ?
+                        <View style={styles.bottomContainer}>
+                            <TouchableOpacity style={styles.button} onPress={() => { this.setState({ current: item, modalVisible: true }) }}>
+                                <Text style={styles.buttonText}>驳回</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={() => { this.receive(item) }}>
+                                <Text style={styles.buttonText}>接收</Text>
+                            </TouchableOpacity>
+                        </View>
+                        : <View />
+                }
             </View >
         );
     }
