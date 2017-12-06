@@ -118,15 +118,12 @@ export default class Storage extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getGoodsStockSummary.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    if (response.stockList) {
-                        this.setState({
-                            data: handleResult(response.stockList)
-                        });
-                    }
-                });
+                if (response.stockList) {
+                    this.setState({
+                        data: handleResult(response.stockList)
+                    });
+                }
+                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });
@@ -254,10 +251,12 @@ export default class Storage extends PageComponent {
     }
 
     rowClick(row, rowId) {
-        this.setState({
-            row: row.item,
-            detailVisible: true
-        });
+        if (!this.state.loading) {
+            this.setState({
+                row: row.item,
+                detailVisible: true
+            });
+        }
     }
 
     onSort(field, isAscending) {

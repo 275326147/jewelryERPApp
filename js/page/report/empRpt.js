@@ -96,32 +96,29 @@ export default class EmpReport extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getEmployeeTopData.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    let employeeTopData = response.employeeTopData;
-                    if (employeeTopData) {
-                        let data = [];
-                        sort(employeeTopData, 'settleTotalMoney');
-                        employeeTopData.forEach(function (item) {
-                            let deptAreaName = item[0].deptAreaName;
-                            data.push({ rowId: deptAreaName, disableClick: true });
-                            let rowId = 1;
-                            item.forEach(function (el) {
-                                if (el.employeeName === '总计') {
-                                    el.disableClick = true;
-                                    el.textStyle = { 'color': 'orange' };
-                                    return;
-                                }
-                                el.rowId = rowId++;
-                            });
-                            data = data.concat(item);
+                let employeeTopData = response.employeeTopData;
+                if (employeeTopData) {
+                    let data = [];
+                    sort(employeeTopData, 'settleTotalMoney');
+                    employeeTopData.forEach(function (item) {
+                        let deptAreaName = item[0].deptAreaName;
+                        data.push({ rowId: deptAreaName, disableClick: true });
+                        let rowId = 1;
+                        item.forEach(function (el) {
+                            if (el.employeeName === '总计') {
+                                el.disableClick = true;
+                                el.textStyle = { 'color': 'orange' };
+                                return;
+                            }
+                            el.rowId = rowId++;
                         });
-                        this.setState({
-                            data: handleResult(data)
-                        });
-                    }
-                });
+                        data = data.concat(item);
+                    });
+                    this.setState({
+                        data: handleResult(data)
+                    });
+                }
+                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });
@@ -244,10 +241,12 @@ export default class EmpReport extends PageComponent {
     }
 
     rowClick(row, rowId) {
-        this.setState({
-            row: row.item,
-            detailVisible: true
-        });
+        if (!this.state.loading) {
+            this.setState({
+                row: row.item,
+                detailVisible: true
+            });
+        }
     }
 
     render() {

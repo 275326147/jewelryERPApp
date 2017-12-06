@@ -92,21 +92,19 @@ export default class Track extends PageComponent {
             barCode: ''
         }, function () {
             callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    if (response.goodsInfoList && response.goodsInfoList.length > 1) {
-                        this.setState({
-                            selectGoodsVisible: true,
-                            goodsList: handleResult(response.goodsInfoList)
-                        });
-                    } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
-                        this.setState({
-                            data: response.goodsInfoList[0],
-                            steps: handleResult(response.goodsTrackingList)
-                        });
-                    }
-                });
+                if (response.goodsInfoList && response.goodsInfoList.length > 1) {
+                    this.setState({
+                        loading: false,
+                        selectGoodsVisible: true,
+                        goodsList: handleResult(response.goodsInfoList)
+                    });
+                } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
+                    this.setState({
+                        data: response.goodsInfoList[0],
+                        steps: handleResult(response.goodsTrackingList)
+                    });
+                }
+                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });
@@ -206,27 +204,24 @@ export default class Track extends PageComponent {
     }
 
     _selectGoods(item) {
+        this._onClose();
         let params = new FormData();
         params.append("barCode", item.barCode);
         this.setState({
             loading: true
         }, function () {
             callService(this, 'queryGoodsTrackList.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    if (response) {
-                        this.setState({
-                            data: item,
-                            steps: handleResult(response.goodsTrackingList)
-                        });
-                    }
-                });
+                if (response) {
+                    this.setState({
+                        data: item,
+                        steps: handleResult(response.goodsTrackingList)
+                    });
+                }
+                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });
         });
-        this._onClose();
     }
 
     _renderGoodsItem = ({ item }) => (
@@ -257,11 +252,11 @@ export default class Track extends PageComponent {
                     visible={this.state.selectGoodsVisible}
                     animationType={'slide'}
                     transparent={true}
-                    onRequestClose={() => this._onClose()}>
+                    onRequestClose={() => { this._onClose() }}>
                     <View style={styles.modalBackground}>
                         <View style={{ flexDirection: 'row', width: 280, height: 30, backgroundColor: '#fff' }}>
                             <Text style={{ flex: 3, height: 20, marginTop: 10, textAlign: 'center', fontSize: 14, color: '#333' }}>请选择商品记录</Text>
-                            <TouchableOpacity onPress={() => this._onClose()}>
+                            <TouchableOpacity onPress={() => { this._onClose() }}>
                                 <Image style={{ height: 25, width: 25, marginTop: 5, marginRight: 5 }} source={require('../../../assets/image/head/close.png')} />
                             </TouchableOpacity>
                         </View>

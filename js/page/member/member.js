@@ -57,16 +57,13 @@ export default class Member extends PageComponent {
             keyword: ''
         }, function () {
             callService(this, 'queryCustomer.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    let result = response.customerList;
-                    if (result) {
-                        this.setState({
-                            memberList: handleResult(response.customerList)
-                        });
-                    }
-                });
+                let result = response.customerList;
+                if (result) {
+                    this.setState({
+                        memberList: handleResult(response.customerList)
+                    });
+                }
+                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });

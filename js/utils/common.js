@@ -90,7 +90,10 @@ export function deleteAlias() {
 }
 
 export function unlockScreen(master) {
-    master.setState({
-        loading: false
-    });
+    master.lockTimeout = setTimeout(function () {
+        master.setState({
+            loading: false
+        });
+        master.lockTimeout && clearTimeout(master.lockTimeout);
+    }, 500);
 }

@@ -40,6 +40,7 @@ export function getShopList(master, callback) {
 }
 
 export function show(master, list, field, visible, flag) {
+    if (master.state.loading) return;
     let state = {};
     let first = master.state[list][0];
     if (first && first[field] !== '全部') {

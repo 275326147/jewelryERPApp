@@ -28,6 +28,7 @@ const menuData = [{ key: 1, text: '会员查询', permission: '101001', url: 'Me
 { key: 8, text: '商品销售排行', permission: '104002', url: 'GoodsReport', img: require('../../../assets/image/home/goodsRpt.png') },
 { key: 9, text: '店员销售排行', permission: '104003', url: 'EmployeeReport', img: require('../../../assets/image/home/empRpt.png') }];
 
+const screenWidth = Dimensions.get('window').width;
 export default class Center extends Component {
 
     constructor(props) {
@@ -72,7 +73,7 @@ export default class Center extends Component {
 const styles = StyleSheet.create({
     img: {
         resizeMode: Image.resizeMode.stretch,
-        width: Dimensions.get('window').width,
+        width: screenWidth,
         height: 60
     },
     list: {
@@ -80,9 +81,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     menuContainer: {
-        flex: 1,
+        width: screenWidth / 3,
+        height: 100,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     menuImg: {

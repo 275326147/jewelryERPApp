@@ -133,27 +133,24 @@ export default class DailyReport extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getDailyReportData.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    if (response) {
-                        response.dailyReportData.forEach(function (item) {
-                            if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
-                                item.textStyle = { 'color': 'orange' };
-                            }
-                        });
-                        response.materialSummaryData.forEach(function (item) {
-                            if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
-                                item.textStyle = { 'color': 'orange' };
-                            }
-                        });
-                        this.setState({
-                            data: handleResult(response.dailyReportData),
-                            materialData: handleResult(response.materialSummaryData),
-                            paymentData: handleResult(response.paymentMainData)
-                        });
-                    }
-                });
+                if (response) {
+                    response.dailyReportData.forEach(function (item) {
+                        if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
+                            item.textStyle = { 'color': 'orange' };
+                        }
+                    });
+                    response.materialSummaryData.forEach(function (item) {
+                        if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
+                            item.textStyle = { 'color': 'orange' };
+                        }
+                    });
+                    this.setState({
+                        data: handleResult(response.dailyReportData),
+                        materialData: handleResult(response.materialSummaryData),
+                        paymentData: handleResult(response.paymentMainData)
+                    });
+                }
+                unlockScreen(this);
             }, function () {
                 unlockScreen(this);
             });
@@ -222,7 +219,7 @@ export default class DailyReport extends PageComponent {
     }
 
     rowClick(row, rowId) {
-        if (this.state.active === 3) {
+        if (this.state.active === 3 || this.state.loading) {
             return;
         }
         this.setState({

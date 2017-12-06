@@ -88,15 +88,12 @@ export default class Price extends PageComponent {
             loading: true
         }, function () {
             callService(this, 'getSalePriceList.do', params, function (response) {
-                this.setState({
-                    loading: false
-                }, function () {
-                    if (response.salePriceList) {
-                        this.setState({
-                            data: handleResult(response.salePriceList)
-                        });
-                    }
-                });
+                if (response.salePriceList) {
+                    this.setState({
+                        data: handleResult(response.salePriceList)
+                    });
+                }
+                unlockScreen(this);
             });
         }, function () {
             unlockScreen(this);
@@ -193,7 +190,7 @@ export default class Price extends PageComponent {
     }
 
     rowClick(row, rowId) {
-        if (window.currentUser && window.currentUser.mobileRightStr.indexOf("100002") > -1) {
+        if (!this.state.loading && window.currentUser && window.currentUser.mobileRightStr.indexOf("100002") > -1) {
             this.setState({
                 row: row.item,
                 detailVisible: true

@@ -28,22 +28,6 @@ const styles = StyleSheet.create({
         right: 0,
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    textContainer: {
-        flex: 1,
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute'
-    },
-    textContent: {
-        top: 80,
-        height: 50,
-        fontSize: 20,
-        fontWeight: 'bold'
     }
 });
 
@@ -55,13 +39,12 @@ export default class Spinner extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { visible: this.props.visible, textContent: this.props.textContent };
+        this.state = { visible: this.props.visible };
     }
 
     static propTypes = {
         visible: PropTypes.bool,
         cancelable: PropTypes.bool,
-        textContent: PropTypes.string,
         animation: PropTypes.oneOf(ANIMATION),
         color: PropTypes.string,
         size: PropTypes.oneOf(SIZES),
@@ -70,8 +53,7 @@ export default class Spinner extends React.Component {
 
     static defaultProps = {
         visible: false,
-        cancelable: false,
-        textContent: '',
+        cancelable: true,
         animation: 'none',
         color: 'white',
         size: 'large', // 'normal',
@@ -83,8 +65,12 @@ export default class Spinner extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const { visible, textContent } = nextProps;
-        this.setState({ visible, textContent });
+        let now = new Date().getTime();
+        if (!nextProps.visible || now - time > 1000) {
+            const { visible } = nextProps;
+            this.setState({ visible });
+        }
+        if (nextProps.visible) time = now;
     }
 
     _handleOnRequestClose() {
@@ -95,40 +81,32 @@ export default class Spinner extends React.Component {
 
     _renderDefaultContent() {
         return (
-            <View style={styles.background}>
+            <TouchableOpacity style={styles.background} onPress={() => this.close()}>
                 <ActivityIndicator
+                    animating={this.state.visible}
                     color={this.props.color}
                     size={this.props.size}
-                    style={{ flex: 1 }}
+                    style={{ height: 80, alignItems: 'center', justifyContent: 'center' }}
                 />
-                <View style={styles.textContainer}>
-                    <Text style={[styles.textContent, this.props.textStyle]}>{this.state.textContent}</Text>
-                </View>
-            </View>);
+            </TouchableOpacity>);
     }
 
     _renderSpinner() {
         const spinner = (
-            <View style={[
+            <TouchableOpacity style={[
                 styles.container,
                 { backgroundColor: this.props.overlayColor }
-            ]} key={`spinner_${Date.now()}`}>
+            ]} onPress={() => this.close()}>
                 {this.props.children ? this.props.children : this._renderDefaultContent()}
-            </View>
+            </TouchableOpacity>
         );
-
-        let now = new Date().getTime();
-        if (this.state.visible && now - time < 1000) {
-            time = now
-            return (<View />);
-        }
 
         return (
             <Modal
-                animationType={this.props.animation}
-                onRequestClose={() => this._handleOnRequestClose()}
+                animationType={'none'}
+                onRequestClose={() => this.close()}
                 supportedOrientations={['landscape', 'portrait']}
-                transparent
+                transparent={true}
                 visible={this.state.visible}>
                 <TouchableOpacity style={{ flex: 1 }} onPress={() => this.close()}>
                     {spinner}
