@@ -36,6 +36,7 @@ export default class Member extends PageComponent {
 
     componentDidMount() {
         super.componentDidMount('会员查询');
+        this.refs.input && this.refs.input.focus();
     }
 
     componentWillUnmount() {
@@ -188,7 +189,7 @@ export default class Member extends PageComponent {
             <View style={{ flex: 1 }}>
                 <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <View style={styles.searchContainer}>
-                    <TextInput style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
+                    <TextInput ref="input" style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
                         onChangeText={(text) => this.setState({ keyword: text })}
                         value={this.state.keyword}
                         onSubmitEditing={(event) => {

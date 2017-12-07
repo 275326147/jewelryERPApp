@@ -24,6 +24,7 @@ export default class Login extends PageComponent {
 
     componentDidMount() {
         super.componentDidMount('登陆界面');
+        this.refs.input && this.refs.input.focus();
         //监听键盘弹出事件
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow',
             this.keyboardDidShowHandler.bind(this));
@@ -68,7 +69,7 @@ export default class Login extends PageComponent {
                 alert(this, 'info', '请输入正确的手机号码');
                 return;
             }
-            this.refs.codeInput.focus();
+            this.refs.codeInput && this.refs.codeInput.focus();
             let params = new FormData();
             params.append("mobileNum", account);
             params.append("type", 1);
@@ -149,7 +150,7 @@ export default class Login extends PageComponent {
         return (
             <Image source={require('../../../assets/image/login/login.jpg')} style={{ height: height, width: width }} >
                 <View style={[styles.container, { marginTop: (height - this.state.keyboardHeight) }]}>
-                    <TextInput style={styles.input} placeholder='请输入您的手机号码'
+                    <TextInput ref="input" style={styles.input} placeholder='请输入您的手机号码'
                         onChangeText={(text) => this.setState({ account: text })}
                         value={this.state.account}
                         underlineColorAndroid="transparent">

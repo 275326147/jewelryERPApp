@@ -43,17 +43,20 @@ export default class Track extends PageComponent {
     componentDidMount() {
         super.componentDidMount('商品跟踪');
         let params = this.props.navigation.state.params;
-        if (!params) return;
-        let paramType = params.type;
-        let paramBarCode = params.barCode;
-        if (paramType && paramBarCode) {
-            this.setState({
-                type: paramType,
-                barCode: paramBarCode
-            }, () => {
-                this.queryGoodsInfo();
-            });
+        if (params) {
+            let paramType = params.type;
+            let paramBarCode = params.barCode;
+            if (paramType && paramBarCode) {
+                this.setState({
+                    type: paramType,
+                    barCode: paramBarCode
+                }, () => {
+                    this.queryGoodsInfo();
+                });
+            }
+            return;
         }
+        this.refs.input && this.refs.input.focus();
     }
 
     componentWillUnmount() {
@@ -280,7 +283,7 @@ export default class Track extends PageComponent {
                     <TouchableOpacity onPress={() => { forward(this, 'Scanner'); }}>
                         <Image style={styles.cameraImg} source={require('../../../assets/image/head/camera.png')} />
                     </TouchableOpacity>
-                    <TextInput style={styles.input} placeholder='请输入商品条码'
+                    <TextInput ref="input" style={styles.input} placeholder='请输入商品条码'
                         onChangeText={(text) => this.setState({ barCode: text })}
                         value={this.state.barCode}
                         onSubmitEditing={(event) => {

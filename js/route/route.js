@@ -309,7 +309,7 @@ const SimpleStack = StackNavigator(
     {
         initialRouteName: 'Start',
         navigationOptions: ({ navigation }) => ({
-            gesturesEnabled: false,
+            gesturesEnabled: true,
             headerStyle: {
                 backgroundColor: '#fff'
             },

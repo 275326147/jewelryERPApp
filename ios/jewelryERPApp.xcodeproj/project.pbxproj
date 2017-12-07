@@ -1013,6 +1013,7 @@
 				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
 				PROVISIONING_PROFILE = "cc2c9b50-b191-4e2f-a7cb-d8de8dbbc7bb";
 				PROVISIONING_PROFILE_SPECIFIER = dev;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 arm64 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1054,8 +1055,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gainhon.jewelryERPApp;
 				PRODUCT_NAME = jewelryERPApp.temp_caseinsensitive_rename;
-				PROVISIONING_PROFILE = "93ad8464-8505-4710-829e-4b77fc8e5573";
-				PROVISIONING_PROFILE_SPECIFIER = release;
+				PROVISIONING_PROFILE = "3917ab52-bffd-4c76-b48f-071502ea10a6";
+				PROVISIONING_PROFILE_SPECIFIER = store;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 arm64 armv7s";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
