@@ -323,37 +323,34 @@ export default class DailyReport extends PageComponent {
                     } />
                     <TouchableOpacity style={styles.button} onPress={() => { show(this, 'deptList', 'shopName', 'deptVisible'); }}>
                         <Image style={{ height: 20, width: 20 }} source={require('../../../assets/image/storage/filter.png')} />
-                        <Text style={styles.text}>门店</Text>
+                        <Text style={styles.text}>筛选</Text>
                     </TouchableOpacity>
                     {
                         this.state.active === 1 ?
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 14, color: '#333' }}>分组：</Text>
-                                <ModalDropdown options={['实际分类', '商品名称', '门店', '柜台']} onSelect={
-                                    (rowID, rowData) => {
-                                        let groupField = '';
-                                        switch (rowID) {
-                                            case '0':
-                                                groupField = 'goodsClassify';
-                                                break;
-                                            case '1':
-                                                groupField = 'goodsName';
-                                                break;
-                                            case '2':
-                                                groupField = 'deptAreaName';
-                                                break;
-                                            case '3':
-                                                groupField = 'storeName';
-                                                break;
-                                        }
-                                        this.setState({
-                                            groupField: groupField
-                                        }, function () {
-                                            this.queryDailyData();
-                                        });
+                            <ModalDropdown options={['实际分类', '商品名称', '门店', '柜台']} onSelect={
+                                (rowID, rowData) => {
+                                    let groupField = '';
+                                    switch (rowID) {
+                                        case '0':
+                                            groupField = 'goodsClassify';
+                                            break;
+                                        case '1':
+                                            groupField = 'goodsName';
+                                            break;
+                                        case '2':
+                                            groupField = 'deptAreaName';
+                                            break;
+                                        case '3':
+                                            groupField = 'storeName';
+                                            break;
                                     }
-                                } />
-                            </View>
+                                    this.setState({
+                                        groupField: groupField
+                                    }, function () {
+                                        this.queryDailyData();
+                                    });
+                                }
+                            } />
                             : <View />
                     }
                 </View>
