@@ -25,6 +25,7 @@
 		15B0C26D1F94703B00984E14 /* libRCTJPushModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1508705B1F8F1E7A000BA27C /* libRCTJPushModule.a */; };
 		15B0C26E1F94704100984E14 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150870551F8F1E4E000BA27C /* libRCTJCoreModule.a */; };
 		15B0C26F1F94705200984E14 /* libRCTBarcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15B0C2521F946FD000984E14 /* libRCTBarcode.a */; };
+		15D02F271FDB7F0D007C4CDC /* CallPhoneModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D02F251FDB7F0C007C4CDC /* CallPhoneModule.m */; };
 		24C548D74F3042568036A58C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D5345D5AC5496E8734765D /* Security.framework */; };
 		39D8B70B3697411F85921925 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F90905F6FE424A9A9E03CB5B /* Foundation.framework */; };
 		43F575699EED4DD9A0B63D87 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35E9A756123A423EBDA63E18 /* UIKit.framework */; };
@@ -278,6 +279,8 @@
 		158D94151FC81DCE003B964E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		15B0C24A1F946FD000984E14 /* RCTBarCode.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBarCode.xcodeproj; path = "../node_modules/react-native-smart-barcode/ios/RCTBarcode/RCTBarCode.xcodeproj"; sourceTree = "<group>"; };
 		15B0C2701F947C9000984E14 /* raw */ = {isa = PBXFileReference; lastKnownFileType = folder; name = raw; path = "../node_modules/react-native-smart-barcode/ios/raw"; sourceTree = "<group>"; };
+		15D02F251FDB7F0C007C4CDC /* CallPhoneModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CallPhoneModule.m; path = jewelryERPApp/CallPhoneModule.m; sourceTree = "<group>"; };
+		15D02F261FDB7F0D007C4CDC /* CallPhoneModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CallPhoneModule.h; path = jewelryERPApp/CallPhoneModule.h; sourceTree = "<group>"; };
 		35E9A756123A423EBDA63E18 /* UIKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3DE74F0B2BF14120B9BA4D3D /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3E9605401FEA4458BD80342B /* CoreFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -418,6 +421,8 @@
 				15B0C2701F947C9000984E14 /* raw */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
+				15D02F261FDB7F0D007C4CDC /* CallPhoneModule.h */,
+				15D02F251FDB7F0C007C4CDC /* CallPhoneModule.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
@@ -957,6 +962,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				15D02F271FDB7F0D007C4CDC /* CallPhoneModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

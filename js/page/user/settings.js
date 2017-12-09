@@ -14,24 +14,27 @@ import {
     FlatList,
     Image,
     TouchableWithoutFeedback,
-    Dimensions
+    Dimensions,
+    Linking,
+    NativeModules
 } from 'react-native';
 import Storage from '../../utils/storage';
 import { callService, handleResult } from '../../utils/service';
-import { forward, deleteAlias } from '../../utils/common';
+import { forward, deleteAlias, Constant } from '../../utils/common';
 
 export default class Settings extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            detailVisible: false,
             modalVisible: false,
             changeUserVisible: false,
             userInfo: {},
             users: [],
             menuData: [
                 { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
-                { key: 3, text: '关于软件', handler: () => { } }
+                { key: 3, text: '关于软件', handler: () => { this.setState({ modalVisible: false, detailVisible: true }); } }
             ]
         };
     }
@@ -51,7 +54,7 @@ export default class Settings extends Component {
                         menuData: [
                             { key: 1, text: '切换用户', handler: () => { this._changeUser(); } },
                             { key: 2, text: '修改手势密码', handler: () => { this._onClose(); forward(this, 'ResetPwd'); } },
-                            { key: 3, text: '关于软件', handler: () => { } }
+                            { key: 3, text: '关于软件', handler: () => { this.setState({ modalVisible: false, detailVisible: true }); } }
                         ]
                     });
                 }
@@ -125,6 +128,10 @@ export default class Settings extends Component {
         this.setState({ changeUserVisible: false });
     }
 
+    _onDetailClose() {
+        this.setState({ detailVisible: false });
+    }
+
     render() {
         return (
             <View>
@@ -175,6 +182,36 @@ export default class Settings extends Component {
                         </TouchableOpacity>
                     </View>
                 </Modal>
+                <Modal
+                    visible={this.state.detailVisible}
+                    animationType={'slide'}
+                    transparent={true}
+                    onRequestClose={() => { this._onDetailClose() }}>
+                    <View style={styles.modalBackground}>
+                        <View style={{ backgroundColor: '#fff', height: 240, width: 300, borderRadius: 6, alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 13, color: '#999', margin: 10 }}>当前版本号：{Constant.VERSION}</Text>
+                            <Text style={{ fontSize: 16, color: '#333', margin: 10 }}>深圳市零烦恼软件科技有限公司</Text>
+                            <TouchableOpacity onPress={() => {
+                                let url = 'http://www.lingfannao.com/';
+                                Linking.canOpenURL(url).then(supported => {
+                                    if (supported) {
+                                        return Linking.openURL(url);
+                                    }
+                                }).catch(err => { });
+                            }}>
+                                <Text style={{ fontSize: 14, color: '#666', margin: 10 }}>官网：http://www.lingfannao.com/</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { NativeModules.CallPhoneModule.callPhone('0755-82347927'); }}>
+                                <Text style={{ fontSize: 14, color: '#666', margin: 10 }}>客服电话：0755-82347927</Text>
+                            </TouchableOpacity>
+                            <View style={{ height: 30, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 10 }}>
+                                <TouchableOpacity style={[styles.button, { width: 100, height: 25 }]} onPress={() => this._onDetailClose()}>
+                                    <Text style={{ textAlign: 'center', color: '#333', fontSize: 14 }}>关闭</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal >
             </View>
         );
     }

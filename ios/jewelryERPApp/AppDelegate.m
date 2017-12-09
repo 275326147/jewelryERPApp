@@ -17,6 +17,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "JANALYTICSService.h"
+
 @interface AppDelegate ()<JPUSHRegisterDelegate>
 
 @end
@@ -63,6 +65,8 @@
   
   [JPUSHService setupWithOption:launchOptions appKey:@"802d48b9f065811226a4b54a"
                         channel:@"nil" apsForProduction:false];
+  
+  [JANALYTICSService crashLogON];
   return YES;
 }
 

@@ -30,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
               new JAnalyticsPackage(false, false),
               new JPushPackage(false, false),
               new ImagePickerPackage(),
-              new RCTCapturePackage()
+              new RCTCapturePackage(),
+              new CallPhoneReactPackage()
       );
     }
   };
