@@ -43,6 +43,8 @@ import Storage from '../page/storage/storage';
 import DailyReport from '../page/report/dailyRpt';
 import GoodsReport from '../page/report/goodsRpt';
 import EmployeeReport from '../page/report/empRpt';
+import CDJ from '../page/web/cdj';
+import Three from '../page/web/three';
 
 import { forward } from '../utils/common';
 
@@ -303,6 +305,18 @@ const SimpleStack = StackNavigator(
             screen: EmployeeReport,
             navigationOptions: ({ navigation }) => ({
                 title: '店员销售排行'
+            })
+        },
+        CDJ: {
+            screen: CDJ,
+            navigationOptions: ({ navigation }) => ({
+                title: 'CDJ商城'
+            })
+        },
+        Three: {
+            screen: Three,
+            navigationOptions: ({ navigation }) => ({
+                title: '3D定制'
             })
         }
     },

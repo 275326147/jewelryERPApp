@@ -26,7 +26,9 @@ const menuData = [{ key: 1, text: '会员查询', permission: '101001', url: 'Me
 { key: 6, text: '库存汇总', permission: '104001', url: 'Storage', img: require('../../../assets/image/home/storage.png') },
 { key: 7, text: '日报表', permission: '104004', url: 'DailyReport', img: require('../../../assets/image/home/dailyRpt.png') },
 { key: 8, text: '商品销售排行', permission: '104002', url: 'GoodsReport', img: require('../../../assets/image/home/goodsRpt.png') },
-{ key: 9, text: '店员销售排行', permission: '104003', url: 'EmployeeReport', img: require('../../../assets/image/home/empRpt.png') }];
+{ key: 9, text: '店员销售排行', permission: '104003', url: 'EmployeeReport', img: require('../../../assets/image/home/empRpt.png') }
+/*{ key: 10, text: 'CDJ商城', permission: '104003', url: 'CDJ', img: require('../../../assets/image/home/sell.png') },
+{ key: 11, text: '3D定制', permission: '102001', url: 'Three', img: require('../../../assets/image/home/follow.png') }*/];
 
 const screenWidth = Dimensions.get('window').width;
 export default class Center extends Component {
