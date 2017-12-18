@@ -45,6 +45,7 @@ import GoodsReport from '../page/report/goodsRpt';
 import EmployeeReport from '../page/report/empRpt';
 import CDJ from '../page/web/cdj';
 import Three from '../page/web/three';
+import Feedback from '../page/web/feedback';
 
 import { forward } from '../utils/common';
 
@@ -310,13 +311,19 @@ const SimpleStack = StackNavigator(
         CDJ: {
             screen: CDJ,
             navigationOptions: ({ navigation }) => ({
-                title: 'CDJ商城'
+                title: '视频培训'
             })
         },
         Three: {
             screen: Three,
             navigationOptions: ({ navigation }) => ({
-                title: '3D定制'
+                title: 'F2B采购'
+            })
+        },
+        Feedback: {
+            screen: Feedback,
+            navigationOptions: ({ navigation }) => ({
+                title: '意见反馈'
             })
         }
     },
