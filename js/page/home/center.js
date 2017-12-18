@@ -29,7 +29,7 @@ const menuData = [{ key: 1, text: '会员查询', permission: '101001', url: 'Me
 { key: 9, text: '店员销售排行', permission: '104003', url: 'EmployeeReport', img: require('../../../assets/image/home/empRpt.png') },
 { key: 10, text: '视频培训', permission: '888888', url: 'CDJ', img: require('../../../assets/image/home/check.png') },
 { key: 11, text: 'F2B采购', permission: '888888', url: 'Three', img: require('../../../assets/image/home/follow.png') },
-{ key: 12, text: '营销策划', permission: '888888', url: '', img: require('../../../assets/image/home/sell.png') },
+{ key: 12, text: '营销策划', permission: '888888', url: 'Marketing', img: require('../../../assets/image/home/sell.png') },
 { key: 13, text: '投资理财', permission: '888888', url: '', img: require('../../../assets/image/home/storage.png') },
 { key: 14, text: '珠宝消费分期', permission: '888888', url: '', img: require('../../../assets/image/home/mark.png') },
 { key: 15, text: '意见反馈', permission: '888888', url: 'Feedback', img: require('../../../assets/image/home/dailyRpt.png') }];

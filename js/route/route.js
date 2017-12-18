@@ -46,6 +46,7 @@ import EmployeeReport from '../page/report/empRpt';
 import CDJ from '../page/web/cdj';
 import Three from '../page/web/three';
 import Feedback from '../page/web/feedback';
+import Marketing from '../page/web/marketing';
 
 import { forward } from '../utils/common';
 
@@ -324,6 +325,12 @@ const SimpleStack = StackNavigator(
             screen: Feedback,
             navigationOptions: ({ navigation }) => ({
                 title: '意见反馈'
+            })
+        },
+        Marketing: {
+            screen: Marketing,
+            navigationOptions: ({ navigation }) => ({
+                title: '营销策划'
             })
         }
     },
