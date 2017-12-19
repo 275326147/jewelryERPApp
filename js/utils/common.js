@@ -7,7 +7,8 @@ import JPushModule from 'jpush-react-native';
 import Storage from './storage';
 
 export const Constant = {
-    VERSION: Platform.OS === 'ios' ? 'v1.0.0' : 'v1.0.0',
+    VERSION: Platform.OS === 'ios' ? 'v1.0.1' : 'v1.0.1',
+    BUILD: Platform.OS === 'ios' ? 1 : 1,
     baseURL: 'http://app.zberp.net:7777/AppPLatform/mobileApi/'//192.168.0.122  120.76.55.67:7777 app.zberp.net:7777
 }
 
