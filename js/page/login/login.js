@@ -3,6 +3,7 @@ import React from 'react';
 import PageComponent from '../PageComponent';
 import { Keyboard, View, TextInput, Text, Image, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import JAnalyticsModule from 'janalytics-react-native';
+import DeviceInfo from 'react-native-device-info';
 import Storage from '../../utils/storage';
 import { callServiceWithoutToken } from '../../utils/service';
 import { forward, setAlias, alert } from '../../utils/common';
@@ -110,6 +111,7 @@ export default class Login extends PageComponent {
         let params = new FormData();
         params.append("mobileNo", account);
         params.append("smsValiCode", code);
+        params.append("deviceInfo", [DeviceInfo.getUniqueID(), DeviceInfo.getModel(), DeviceInfo.getSystemVersion(), DeviceInfo.getReadableVersion()].join(","));
         this.setState({
             enableLogin: false
         }, function () {
@@ -150,13 +152,13 @@ export default class Login extends PageComponent {
         return (
             <Image source={require('../../../assets/image/login/login.jpg')} style={{ height: height, width: width }} >
                 <View style={[styles.container, { marginTop: (height - this.state.keyboardHeight) }]}>
-                    <TextInput ref="input" style={styles.input} placeholder='请输入您的手机号码'
+                    <TextInput ref="input" keyboardType='numeric' style={styles.input} placeholder='请输入您的手机号码'
                         onChangeText={(text) => this.setState({ account: text })}
                         value={this.state.account}
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <View style={styles.inputContainer}>
-                        <TextInput style={styles.codeInput} placeholder='请输入验证码'
+                        <TextInput style={styles.codeInput} keyboardType='numeric' placeholder='请输入验证码'
                             ref="codeInput"
                             onChangeText={(text) => this.setState({ code: text })}
                             value={this.state.code}
