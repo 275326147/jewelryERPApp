@@ -80,10 +80,12 @@ export default class Login extends PageComponent {
                 });
             });
             this.timer && clearInterval(this.timer);
+            this.setState({
+                enable: false
+            });
             this.timer = setInterval(() => {
                 if (this.state.second > 0) {
                     this.setState({
-                        enable: false,
                         second: (this.state.second - 1)
                     });
                 } else {

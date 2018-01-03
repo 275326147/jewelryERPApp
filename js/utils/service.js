@@ -28,14 +28,14 @@ export function callServiceWithoutToken(master, url, params, successCallback, fa
             if (typeof successCallback === 'function') successCallback.call(master, responseJson);
         }, (e) => {
             console.error(e);
-            alert(this, 'error', '网络异常，请联系管理员', () => {
-                if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+            alert(this, 'error', '网络异常，请检查网络是否异常，如有疑问请联系管理员处理', () => {
+                if (typeof failCallback === 'function') failCallback.call(master);
             });
         });
     } catch (e) {
         console.error(e);
-        alert(this, 'error', '系统异常，请联系管理员处理', () => {
-            if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+        alert(this, 'error', '系统异常，请截屏联系管理员处理，异常信息：' + e, () => {
+            if (typeof failCallback === 'function') failCallback.call(master);
         });
     }
 }
@@ -80,15 +80,14 @@ export function callService(master, url, params, successCallback, failCallback) 
                 if (typeof successCallback === 'function') successCallback.call(master, responseJson);
             }, (e) => {
                 console.error(e);
-                alert(this, 'error', '系统异常，请联系管理员处理', () => {
-                    if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+                alert(this, 'error', '网络异常，请检查网络是否异常，如有疑问请联系管理员处理', () => {
+                    if (typeof failCallback === 'function') failCallback.call(master);
                 });
             });
         });
     } catch (e) {
-        console.error(e);
-        alert(this, 'error', '系统异常，请联系管理员处理', () => {
-            if (typeof failCallback === 'function') failCallback.call(master, responseJson);
+        alert(this, 'error', '系统异常，请截屏联系管理员处理，异常信息：' + e, () => {
+            if (typeof failCallback === 'function') failCallback.call(master);
         });
     }
 }
