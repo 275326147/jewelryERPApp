@@ -24,7 +24,7 @@ import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { reloadTable, getShopList } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
-import { deepClone, unlockScreen } from '../../utils/common';
+import { deepClone } from '../../utils/common';
 
 let screenHeight = Dimensions.get('window').height;
 export default class Price extends PageComponent {
@@ -84,19 +84,12 @@ export default class Price extends PageComponent {
         let params = new FormData();
         params.append("shopId", this.state.shopId);
         params.append("brandId", this.state.brandId);
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'getSalePriceList.do', params, function (response) {
-                if (response.salePriceList) {
-                    this.setState({
-                        data: handleResult(response.salePriceList)
-                    });
-                }
-                unlockScreen(this);
-            });
-        }, function () {
-            unlockScreen(this);
+        callService(this, 'getSalePriceList.do', params, function (response) {
+            if (response.salePriceList) {
+                this.setState({
+                    data: handleResult(response.salePriceList)
+                });
+            }
         });
     }
 

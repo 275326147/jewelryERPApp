@@ -19,7 +19,6 @@ import Spinner from '../../components/loading/loading';
 import Datatable from '../../components/datatable/datatable';
 import { clickHandler, getShopList, show, reloadTable } from '../report/common';
 import { callService, handleResult } from '../../utils/service';
-import { unlockScreen } from '../../utils/common';
 
 export default class Storage extends PageComponent {
 
@@ -114,19 +113,12 @@ export default class Storage extends PageComponent {
         params.append("storeId", storeId.join(','));
         params.append("groupField", groupField.join(','));
         params.append("shopAreaCode", shopAreaCode.join(','));
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'getGoodsStockSummary.do', params, function (response) {
-                if (response.stockList) {
-                    this.setState({
-                        data: handleResult(response.stockList)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+        callService(this, 'getGoodsStockSummary.do', params, function (response) {
+            if (response.stockList) {
+                this.setState({
+                    data: handleResult(response.stockList)
+                });
+            }
         });
     }
 

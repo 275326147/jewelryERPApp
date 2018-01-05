@@ -24,7 +24,6 @@ import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { callService, handleResult } from '../../utils/service';
 import { clickHandler, getShopList, show, getDate, setDate } from './common';
-import { unlockScreen } from '../../utils/common';
 
 export default class DailyReport extends PageComponent {
 
@@ -129,31 +128,24 @@ export default class DailyReport extends PageComponent {
         params.append("groupField", this.state.groupField || 'goodsClassify');
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'getDailyReportData.do', params, function (response) {
-                if (response) {
-                    response.dailyReportData.forEach(function (item) {
-                        if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
-                            item.textStyle = { 'color': 'orange' };
-                        }
-                    });
-                    response.materialSummaryData.forEach(function (item) {
-                        if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
-                            item.textStyle = { 'color': 'orange' };
-                        }
-                    });
-                    this.setState({
-                        data: handleResult(response.dailyReportData),
-                        materialData: handleResult(response.materialSummaryData),
-                        paymentData: handleResult(response.paymentMainData)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+        callService(this, 'getDailyReportData.do', params, function (response) {
+            if (response) {
+                response.dailyReportData.forEach(function (item) {
+                    if (item.calculateType && (item.calculateType.indexOf('计') > -1 || item.calculateType.indexOf('金额') > -1)) {
+                        item.textStyle = { 'color': 'orange' };
+                    }
+                });
+                response.materialSummaryData.forEach(function (item) {
+                    if (item.goodsName && (item.goodsName.indexOf('计') > -1 || item.goodsName.indexOf('金额') > -1)) {
+                        item.textStyle = { 'color': 'orange' };
+                    }
+                });
+                this.setState({
+                    data: handleResult(response.dailyReportData),
+                    materialData: handleResult(response.materialSummaryData),
+                    paymentData: handleResult(response.paymentMainData)
+                });
+            }
         });
     }
 

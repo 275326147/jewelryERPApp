@@ -121,9 +121,6 @@ export default class Login extends PageComponent {
                 this.setState({
                     enableLogin: true
                 });
-                Storage.setStorageAsync('currentAccount', account).then(() => {
-                    setAlias();
-                });
                 var LoginEvent = {
                     type: 'login',
                     extra: {
@@ -133,13 +130,16 @@ export default class Login extends PageComponent {
                     success: true
                 };
                 JAnalyticsModule.postEvent(LoginEvent);
-                Storage.setAccountInfo(this, response, function () {
-                    Storage.getCurrentAccount(this, function (accountInfo) {
-                        if (!accountInfo.password) {
-                            forward(this, 'SetPwd');
-                        } else {
-                            forward(this, 'CheckPwd');
-                        }
+                Storage.setStorageAsync('currentAccount', account).then(() => {
+                    setAlias();
+                    Storage.setAccountInfo(this, response, function () {
+                        Storage.getCurrentAccount(this, function (accountInfo) {
+                            if (!accountInfo.password) {
+                                forward(this, 'SetPwd');
+                            } else {
+                                forward(this, 'CheckPwd');
+                            }
+                        });
                     });
                 });
             }, function () {

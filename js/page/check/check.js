@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
-import { alert, forward, unlockScreen } from '../../utils/common';
+import { alert, forward } from '../../utils/common';
 
 export default class Check extends PageComponent {
     constructor(props) {
@@ -32,19 +32,12 @@ export default class Check extends PageComponent {
     }
 
     querySubSheet() {
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
-                if (response.subSheetList) {
-                    this.setState({
-                        checkData: handleResult(response.subSheetList)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+        callService(this, 'goodsCheckSubSheetList.do', new FormData(), function (response) {
+            if (response.subSheetList) {
+                this.setState({
+                    checkData: handleResult(response.subSheetList)
+                });
+            }
         });
     }
 

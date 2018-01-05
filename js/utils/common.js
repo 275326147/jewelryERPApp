@@ -33,6 +33,18 @@ export function alert(master, type, message, okCallback, cancelCallback) {
     } else if (type) {
         title = type;
     }
+    if (master.state.loading) {
+        master.alertTimeout = setTimeout(() => {
+            master.alertTimeout && clearTimeout(master.alertTimeout);
+            Alert.alert(
+                title,
+                message,
+                actions,
+                { cancelable: false }
+            );
+        }, 1000);
+        return;
+    }
     Alert.alert(
         title,
         message,

@@ -20,6 +20,7 @@ import {
     Keyboard,
     ScrollView
 } from 'react-native';
+import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
 import { alert, forward } from '../../utils/common';
 import Barcode from 'react-native-smart-barcode';
@@ -29,6 +30,7 @@ export default class Checking extends PageComponent {
         super(props);
         this.backRoute = 'Check';
         this.state = {
+            loading: false,
             lock: false,
             type: 1,
             keyword: '',
@@ -106,23 +108,35 @@ export default class Checking extends PageComponent {
         );
     }
 
-    _startScan = (e) => {
+    _startScan = () => {
         if (this._barCode) this._barCode.startScan();
     }
 
     _stopScan = (e) => {
+        let now = new Date().getTime();
+        let code = e.nativeEvent.data.code;
+        if (this.lastScanTime && this.lastScanCode === code && (now - this.lastScanTime < 5000)) {
+            return false;
+        }
         if (this._barCode) this._barCode.stopScan();
+        this.lastScanCode = code;
+        this.lastScanTime = now;
+        return true;
     }
 
     _onBarCodeRead(e) {
-        if (!this.state.lock) {
-            this.setState({
-                lock: true
-            });
-            this._stopScan();
-            this.setState({ keyword: e.nativeEvent.data.code }, () => {
-                this.queryGoods();
-            });
+        if (!this.state.lock && this._stopScan(e)) {
+            try {
+                this.setState({ keyword: e.nativeEvent.data.code, lock: true }, () => {
+                    this.queryGoods();
+                });
+            } catch (e) {
+                console.error(e);
+                this._startScan();
+                this.setState({
+                    lock: false
+                });
+            }
         }
     }
 
@@ -154,7 +168,7 @@ export default class Checking extends PageComponent {
                     this.setState({
                         goodsList: handleResult(response.importSheetItemList),
                         selectGoodsVisible: true
-                    })
+                    });
                     break;
                 case 2:
                     //进货单一码多货
@@ -182,8 +196,17 @@ export default class Checking extends PageComponent {
                     });
                     break;
                 default:
+                    master._startScan();
+                    master.setState({
+                        lock: false
+                    });
                     break;
             }
+        }, function () {
+            master._startScan();
+            master.setState({
+                lock: false
+            });
         });
         this.setState({ keyword: '' });
         Keyboard.dismiss();
@@ -258,6 +281,7 @@ export default class Checking extends PageComponent {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
+                <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <Modal
                     visible={this.state.selectGoodsVisible}
                     animationType={'slide'}

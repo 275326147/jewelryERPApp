@@ -23,7 +23,6 @@ import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { clickHandler, getShopList, show, getDate, setDate, sort } from './common';
 import { callService, handleResult } from '../../utils/service';
-import { unlockScreen } from '../../utils/common';
 
 export default class EmpReport extends PageComponent {
 
@@ -92,36 +91,29 @@ export default class EmpReport extends PageComponent {
         params.append("employeeId", employeeId.join(','));
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'getEmployeeTopData.do', params, function (response) {
-                let employeeTopData = response.employeeTopData;
-                if (employeeTopData) {
-                    let data = [];
-                    sort(employeeTopData, 'settleTotalMoney');
-                    employeeTopData.forEach(function (item) {
-                        let deptAreaName = item[0].deptAreaName;
-                        data.push({ rowId: deptAreaName, disableClick: true });
-                        let rowId = 1;
-                        item.forEach(function (el) {
-                            if (el.employeeName === '总计') {
-                                el.disableClick = true;
-                                el.textStyle = { 'color': 'orange' };
-                                return;
-                            }
-                            el.rowId = rowId++;
-                        });
-                        data = data.concat(item);
+        callService(this, 'getEmployeeTopData.do', params, function (response) {
+            let employeeTopData = response.employeeTopData;
+            if (employeeTopData) {
+                let data = [];
+                sort(employeeTopData, 'settleTotalMoney');
+                employeeTopData.forEach(function (item) {
+                    let deptAreaName = item[0].deptAreaName;
+                    data.push({ rowId: deptAreaName, disableClick: true });
+                    let rowId = 1;
+                    item.forEach(function (el) {
+                        if (el.employeeName === '总计') {
+                            el.disableClick = true;
+                            el.textStyle = { 'color': 'orange' };
+                            return;
+                        }
+                        el.rowId = rowId++;
                     });
-                    this.setState({
-                        data: handleResult(data)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+                    data = data.concat(item);
+                });
+                this.setState({
+                    data: handleResult(data)
+                });
+            }
         });
     }
 

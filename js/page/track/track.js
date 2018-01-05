@@ -24,7 +24,7 @@ import {
 import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
 import ImagePicker from 'react-native-image-picker';
-import { forward, alert, unlockScreen } from '../../utils/common';
+import { forward, alert } from '../../utils/common';
 
 export default class Track extends PageComponent {
     constructor(props) {
@@ -90,27 +90,22 @@ export default class Track extends PageComponent {
             return;
         }
         params.append(field, barCode);
+        callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
+            if (response.goodsInfoList && response.goodsInfoList.length > 1) {
+                this.setState({
+                    loading: false,
+                    selectGoodsVisible: true,
+                    goodsList: handleResult(response.goodsInfoList)
+                });
+            } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
+                this.setState({
+                    data: response.goodsInfoList[0],
+                    steps: handleResult(response.goodsTrackingList)
+                });
+            }
+        });
         this.setState({
-            loading: true,
             barCode: ''
-        }, function () {
-            callService(this, 'queryGoodsInfo4Track.do', params, function (response) {
-                if (response.goodsInfoList && response.goodsInfoList.length > 1) {
-                    this.setState({
-                        loading: false,
-                        selectGoodsVisible: true,
-                        goodsList: handleResult(response.goodsInfoList)
-                    });
-                } else if (response.goodsInfoList && response.goodsInfoList.length === 1) {
-                    this.setState({
-                        data: response.goodsInfoList[0],
-                        steps: handleResult(response.goodsTrackingList)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
         });
         Keyboard.dismiss();
     }
@@ -186,14 +181,8 @@ export default class Track extends PageComponent {
                     params.append('fileFixName', response.fileName || `${this.state.data.barCode}.jpg`);
                     params.append('barCode', this.state.data.barCode);
                     params.append('module', 'goods');
-                    this.setState({
-                        loading: true
-                    }, function () {
-                        callService(this, 'ajaxUpImg.do', params, function (response) {
-                            this.queryGoodsInfo(true);
-                        }, function () {
-                            unlockScreen(this);
-                        });
+                    callService(this, 'ajaxUpImg.do', params, function (response) {
+                        this.queryGoodsInfo(true);
                     });
                 }
             });
@@ -210,20 +199,13 @@ export default class Track extends PageComponent {
         this._onClose();
         let params = new FormData();
         params.append("barCode", item.barCode);
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'queryGoodsTrackList.do', params, function (response) {
-                if (response) {
-                    this.setState({
-                        data: item,
-                        steps: handleResult(response.goodsTrackingList)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+        callService(this, 'queryGoodsTrackList.do', params, function (response) {
+            if (response) {
+                this.setState({
+                    data: item,
+                    steps: handleResult(response.goodsTrackingList)
+                });
+            }
         });
     }
 

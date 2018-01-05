@@ -22,7 +22,6 @@ import Datatable from '../../components/datatable/datatable';
 import ModalDropdown from '../../components/dropdown/ModalDropdown';
 import { clickHandler, getShopList, show, getDate, setDate, sort } from './common';
 import { callService, handleResult } from '../../utils/service';
-import { unlockScreen } from '../../utils/common';
 
 export default class Center extends PageComponent {
 
@@ -103,36 +102,29 @@ export default class Center extends PageComponent {
         params.append("shopAreaCode", shopAreaCode.join(','));
         params.append("beginDate", this.state.beginDate || this.state.date);
         params.append("endDate", this.state.endDate || this.state.date);
-        this.setState({
-            loading: true
-        }, function () {
-            callService(this, 'getSaleTopData.do', params, function (response) {
-                let saleTopData = response.saleTopData;
-                if (saleTopData) {
-                    let data = [];
-                    sort(saleTopData, 'settleTotalMoney');
-                    saleTopData.forEach(function (item) {
-                        let deptAreaName = item[0].deptAreaName;
-                        data.push({ rowId: deptAreaName, disableClick: true });
-                        let rowId = 1;
-                        item.forEach(function (el) {
-                            if (el.showName === '总计') {
-                                el.disableClick = true;
-                                el.textStyle = { 'color': 'orange' };
-                                return;
-                            }
-                            el.rowId = rowId++;
-                        });
-                        data = data.concat(item);
+        callService(this, 'getSaleTopData.do', params, function (response) {
+            let saleTopData = response.saleTopData;
+            if (saleTopData) {
+                let data = [];
+                sort(saleTopData, 'settleTotalMoney');
+                saleTopData.forEach(function (item) {
+                    let deptAreaName = item[0].deptAreaName;
+                    data.push({ rowId: deptAreaName, disableClick: true });
+                    let rowId = 1;
+                    item.forEach(function (el) {
+                        if (el.showName === '总计') {
+                            el.disableClick = true;
+                            el.textStyle = { 'color': 'orange' };
+                            return;
+                        }
+                        el.rowId = rowId++;
                     });
-                    this.setState({
-                        data: handleResult(data)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+                    data = data.concat(item);
+                });
+                this.setState({
+                    data: handleResult(data)
+                });
+            }
         });
     }
 

@@ -2,7 +2,7 @@
  * Created by Meiling.Zhou on 2017/9/29
  */
 'use strict';
-import { Constant, alert, forward, deleteAlias } from './common';
+import { Constant, alert, forward, deleteAlias, unlockScreen } from './common';
 import Storage from './storage';
 
 export function callServiceWithoutToken(master, url, params, successCallback, failCallback) {
@@ -42,6 +42,13 @@ export function callServiceWithoutToken(master, url, params, successCallback, fa
 
 export function callService(master, url, params, successCallback, failCallback) {
     try {
+        let start = true;
+        master.serviceTimeout = setTimeout(function () {
+            master.serviceTimeout && clearTimeout(master.serviceTimeout);
+            if (start) {
+                master.setState({ loading: true });
+            }
+        }, 1000);
         Storage.getCurrentAccount(master, function (accountInfo) {
             if (!params) params = new FormData();
             params.append("token", accountInfo.token);
@@ -54,6 +61,7 @@ export function callService(master, url, params, successCallback, failCallback) 
                 headers: {},
                 body: params
             }).then((response) => {
+                start = false;
                 return response.json();
             }).then((responseJson) => {
                 let code = responseJson.ret;
@@ -69,24 +77,25 @@ export function callService(master, url, params, successCallback, failCallback) 
                             });
                         });
                     });
-                    return;
-                }
-                if (code < 0) {
+                } else if (code < 0) {
                     alert(this, 'error', message, () => {
                         if (typeof failCallback === 'function') failCallback.call(master, responseJson);
                     });
-                    return;
+                } else if (typeof successCallback === 'function') {
+                    successCallback.call(master, responseJson);
                 }
-                if (typeof successCallback === 'function') successCallback.call(master, responseJson);
+                unlockScreen(master);
             }, (e) => {
                 console.error(e);
                 alert(this, 'error', '网络异常，请检查网络是否异常，如有疑问请联系管理员处理', () => {
+                    unlockScreen(master);
                     if (typeof failCallback === 'function') failCallback.call(master);
                 });
             });
         });
     } catch (e) {
         alert(this, 'error', '系统异常，请截屏联系管理员处理，异常信息：' + e, () => {
+            unlockScreen(master);
             if (typeof failCallback === 'function') failCallback.call(master);
         });
     }

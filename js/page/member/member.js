@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
-import { alert, unlockScreen } from '../../utils/common';
+import { alert } from '../../utils/common';
 
 let screenWidth = Dimensions.get('window').width;
 export default class Member extends PageComponent {
@@ -53,22 +53,19 @@ export default class Member extends PageComponent {
             return;
         }
         params.append("keyword", keyword);
-        this.setState({
-            loading: true,
-            keyword: ''
-        }, function () {
-            callService(this, 'queryCustomer.do', params, function (response) {
-                let result = response.customerList;
-                if (result) {
-                    this.setState({
-                        memberList: handleResult(response.customerList)
-                    });
-                }
-                unlockScreen(this);
-            }, function () {
-                unlockScreen(this);
-            });
+        callService(this, 'queryCustomer.do', params, function (response) {
+            let result = response.customerList;
+            if (result && result.length > 0) {
+                this.setState({
+                    memberList: handleResult(result)
+                });
+                return;
+            }
+            alert(this,
+                'info',
+                '没有相关查询信息');
         });
+        this.setState({ keyword: '' });
         Keyboard.dismiss();
     }
 
