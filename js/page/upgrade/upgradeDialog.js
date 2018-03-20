@@ -31,10 +31,12 @@ export default class UpgradeDialog extends Component {
 
     componentDidMount() {
         let params = new FormData();
+        
         params.append("versionCode", Constant.VERSION);
         params.append("build", Constant.BUILD);
         params.append("appType", Platform.OS === 'android' ? 1 : 2);
         callService(this, 'updataCheck.do', params, function (response) {
+            
             if (response.needUpdateFlag === 1) {
                 this.setState({
                     appInfo: response.appInfo,

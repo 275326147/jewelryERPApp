@@ -24,6 +24,7 @@ import SetPwd from '../page/login/setPwd';
 import ResetPwd from '../page/login/resetPwd';
 import Home from '../page/home/home';
 import Member from '../page/member/member';
+import MemberInfo from '../page/mumberInfo/memberInfo';
 import Message from '../page/message/message';
 import UserInfo from '../page/user/userInfo';
 import Track from '../page/track/track';
@@ -101,7 +102,23 @@ const SimpleStack = StackNavigator(
         Member: {
             screen: Member,
             navigationOptions: ({ navigation }) => ({
-                title: '会员查询'
+                title: '会员管理',
+                headerRight: (
+                    <TouchableOpacity style={styles.imgContainer} onPress={() => { forward(navigation, 'MemberInfo'); }}>
+                        <Image style={styles.img} source={require('../../assets/image/head/add.png')} />
+                    </TouchableOpacity>
+                ),
+            })
+        },
+        MemberInfo: {
+            screen: MemberInfo,
+            navigationOptions: ({ navigation }) => ({
+                title: '会员信息',
+                headerRight: (
+                    <TouchableOpacity style={styles.button} onPress={() => { DeviceEventEmitter.emit('refreshSubUserInfo', '保存用户信息'); }}>
+                        <Text style={styles.buttonText}>保存</Text>
+                    </TouchableOpacity>
+                )
             })
         },
         Track: {

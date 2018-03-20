@@ -8,10 +8,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "antd-mobile": "^1.7.2",
+    "axios": "^0.18.0",
     "janalytics-react-native": "^1.1.0",
     "jcore-react-native": "^1.1.8-beta2",
     "jpush-react-native": "^2.0.9",
+    "rc-form": "^2.1.7",
     "react": "16.0.0-alpha.6",
+    "react-dom": "^16.2.0",
     "react-native": "^0.44.3",
     "react-native-datepicker": "^1.6.0",
     "react-native-device-info": "^0.13.0",
@@ -23,6 +27,7 @@
   },
   "devDependencies": {
     "babel-jest": "21.0.2",
+    "babel-plugin-import": "^1.6.7",
     "babel-preset-react-native": "3.0.2",
     "jest": "21.0.2",
     "react-test-renderer": "16.0.0-alpha.6"

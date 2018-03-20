@@ -1,0 +1,4 @@
+{
+  "plugins": [["import", { "libraryName": "antd", "style": "css" }]],
+  "presets": ["react-native"]
+}

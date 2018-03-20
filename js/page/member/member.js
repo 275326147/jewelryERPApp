@@ -15,15 +15,16 @@ import {
     FlatList,
     Dimensions,
     TextInput,
-    TouchableWithoutFeedback,
+    TouchableWithoutFeedback,TouchableOpacity,
     Keyboard
 } from 'react-native';
 import Spinner from '../../components/loading/loading';
 import { callService, handleResult } from '../../utils/service';
-import { alert } from '../../utils/common';
+import { alert ,forward} from '../../utils/common';
 
 let screenWidth = Dimensions.get('window').width;
 export default class Member extends PageComponent {
+    
     constructor(props) {
         super(props);
         this.backRoute = 'Home';
@@ -35,7 +36,7 @@ export default class Member extends PageComponent {
     }
 
     componentDidMount() {
-        super.componentDidMount('会员查询');
+        super.componentDidMount('会员管理');
         this.refs.input && this.refs.input.focus();
     }
 
@@ -70,120 +71,53 @@ export default class Member extends PageComponent {
     }
 
     _renderItem = ({ item }) => {
+        console.log('====', item)
         let src = '';
         let typeName = '';
         switch (item.vipCardLevelId) {
             case 1:
                 src = require('../../../assets/image/member/diamond.png');
-                typeName = '钻石卡';
+                typeName = '钻石会员卡';
                 break;
             case 2:
                 src = require('../../../assets/image/member/gold.png');
-                typeName = '金卡';
+                typeName = '黄金会员卡';
                 break;
             case 3:
                 src = require('../../../assets/image/member/silver.png');
-                typeName = '银卡';
+                typeName = '白银会员卡';
                 break;
             default:
-                src = require('../../../assets/image/member/normal.png');
-                typeName = '普卡';
+                src = require('../../../assets/image/member/vip_p.png');
+                typeName = '普通会员卡';
                 break;
         }
+        
         return (
-            <View style={styles.itemContainer}>
+            <TouchableOpacity onPress={() => { forward(this, 'MemberInfo');}} style={styles.itemContainer}>
                 <Image style={styles.img} source={src}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flex: 2 }}>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    会员姓名
-                            </Text>
-                                <Text style={styles.valueText}>
-                                    {item.cusName}
-                                </Text>
-                                <View style={styles.type}>
-                                    <Text style={{ fontSize: 10, color: '#333' }}>
-                                        {typeName}
-                                    </Text>
-                                </View>
+                    <View style={styles.itemRow}>
+                        <View style={styles.item}>
+                            <Image style={styles.useImg} source={require('../../../assets/image/member/user.png')}/>
+                            <View style={styles.userInfo}>
+                                <Text numberOfLines={1} style={[styles.userName,styles.textColor]}>{item.cusName}</Text>
+                                <Text numberOfLines={1} style={[styles.shopName,styles.textColor]}>{item.shopName}</Text>
                             </View>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    会员电话
-                            </Text>
-                                <Text style={styles.valueText}>
-                                    {item.mobile}
-                                </Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    {Platform.OS === 'android' ? '性        别' : '性       别'}
-                                </Text>
-                                <Text style={styles.valueText}>
-                                    {item.sex === 1 ? "男" : "女"}
-                                </Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    {Platform.OS === 'android' ? '卡        号' : '卡       号'}
-                                </Text>
-                                <Text style={styles.valueText}>
-                                    {item.vipCardNo}
-                                </Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    会员生日
-                            </Text>
-                                <Text style={styles.valueText}>
-                                    {item.birthdayStr}
-                                </Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    发卡门店
-                            </Text>
-                                <Text style={styles.valueText}>
-                                    {item.shopName}
-                                </Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Text style={styles.labelText}>
-                                    发卡日期
-                            </Text>
-                                <Text style={styles.valueText}>
-                                    {item.sendDate}
-                                </Text>
-                            </View>
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <View style={[styles.marItem, { borderBottomWidth: 2, borderColor: '#f3f3f1' }]}>
-                                <Text style={styles.markLabel}>
-                                    累计积分
-                            </Text>
-                                <Text style={styles.markValue}>
-                                    {item.pointTotal}
-                                </Text>
-                            </View>
-                            <View style={styles.marItem}>
-                                <Text style={[styles.markLabel, { marginTop: 10 }]}>
-                                    累计消费
-                            </Text>
-                                <Text style={styles.markValue}>
-                                    {item.consumpAmountTotal}
-                                </Text>
-                            </View>
+                            <Text style={[styles.vip,styles.textColor]}>{typeName}</Text>
                         </View>
                     </View>
+                    <Text style={[styles.mobile,styles.textColor]}>{
+                        item.mobile.replace(/\B(?=(\d{4})+(?!\d))/g,' ')
+                        
+                    }</Text>
                 </Image>
-            </View>
+            </TouchableOpacity>
         );
     }
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1,backgroundColor:'#fff',paddingVertical:10}}>
                 <Spinner visible={this.state.loading} textContent={""} textStyle={{ color: '#FFF' }} />
                 <View style={styles.searchContainer}>
                     <TextInput ref="input" style={styles.input} placeholder='请输入会员卡号／会员名／手机号'
@@ -197,14 +131,14 @@ export default class Member extends PageComponent {
                         underlineColorAndroid="transparent">
                     </TextInput>
                     <TouchableWithoutFeedback onPress={() => { this.queryMemberList() }}>
-                        <Image style={{ height: 28, width: 28 }} source={require('../../../assets/image/track/search.png')} />
+                        <Image style={{ height: 17, width: 16 }} source={require('../../../assets/image/track/search1.png')} />
                     </TouchableWithoutFeedback>
                 </View>
                 {
                     this.state.memberList.length === 0 ?
                         <Image style={styles.resultImg} source={require('../../../assets/image/info/no_result.png')} />
                         :
-                        <FlatList style={{ flex: 1, marginTop: 10 }} data={this.state.memberList} renderItem={this._renderItem} />
+                        <FlatList style={{ flex: 1, marginTop: 30 }} data={this.state.memberList} renderItem={this._renderItem} />
                 }
             </View>
         );
@@ -215,24 +149,27 @@ export default class Member extends PageComponent {
 const styles = StyleSheet.create({
     input: {
         fontSize: 16,
-        height: 40,
-        width: screenWidth - 50,
-        borderRadius: 20,
-        backgroundColor: '#f3f3f1',
-        margin: 10,
+        height: 27,
+        flex:1,
+        margin: 2,
         padding: 0,
-        paddingLeft: 20
+        paddingLeft: 15,
+        fontSize:14
     },
     searchContainer: {
-        height: 60,
-        backgroundColor: '#fff',
+        marginLeft:15,
+        paddingRight:15,
+        width: screenWidth - 30,
+        borderRadius: 20,
+        height: 31,
+        backgroundColor: '#EDEDED',
         alignItems: 'center',
         flexDirection: 'row'
     },
     img: {
         resizeMode: Image.resizeMode.stretch,
-        width: screenWidth,
-        height: screenWidth < 400 ? 160 : 190
+        width: screenWidth-30,
+        height: 350/(screenWidth-30)*120 
     },
     resultImg: {
         marginTop: 80,
@@ -241,54 +178,42 @@ const styles = StyleSheet.create({
         width: 200
     },
     itemContainer: {
+        paddingHorizontal:15,
         height: screenWidth < 400 ? 160 : 190,
         marginBottom: 10
     },
-    item: {
-        height: screenWidth < 400 ? 16 : 20,
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        marginTop: 5
+    
+
+    itemRow:{
+        flexDirection:'row',
+        paddingVertical:20,
+        paddingHorizontal:20,
     },
-    markItem: {
-        height: 45,
-        flexDirection: 'column'
+    item:{
+        flexDirection:'row',
+        alignItems:'center',
+        flex:1,
     },
-    markLabel: {
-        marginTop: 20,
-        marginRight: 10,
-        textAlign: 'right',
-        backgroundColor: 'transparent',
-        fontSize: screenWidth < 400 ? 14 : 16,
-        color: '#999'
-    },
-    markValue: {
-        marginTop: 5,
-        marginRight: 10,
-        fontSize: screenWidth < 400 ? 14 : 16,
-        textAlign: 'right',
-        backgroundColor: 'transparent',
-        color: 'orange',
-        marginBottom: 5
-    },
-    labelText: {
-        fontSize: screenWidth < 400 ? 13 : 15,
-        color: '#333',
-        marginLeft: 10,
-        marginRight: 20
-    },
-    valueText: {
-        fontSize: screenWidth < 400 ? 13 : 15,
-        color: '#999',
-        marginRight: 20
-    },
-    type: {
-        marginLeft: 20,
-        borderRadius: 2,
-        height: 15,
-        width: 35,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F0EAD3'
+    useImg:{
+        width:42,
+        height:42,
+        marginRight:10
+    },textColor:{
+        color:'#fff',
+        backgroundColor:'transparent'
+    },userName:{
+        fontSize:24,
+        fontWeight:'500',
+        width:150,
+    },shopName:{
+        fontSize:16,
+        width:150,
+    },vip:{
+        fontSize:18,
+        width:100,
+        textAlign:'right',
+    },mobile:{
+        fontSize:20,
+        paddingLeft:20
     }
 });
